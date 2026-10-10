@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Napoli Local – App Mockup</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css">
+<style>
+:root{--azz:#0e8fd0;--azzd:#0a5f8c;--sun:#f7c53b;--red:#e2503a;--bg:#f4f1ea;--card:#fff;--ink:#16222d;--mute:#6a7783;--line:#e7e2d7;--ok:#2a9d62}
+@media (prefers-color-scheme:dark){:root{--bg:#10171e;--card:#1a232d;--ink:#f1f4f7;--mute:#98a4b0;--line:#2a3541;--azz:#3fb0ea}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#0b1118;font:15px/1.45 system-ui,Segoe UI,Roboto,sans-serif;color:var(--ink);display:flex;justify-content:center;align-items:center;min-height:100vh}
+.phone{width:390px;height:820px;max-height:100vh;background:var(--bg);border-radius:34px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+@media(max-width:430px){body{display:block}.phone{width:100%;height:100vh;height:100dvh;border-radius:0;box-shadow:none}}
+.screen{flex:1;overflow-y:auto;display:none;padding-bottom:12px}
+.screen.on{display:block}
+.top{background:linear-gradient(160deg,var(--azz),var(--azzd));color:#fff;padding:22px 18px 26px;border-radius:0 0 26px 26px}
+.top small{opacity:.85}
+.top h1{margin:2px 0 14px;font-size:24px;line-height:1.15}
+.search{background:#fff;color:#6a7783;border-radius:14px;padding:6px 14px;font-size:14px;display:flex;align-items:center;gap:8px}
+.search input{flex:1;min-width:0;border:0;outline:0;background:none;font:inherit;font-size:15px;color:#16222d;padding:6px 0}
+.search button{border:0;background:#e7e2d7;color:#6a7783;border-radius:99px;width:24px;height:24px;cursor:pointer;font-size:12px}
+#home.searching>:not(.top):not(#sres){display:none}
+#sres{padding:6px 0 14px}
+#sres .gl{margin:14px 18px 6px;font-size:12px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.4px}
+#sres .pop{display:flex;flex-wrap:wrap;gap:8px;margin:0 18px}
+.ic{width:56px;height:56px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;font-size:24px;background:var(--bg)}
+.pill{margin:10px 18px 0;display:inline-flex;gap:8px;align-items:center;background:var(--sun);color:#3b2d00;border-radius:99px;padding:5px 6px 5px 12px;font-size:13px;font-weight:700}
+.pill button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer}
+.chips{display:flex;gap:8px;padding:14px 18px 4px;overflow-x:auto}
+.chip{flex:none;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:7px 14px;font-size:13px;font-weight:600}
+.chip.on{background:var(--sun);border-color:var(--sun);color:#3b2d00}
+h2{font-size:17px;margin:18px 18px 10px}
+.row{display:flex;gap:12px;overflow-x:auto;padding:0 18px 4px}
+.pc{flex:none;width:200px;background:var(--card);border-radius:16px;overflow:hidden;border:1px solid var(--line)}
+.img{height:128px;display:flex;align-items:flex-end;padding:8px;color:#fff;font-size:12px;font-weight:700;background:linear-gradient(transparent 50%,rgba(0,0,0,.6)),var(--p) center/cover,#9ab}
+.th{width:56px;height:56px;border-radius:12px;flex:none;background:var(--p) center/cover,#9ab}
+.credits{margin:14px 18px 6px;font-size:10.5px;line-height:1.4;color:var(--mute)}
+.i1{background:linear-gradient(135deg,#f08a3c,#e2503a)}.i2{background:linear-gradient(135deg,#0e8fd0,#0a5f8c)}.i3{background:linear-gradient(135deg,#f7c53b,#e49a1a);color:#3b2d00}.i4{background:linear-gradient(135deg,#3aa57a,#1f6e50)}
+.pc .b{padding:10px 12px}.pc b{display:block}.pc span{color:var(--mute);font-size:12.5px}
+.now{margin:14px 18px 0;background:var(--sun);color:#3b2d00;border-radius:16px;padding:14px}
+.now b{font-size:15px}
+.list{margin:0 18px;background:var(--card);border-radius:16px;border:1px solid var(--line)}
+.li{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
+.li:last-child{border:0}
+.dot{width:38px;height:38px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:13px}
+.li .t{flex:1}.li .t b{display:block}.li .t span{color:var(--mute);font-size:12.5px}
+.ok{color:var(--ok);font-weight:700;font-size:13px}.late{color:#c98a10;font-weight:700;font-size:13px}
+select{margin:14px 18px 0;width:calc(100% - 36px);padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit}
+.demo{margin:10px 18px;font-size:12px;color:#c98a10}
+.map{height:100%;min-height:560px;position:relative;background:#cfe6ef}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.sheet{position:absolute;left:10px;right:10px;bottom:10px;background:var(--card);border-radius:18px;padding:14px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.btn{display:inline-block;background:var(--red);color:#fff;border:0;border-radius:12px;padding:11px 18px;font-weight:700;font:inherit;font-weight:700}
+.tl{margin:0 18px;border-left:3px solid var(--azz);padding-left:14px}
+.tl div{margin-bottom:12px}.tl b{color:var(--azz)}
+.pay{margin:16px 18px;background:var(--card);border:2px solid var(--sun);border-radius:16px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.empty{margin:60px 30px;text-align:center;color:var(--mute)}
+nav{display:flex;border-top:1px solid var(--line);background:var(--card);padding:6px 4px calc(8px + env(safe-area-inset-bottom))}
+nav button{flex:1;background:none;border:0;color:var(--mute);font:inherit;font-size:11px;padding:6px 0;cursor:pointer}
+nav button i{display:block;font-style:normal;font-size:20px}
+nav button.on{color:var(--azz);font-weight:700}
+
+.seg{display:flex;margin:14px 18px 0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{flex:1;border:0;background:none;color:var(--mute);font:inherit;font-weight:700;padding:8px;border-radius:9px;cursor:pointer}
+.seg button.on{background:var(--azz);color:#fff}
+.bar{display:flex;align-items:center;justify-content:space-between;margin:12px 18px 0;font-size:13px;color:var(--mute)}
+.bar button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.bar button.on{background:var(--sun);border-color:var(--sun);color:#3b2d00}
+.place{display:flex;gap:12px;margin:12px 18px 0;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer}
+.place .ph2{width:104px;flex:none;background:var(--p) var(--bp,center)/cover,#9ab}
+.place .pb{padding:10px 10px 10px 0;flex:1;min-width:0}
+.place b{display:block;line-height:1.25}.place .v{color:var(--mute);font-size:12.5px;margin:3px 0 6px}
+.meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12px}
+.tg{border:1px solid var(--line);border-radius:99px;padding:1px 8px;color:var(--mute)}
+.dist{margin-left:auto;font-weight:700;color:var(--azz)}
+.heart{border:0;background:none;font-size:18px;cursor:pointer;padding:0 4px}
+.note{margin:14px 18px;font-size:11.5px;color:var(--mute)}
+#mapv{display:none}
+.mctl{display:flex;gap:8px;margin:12px 18px 0}
+.mctl button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.mctl button.on{background:var(--azz);border-color:var(--azz);color:#fff}
+#lmap{height:430px;margin:10px 18px 0;border-radius:16px;overflow:hidden;border:1px solid var(--line);z-index:0}
+.lpin{width:26px;height:26px;border-radius:50%;background:#0e8fd0;color:#fff;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font:700 14px/1 system-ui,sans-serif}
+.lpin.sel{background:#e2503a;transform:scale(1.3)}
+.lcl{width:36px;height:36px;border-radius:50%;background:#0e8fd0;color:#fff;border:3px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font:700 14px system-ui,sans-serif}
+.ltip{display:none;font:600 12px system-ui,sans-serif;padding:2px 6px}
+#lmap.showlabels .ltip{display:block}
+.legend{margin:8px 18px 0;font-size:12px;color:var(--mute)}
+.areabar{margin:12px 18px 0}
+.areabar select{margin:0;width:100%;padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14px}
+.agh{margin:18px 18px 0;font-size:12px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.4px}
+.place .ph2.ph{display:flex;align-items:center;justify-content:center;font-size:34px;background:linear-gradient(135deg,#27465c,#3f6e8c)}
+.lv{border-radius:99px;padding:1px 8px;font-weight:700;background:var(--bg);border:1px solid var(--line);color:var(--mute)}
+.lv.essential{background:var(--sun);border-color:var(--sun);color:#3b2d00}
+.lv.fun{background:#e9defa;border-color:#e9defa;color:#3a2a63}
+.lpin.far{background:#e0a800;color:#3b2d00}
+#lmap .ltip.far{display:block}
+.shero{height:130px;border-radius:12px;background:var(--p) var(--bp,center)/cover,#9ab;margin:0 0 10px}
+.shero.ph{display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,#27465c,#3f6e8c)}
+.msheet .alt{color:var(--azz);font-size:13px;font-weight:600;margin-right:8px}
+.tg.fs{background:#dff3e6;border-color:#dff3e6;color:#1e6b3b}
+.msheet{position:sticky;bottom:10px;z-index:600;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.sh1{display:flex;gap:10px;align-items:flex-start}
+.sh1 .shero{width:84px;height:84px;margin:0;flex:none}
+.shb{flex:1;min-width:0}
+.shv{color:var(--mute);font-size:12.5px;margin:2px 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.shm{font-size:12px}
+.sha{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sha .btn2{margin:0}
+.btn2.b2{background:var(--azz)}
+.img.ph{background:linear-gradient(135deg,#27465c,#3f6e8c);justify-content:center;align-items:center;font-size:44px}
+.top .back{background:rgba(255,255,255,.2);border:0;color:#fff;border-radius:99px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer;margin-bottom:8px}
+.collbar{margin:14px 18px 0}.collbar .btn2{border:0;font:inherit;font-weight:700;cursor:pointer}
+.vn{display:flex;gap:12px;margin:12px 18px 0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}
+.vn.hl{outline:2px solid var(--sun)}
+.vr{width:34px;height:34px;border-radius:50%;background:var(--sun);color:#3b2d00;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.vb{flex:1;min-width:0}.vm{font-size:12.5px;color:var(--mute)}.vk{font-size:12.5px;margin-top:3px}
+.vw{margin:6px 0;font-size:14px}.vt{font-size:12.5px;color:var(--mute)}
+.vs{font-size:11.5px;color:#2a9d62;font-weight:700;margin-top:4px}.vs.warn{color:#c98a10}
+.cbanner{margin:12px 18px 0;background:var(--sun);color:#3b2d00;border-radius:12px;padding:8px 12px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cbanner[hidden]{display:none}
+.cbanner button{border:0;background:rgba(0,0,0,.15);border-radius:99px;padding:4px 10px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;color:#3b2d00}
+.top .back{display:block;margin-bottom:10px}
+a{text-decoration:none}
+.sha .alt,.vn .alt{color:var(--azz);font-size:13px;font-weight:600}
+.vbr{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+.vbh{font-size:11.5px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.vbi{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;padding:3px 0}
+.vbi span{flex:1;min-width:0}
+.lpin.br{background:#7fc1e3}
+.shbr{margin-top:8px;font-size:12.5px;color:var(--mute)}
+.vn{display:block;padding:0;overflow:hidden}
+.vimg{height:128px;position:relative;background:var(--p) center/cover,#9ab;display:flex;align-items:center;justify-content:center;font-size:46px}
+.vimg.ph{background:linear-gradient(135deg,#27465c,#3f6e8c);height:78px;font-size:30px;flex-direction:column;gap:2px;text-decoration:none;color:#fff}
+.vph{font-size:11.5px;font-weight:600;color:#cfe4f1;letter-spacing:.2px}
+.vimg .vr{position:absolute;top:50%;margin-top:-17px;left:12px;font-size:15px;box-shadow:0 1px 4px rgba(0,0,0,.45)}
+.vimg:not(.ph) .vr{top:10px;margin-top:0}
+.vn .vb{padding:12px}
+.gt{margin:12px 18px 0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;font-size:13.5px}
+.gth{font-size:12px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.gtr{margin-bottom:6px}.gtt{font-size:12px;color:var(--mute);margin-top:2px}
+.stn{padding:6px 0;border-top:1px solid var(--line)}.gt .stn:first-of-type{border-top:0}
+#city h2{margin:18px 18px 8px;font-size:17px}
+.mwrap{position:sticky;bottom:10px;z-index:600;margin:10px 18px;display:none}
+.mwrap:has(.msheet.on){display:block}
+.mwrap .msheet{position:static;margin:0;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+#msx{position:absolute;top:6px;left:6px;z-index:3;width:26px;height:26px;border-radius:50%;border:0;background:rgba(0,0,0,.62);color:#fff;font-size:13px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.tg{white-space:nowrap}
+.shm{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.shm .tg{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+#beta{background:#f7c53b;color:#3b2d00;font-size:11.5px;font-weight:700;padding:5px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
+#beta button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer;color:#3b2d00;font-size:11px;line-height:1}
+.lme{width:16px;height:16px;border-radius:50%;background:#2b7de9;border:3px solid #fff;box-shadow:0 0 0 4px rgba(43,125,233,.3)}
+.ldt{background:#f7c53b;color:#3b2d00;font:700 11px system-ui,sans-serif;border:1.5px solid #fff;border-radius:99px;padding:2px 8px;box-shadow:0 1px 4px rgba(0,0,0,.4);white-space:nowrap}
+.pin{cursor:pointer}
+.msheet{margin:10px 18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;display:none}
+.msheet.on{display:block}
+.btn2{display:inline-block;background:var(--red);color:#fff;border-radius:12px;padding:9px 14px;font-weight:700;font-size:14px;margin-right:6px}
+.hh{display:flex;justify-content:space-between;align-items:baseline}
+.hh a{font-size:13px;color:var(--azz);font-weight:600;margin-right:18px}
+
+.rn{margin:14px 18px 0;border-radius:20px;overflow:hidden;position:relative;min-height:200px;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;color:#fff;background:linear-gradient(transparent 30%,rgba(0,0,0,.75)),var(--p) center/cover,#456;cursor:pointer}
+.rn .bd{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;font-size:12px;font-weight:700}
+.rn .bd span{background:rgba(0,0,0,.45);border-radius:99px;padding:3px 10px}
+.rn h3{margin:0 0 4px;font-size:21px;line-height:1.15}.rn p{margin:0;font-size:13.5px;opacity:.92}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 18px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 4px;text-align:center;font-size:12px;font-weight:600;line-height:1.25;cursor:pointer}
+.tile i{display:block;font-style:normal;font-size:24px;margin-bottom:4px}
+.tip{margin:0 18px;background:var(--sun);color:#3b2d00;border-radius:16px;padding:14px;font-size:14px}
+</style>
+</head>
+<body>
+<div class="phone">
+<div id="beta">Test version · places, prices and photos are still being checked <button id="betax" aria-label="Hide">✕</button></div>
+
+<!-- HOME -->
+<div class="screen on" id="home">
+  <div class="top"><small>Benvenuto a Napoli 👋</small><h1>What do you want to do today?</h1><div class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" placeholder="Pizza, Pompeii, museums…" autocomplete="off" aria-label="Search"><button id="qx" aria-label="Clear" hidden>✕</button></div></div>
+  <div id="sres" hidden></div>
+  <div class="rn" id="rightnow"></div>
+  <h2 class="hh">Don't miss, in one day <a href="#" id="seeall">See all places &rsaquo;</a></h2>
+  <div class="row">
+    <div class="pc" data-go="1"><div class="img" style="--p:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Spaccanapoli_verso_Castel_Sant%27Elmo.jpg/1280px-Spaccanapoli_verso_Castel_Sant%27Elmo.jpg')">Morning</div><div class="b"><b>Spaccanapoli</b><span>The old town on foot · Free</span></div></div>
+    <div class="pc" data-go="0"><div class="img" style="--p:url('https://images.pexels.com/photos/29609013/pexels-photo-29609013.jpeg?auto=compress&cs=tinysrgb&w=800')">Lunch</div><div class="b"><b>Where we really eat</b><span>Pizza · €5–8</span></div></div>
+    <div class="pc" data-go="7"><div class="img" style="--p:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Panorama_Festung_Castel_Sant%27Elmo_Museo_di_San_Martino_auf_Stadth%C3%BCgel_Vomero_Neapel_Foto_Wolfgang_Pehlemann_DSC04289.jpg/1280px-Panorama_Festung_Castel_Sant%27Elmo_Museo_di_San_Martino_auf_Stadth%C3%BCgel_Vomero_Neapel_Foto_Wolfgang_Pehlemann_DSC04289.jpg')">Afternoon</div><div class="b"><b>Sant'Elmo: the best view</b><span>Ticket · from €2.50</span></div></div>
+    <div class="pc" data-go="2"><div class="img" style="--p:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Castel_dell%27Ovo_%28Naples%29_02.jpg/1280px-Castel_dell%27Ovo_%28Naples%29_02.jpg')">Sunset</div><div class="b"><b>Castel dell'Ovo</b><span>Free · golden hour</span></div></div>
+  </div>
+  <h2>Quick help</h2>
+  <div class="tiles">
+    <div class="tile" data-act="soon"><i>&#9992;&#65039;</i>Airport<br>to centre</div>
+    <div class="tile" data-act="trains"><i>&#128646;</i>Trains<br>&nbsp;</div>
+    <div class="tile" data-act="soon"><i>&#127903;&#65039;</i>Tickets<br>&nbsp;</div>
+    <div class="tile" data-act="rain"><i>&#9748;&#65039;</i>Rainy<br>day</div>
+  </div>
+  <h2>Day trips</h2>
+  <div class="list">
+    <div class="li"><div class="th" style="--p:url('https://images.pexels.com/photos/14754633/pexels-photo-14754633.jpeg?auto=compress&cs=tinysrgb&w=300')"></div><div class="t"><b>Pompeii</b><span>35 min by train · from €3.60</span></div>›</div>
+    <div class="li"><div class="th" style="--p:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Antigua_ciudad_de_Herculano%2C_Italia%2C_2023-03-27%2C_DD_141.jpg/1280px-Antigua_ciudad_de_Herculano%2C_Italia%2C_2023-03-27%2C_DD_141.jpg')"></div><div class="t"><b>Herculaneum</b><span>20 min by train · easier, less crowded</span></div>›</div>
+    <div class="li"><div class="th" style="--p:url('https://images.pexels.com/photos/19143215/pexels-photo-19143215.jpeg?auto=compress&cs=tinysrgb&w=300')"></div><div class="t"><b>Sorrento</b><span>65 min by train</span></div>›</div>
+  </div>
+  <h2>Local tip</h2>
+  <div class="tip"><b>&#128161; Coffee is drunk standing at the bar.</b><br>It costs about half the price of a table, and it's how Neapolitans do it. Sample text: replace with your own tip of the day.</div>
+  <p class="credits">Photos via Pexels (free licence): pizza, mographe · pastry, Patricia Rodriguez · aperitivo, nati-87264186 · Pompeii, James Frid · Sorrento, Kelly · Vesuvius, Kelly · Capri, hess80 · Ischia, Alberto Brunello · Procida, Raffaele Felaco · traditional restaurants, Anna Vitória Martins Sousa · seafood, Letizia Klaver · street food, Magda Ehlers. Via Wikimedia Commons: Spaccanapoli, TatsuoTabei (public domain) · Castel dell'Ovo, Bernard Gagnon (CC BY 4.0) · lungomare, vick1111 (CC BY-SA 3.0) · San Gregorio Armeno, Photo2023 (CC BY 4.0) · Sant'Elmo, Wolfgang Pehlemann (CC BY-SA 3.0 de) · MANN, Mister No (CC BY 3.0) · Galleria Umberto I and Herculaneum, Diego Delso (CC BY-SA 4.0) · Plebiscito, Giorgio Visco · Palazzo Reale and Capodimonte, Giuseppe Guida · Teatro San Carlo, Diego Delso · Maschio Angioino, Paestum · Via Toledo, Panek · Quartieri Spagnoli, Photo2023 (CC BY 4.0) · Cappella Sansevero, David Sivyer (CC BY-SA 2.0) · Villa Comunale, Mister No (CC BY 3.0) · Duomo, Marco Ober · Catacombe and Fontanelle, Dominik Matus · Parco Virgiliano, ChiaraSki · Pozzuoli, Superchilum (all CC BY-SA 4.0 unless noted).</p>
+</div>
+
+<!-- EXPLORE -->
+<div class="screen" id="explore">
+  <div class="top"><small>Only places we recommend</small><h1>Explore Naples</h1></div>
+  <div class="seg"><button class="on" data-v="list">List</button><button data-v="map">Map</button></div>
+  <div class="chips" id="exchips"><span class="chip on" data-f="all">All</span><span class="chip" data-f="eat">Eat</span><span class="chip" data-f="see">See</span><span class="chip" data-f="free">Free</span><span class="chip" data-f="rain">Rainy day</span></div>
+  <div id="towns"></div>
+  <div id="bestof"></div>
+  <div class="areabar"><select id="exarea" aria-label="Area"></select></div>
+  <div class="bar"><span id="exinfo"></span><span><button id="sortTop" class="on">By area</button> <button id="sortNear">&#128205; Near me</button></span></div>
+  <div id="listv"></div>
+  <div id="mapv"><div class="cbanner" id="cbanner" hidden><span></span><button id="cclear">Show all places</button></div><div class="mctl"><button data-m="prov" class="on">Naples &amp; province</button><button data-m="city">City centre</button></div><div class="legend"><span style="color:#0e8fd0">●</span> In Naples &nbsp; <span style="color:#e0a800">●</span> Day trips &amp; islands<br>Every pin is a place we recommend. The icon shows the type; tap it for the photo and directions. A number means several places close together: tap it to zoom in. This is not an itinerary: for ready-made routes see <a href="#" style="color:var(--azz);font-weight:600" onclick="document.querySelector('nav button[data-t=plans]').click();return false">Plans</a>.</div><div id="lmap"></div><div class="mwrap" id="mwrap"><button id="msx" aria-label="Close">✕</button><div class="msheet" id="msheet"></div></div></div>
+  <p class="note">Sample content: texts and pin positions are placeholders to be replaced with your own picks. Map data © OpenStreetMap contributors.</p>
+</div>
+
+<!-- CITY -->
+<div class="screen" id="city">
+  <div class="top"><button class="back" id="cityback">‹ Explore</button><small id="citysub"></small><h1 id="cityname"></h1></div>
+  <div id="citybody"></div>
+</div>
+
+<!-- TOP LISTS -->
+<div class="screen" id="coll">
+  <div class="top"><button class="back" id="collback">‹ Explore</button><small id="collsub"></small><h1 id="colltitle"></h1></div>
+  <div class="collbar"><button class="btn2" id="collmap">Show all on the map</button></div>
+  <div id="collist"></div>
+  <p class="note" id="collnote"></p>
+  <p class="credits" id="collcred"></p>
+</div>
+
+<!-- TRAINS -->
+<div class="screen" id="trains">
+  <div class="top"><small>EAV · Circumvesuviana</small><h1>Next trains</h1></div>
+  <select id="station" aria-label="Station"></select>
+  <div id="tdest"></div>
+  <div class="demo">Scheduled times from the official EAV timetable (open data). Delays and strikes are not included: check EAV for live updates.</div>
+  <div class="list" id="deps"></div>
+  <h2>Buy tickets</h2>
+  <div class="pay"><div><b>Pompeii skip-the-line</b><br><span style="color:var(--mute);font-size:12.5px">Partner link</span></div><button class="btn">View</button></div>
+</div>
+
+<!-- PLANS -->
+<div class="screen" id="plans">
+  <div class="top"><small>Ready to go</small><h1>Your itinerary</h1></div>
+  <div class="chips"><span class="chip">1 day</span><span class="chip on">2 days</span><span class="chip">3 days</span></div>
+  <h2>Day 1 · Historic centre</h2>
+  <div class="tl">
+    <div><b>09:00</b> Coffee + sfogliatella</div>
+    <div><b>10:00</b> Spaccanapoli and Cristo Velato</div>
+    <div><b>13:30</b> Pizza lunch</div>
+    <div><b>16:00</b> Archaeological Museum</div>
+    <div><b>18:00</b> Sunset at the seafront</div>
+  </div>
+  <div class="pay"><div><b>Offline PDF + map</b><br><span style="color:var(--mute);font-size:12.5px">Naples in 48 hours</span></div><button class="btn">€4</button></div>
+</div>
+
+<!-- SAVED -->
+<div class="screen" id="saved">
+  <div class="top"><small>Your list</small><h1>Saved places</h1></div>
+  <div class="empty">❤️<br>Tap the heart on any place to save it here. Works offline.</div>
+</div>
+
+<nav>
+  <button class="on" data-t="home"><i>🏠</i>Home</button>
+  <button data-t="explore"><i>🧭</i>Explore</button>
+  <button data-t="trains"><i>🚆</i>Trains</button>
+  <button data-t="plans"><i>📅</i>Plans</button>
+  <button data-t="saved"><i>❤️</i>Saved</button>
+</nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
+<script src="trains.js"></script>
+<script src="collections.js"></script>
+<script>
+(function(){
+  var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
+  if(!T){box.innerHTML='<div class="li">Timetable not loaded.</div>';return;}
+  var byId={},idByName={},DEST=null;T.stops.forEach(function(s){byId[s.id]=s.name;idByName[s.name]=s.id;});
+  function opts(ids){return ids.map(function(i){return '<option value="'+i+'">'+byId[i]+'</option>';}).join('');}
+  var rest=T.stops.map(function(s){return s.id;}).filter(function(i){return T.featured.indexOf(i)<0;});
+  sel.innerHTML='<optgroup label="Popular">'+opts(T.featured)+'</optgroup><optgroup label="All stations">'+opts(rest)+'</optgroup>';
+  function ymd(d){return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate()+'';}
+  function hm(s){s%=86400;return ('0'+Math.floor(s/3600)).slice(-2)+':'+('0'+Math.floor(s%3600/60)).slice(-2);}
+  function render(){
+    var now=new Date(),secs=now.getHours()*3600+now.getMinutes()*60,id=sel.value,out=[];
+    var today=T.days[ymd(now)]||[],tmr=T.days[ymd(new Date(now.getTime()+864e5))]||[];
+    function ok(d){if(!DEST)return true;var tr=T.trips[d[4]],k=tr.indexOf(id);return k>=0&&tr.indexOf(DEST,k+1)>=0;}
+    (T.deps[id]||[]).forEach(function(d){if(ok(d)&&today.indexOf(d[3])>=0&&d[0]>=secs)out.push([d[0],d]);});
+    (T.deps[id]||[]).forEach(function(d){if(ok(d)&&tmr.indexOf(d[3])>=0&&d[0]<4*3600)out.push([d[0]+86400,d]);});
+    var pill=document.getElementById('tdest');
+    pill.innerHTML=DEST?'<span class="pill">To '+byId[DEST]+' <button id="tdx" aria-label="Remove filter">\u2715</button></span>':'';
+    if(DEST)document.getElementById('tdx').onclick=function(){DEST=null;render();};
+    out.sort(function(a,b){return a[0]-b[0];});out=out.slice(0,8);
+    box.innerHTML=out.length?out.map(function(o){var d=o[1],m=Math.round((o[0]-secs)/60);
+      return '<div class="li"><div class="dot" style="background:var(--azzd)">'+hm(o[0])+'</div><div class="t"><b>'+d[1]+'</b><span>Line '+d[2]+'</span></div><span class="ok">'+(m<60?'in '+m+' min':'in '+Math.floor(m/60)+' h '+(m%60)+' min')+'</span></div>';}).join('')
+      :'<div class="li"><div class="t"><b>No more departures today</b><span>Check tomorrow morning</span></div></div>';
+  }
+  sel.onchange=function(){DEST=null;render();};
+  window.openTrains=function(from,to){var f=idByName[from];if(f)sel.value=f;DEST=to?idByName[to]:null;render();document.querySelector('nav button[data-t=trains]').click();};
+  render();setInterval(render,30000);
+})();
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav button,.screen').forEach(e=>e.classList.remove('on'));
+  b.classList.add('on');document.getElementById(b.dataset.t).classList.add('on');
+});
+</script>
+<script>
+(function(){
+  var CENTRE={lat:40.8397,lon:14.2531,name:'the city centre'};
+  var AR=['Centro storico','Chiaia & Lungomare','Vomero & Posillipo','Sanità & Capodimonte','Campi Flegrei','Vesuvio & Costiera','Isole'];
+  var LV={essential:'⭐ Don’t miss',gem:'Local gem',fun:'Curiosity'};
+  var LVO={essential:0,gem:1,fun:2};
+  var P=[
+   {i:0,n:'Pizza where locals queue',t:'eat',k:'Pizza',v:'Thin, blistered crust and a simple margherita. Go early.',pr:'€5–8',la:40.8512,lo:14.2568,a:AR[0],lv:'gem',e:'🍕'},
+   {i:1,n:'Spaccanapoli',t:'see free',k:'Old town',v:'The whole old town in one straight street. Walk it west to east.',pr:'Free',la:40.8484,lo:14.2535,a:AR[0],lv:'essential',e:'🚶'},
+   {i:2,n:"Castel dell'Ovo",t:'see free',k:'Sunset',v:'Walk out to the castle and watch the sun go down behind the bay.',pr:'Free',la:40.8283,lo:14.2476,a:AR[1],lv:'essential',e:'🏰'},
+   {i:3,n:'Mergellina & the lungomare',t:'see free eat',k:'Seafront',v:'Long seafront walk with the Vesuvius view. Finish with an aperitivo.',pr:'Free',la:40.8265,lo:14.2235,a:AR[1],lv:'gem',e:'🌅'},
+   {i:4,n:'Coffee + a pastry at the bar',t:'eat',k:'Breakfast',v:'Stand at the bar like a local: quick, cheap and better.',pr:'€3',la:40.8353,lo:14.2437,a:AR[1],lv:'gem',e:'☕'},
+   {i:5,n:'Spritz at sunset',t:'eat',k:'Aperitivo',v:'The best hour of the day, on a terrace in Chiaia.',pr:'€6–8',la:40.8335,lo:14.2410,a:AR[1],lv:'gem',e:'🍹'},
+   {i:6,n:'San Gregorio Armeno',t:'see free',k:'Craft',v:'Nativity-scene workshops all year round, not only at Christmas.',pr:'Free',la:40.8508,lo:14.2587,a:AR[0],lv:'essential',e:'🎄'},
+   {i:7,n:"Sant'Elmo: the best view",t:'see',k:'Viewpoint',v:'The one view that explains the whole city. Take the funicular up.',pr:'Ticket',la:40.8434,lo:14.2394,a:AR[2],lv:'essential',e:'🔭'},
+   {i:8,n:'Archaeological Museum (MANN)',t:'see rain',k:'Museum',v:"Where Pompeii's best finds actually are. Plan two hours.",pr:'Ticket',la:40.8534,lo:14.2503,a:AR[0],lv:'essential',e:'🏛️'},
+   {i:9,n:'Galleria Umberto I',t:'free rain',k:'Rainy day',v:'A grand glass-roofed arcade to wait out the rain.',pr:'Free',la:40.8383,lo:14.2492,a:AR[0],lv:'essential',e:'🏛️'},
+   {n:'Piazza del Plebiscito',t:'see free',k:'Square',v:"Naples' great square, between the Royal Palace and the church of San Francesco di Paola.",pr:'Free',la:40.8359,lo:14.2488,a:AR[0],lv:'essential',e:'⛲',kw:'piazza del plebiscito square palazzo reale san francesco di paola monumento landmark free gratis'},
+   {n:'Palazzo Reale',t:'see rain',k:'Palace',v:'The royal apartments and a grand staircase, right on the square.',pr:'Ticket',la:40.8366,lo:14.2497,a:AR[0],lv:'gem',e:'👑',kw:'palazzo reale royal palace museo museum rain pioggia piove scalone'},
+   {n:'Teatro San Carlo',t:'see rain',k:'Opera house',v:"Italy's most famous opera house. Visit on a guided tour or see a show.",pr:'Ticket',la:40.8379,lo:14.2495,a:AR[0],lv:'gem',e:'🎭',kw:'teatro san carlo opera theatre theater lirica balletto tour spettacolo'},
+   {n:'Maschio Angioino',t:'see',k:'Castle',v:'The medieval castle by the port, a good first stop on the way to the seafront.',pr:'Ticket',la:40.8384,lo:14.2527,a:AR[0],lv:'gem',e:'🏰',kw:'maschio angioino castel nuovo castle castello porto beverello'},
+   {n:'Via Toledo',t:'see free',k:'Street',v:'The main street, from the royal square up to Montesanto. Great for people-watching.',pr:'Free',la:40.8400,lo:14.2489,a:AR[0],lv:'gem',e:'🛍️',kw:'via toledo shopping street strada passeggiata negozi free gratis'},
+   {n:'Quartieri Spagnoli & the Maradona mural',t:'see free',k:'Curiosity',v:'Narrow, lively alleys with the mural every fan photographs. Best by day.',pr:'Free',la:40.8440,lo:14.2467,a:AR[0],lv:'fun',e:'🎨',kw:'quartieri spagnoli maradona mural murale street art alleys vicoli free gratis'},
+   {n:'Cappella Sansevero',t:'see rain',k:'Chapel',v:'Home of the Veiled Christ. Book ahead, it sells out.',pr:'Ticket',la:40.8490,lo:14.2538,a:AR[0],lv:'essential',e:'⛪',kw:'cappella sansevero cristo velato veiled christ chiesa chapel rain pioggia prenota book'},
+   {n:'Duomo di Napoli',t:'see free rain',k:'Cathedral',v:'The cathedral of Naples and its chapel of San Gennaro.',pr:'Free',la:40.8527,lo:14.2589,a:AR[0],lv:'gem',e:'⛪',kw:'duomo cattedrale cathedral san gennaro chiesa church free gratis'},
+   {n:'Catacombe di San Gennaro',t:'see rain',k:'Underground',v:'Early Christian catacombs in the Sanità district, with frescoes.',pr:'Ticket',la:40.8639,lo:14.2531,a:AR[3],lv:'gem',e:'🕯️',kw:'catacombe san gennaro catacombs sanita sotterranea underground rain pioggia'},
+   {n:'Cimitero delle Fontanelle',t:'see free',k:'Curiosity',v:'A cave filled with thousands of skulls and a unique local tradition.',pr:'Free',la:40.8566,lo:14.2455,a:AR[3],lv:'fun',e:'💀',kw:'cimitero fontanelle cemetery teschi skulls sanita free gratis curiosita'},
+   {n:'Capodimonte',t:'see rain',k:'Museum',v:'A palace-museum with a huge park above the city.',pr:'Ticket',la:40.8667,lo:14.2500,a:AR[3],lv:'gem',e:'🖼️',kw:'capodimonte museo museum parco park reggia palace rain pioggia'},
+   {n:'Villa Comunale',t:'see free',k:'Park',v:'Seafront gardens between Chiaia and Mergellina, a good place to sit.',pr:'Free',la:40.8330,lo:14.2290,a:AR[1],lv:'gem',e:'🌳',kw:'villa comunale park parco giardino garden chiaia seafront lungomare free gratis'},
+   {n:'Parco Virgiliano',t:'see free',k:'Viewpoint',v:'A clifftop view over the Gulf of Pozzuoli and the island of Nisida.',pr:'Free',la:40.7933,lo:14.1980,a:AR[2],lv:'gem',e:'🌅',kw:'parco virgiliano posillipo panorama view vista belvedere tramonto sunset free gratis'},
+   {n:'Pozzuoli',t:'see',k:'Day trip',v:'Roman amphitheatre and volcanic craters, a short ride from the city.',pr:'Ticket',la:40.8247,lo:14.1207,a:AR[4],lv:'gem',e:'🌋',far:1,tr:['Montesanto','Pozzuoli'],kw:'pozzuoli solfatara anfiteatro amphitheatre flegrei rione terra cumana gita day trip'},
+   {n:'Mount Vesuvius',t:'see',k:'Volcano',v:'Walk to the crater rim. Book your ticket online and bring water.',pr:'Ticket',la:40.8213,lo:14.4260,a:AR[5],lv:'essential',e:'🌋',far:1,kw:'vesuvio vesuvius vulcano volcano cratere crater escursione hike'},
+   {n:'Capri',t:'see',k:'Island',v:'Take the ferry from Molo Beverello and go early to beat the crowds.',pr:'Ferry',la:40.5532,lo:14.2222,a:AR[6],lv:'essential',e:'⛵',far:1,kw:'capri isola island faraglioni ferry traghetto aliscafo beverello gita day trip'},
+   {n:'Ischia',t:'see',k:'Island',v:'Thermal parks and beaches. Less crowded than Capri.',pr:'Ferry',la:40.7300,lo:13.9400,a:AR[6],lv:'gem',e:'♨️',far:1,kw:'ischia isola island terme thermal spa ferry traghetto gita day trip'},
+   {n:'Procida',t:'see',k:'Island',v:'A small, colourful fishing island. Quiet, and good for lunch.',pr:'Ferry',la:40.7627,lo:14.0219,a:AR[6],lv:'gem',e:'🏖️',far:1,kw:'procida isola island corricella colorata colourful ferry traghetto gita day trip'},
+   {th:0,n:'Pompeii',t:'see',k:'Day trip',v:'Allow a full day. Go early and bring water.',pr:'Ticket',la:40.7507,lo:14.4870,a:AR[5],lv:'essential',e:'🏛️',far:1,tr:['Napoli Porta Nolana','Pompei Scavi Villa dei Misteri']},
+   {th:1,n:'Herculaneum',t:'see',k:'Day trip',v:'Smaller and better preserved than Pompeii: easier in half a day.',pr:'Ticket',la:40.8060,lo:14.3478,a:AR[5],lv:'gem',e:'🏛️',far:1,tr:['Napoli Porta Nolana','Ercolano Scavi']},
+   {th:2,n:'Sorrento',t:'see',k:'Day trip',v:'Lemons, sea views and the gateway to the Amalfi coast.',pr:'By train',la:40.6263,lo:14.3758,a:AR[5],lv:'gem',e:'🍋',far:1,tr:['Napoli Porta Nolana','Sorrento']}
+  ];
+  var XTRA={"Spaccanapoli": {"q": "Via Benedetto Croce, Napoli"}, "Castel dell'Ovo": {"q": "Castel dell'Ovo, Napoli", "v": "Walk out to the castle and watch the sun go down behind the bay. Entry is free; temporary exhibitions may charge."}, "Mergellina & the lungomare": {"q": "Porto di Mergellina, Napoli"}, "San Gregorio Armeno": {"q": "Via San Gregorio Armeno, Napoli"}, "Sant'Elmo: the best view": {"q": "Castel Sant'Elmo, Napoli", "pr": "\u20ac5 (\u20ac2.50 after 16:00)", "fs": 1, "v": "The view that explains the whole city. Take the metro or a funicular up to the Vomero, then walk."}, "Archaeological Museum (MANN)": {"q": "Museo Archeologico Nazionale di Napoli", "pr": "Ticket", "fs": 1, "v": "Where Pompeii's best finds actually are. Plan two hours. Closed on Tuesdays."}, "Galleria Umberto I": {"q": "Galleria Umberto I, Napoli"}, "Piazza del Plebiscito": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Piazza-del-Plebiscito-Panoramica-14.jpg/1280px-Piazza-del-Plebiscito-Panoramica-14.jpg", "q": "Piazza del Plebiscito, Napoli"}, "Palazzo Reale": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a3/Palazzo_Reale_di_Napoli._%289092%29.jpg/1280px-Palazzo_Reale_di_Napoli._%289092%29.jpg", "q": "Palazzo Reale di Napoli", "pr": "\u20ac15", "fs": 1}, "Teatro San Carlo": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Teatro_de_San_Carlos%2C_N%C3%A1poles%2C_Italia%2C_2023-03-25%2C_DD_184-186_HDR.jpg/1280px-Teatro_de_San_Carlos%2C_N%C3%A1poles%2C_Italia%2C_2023-03-25%2C_DD_184-186_HDR.jpg", "q": "Teatro di San Carlo, Napoli", "pr": "~\u20ac9 (guided tour)", "v": "Italy's most famous opera house. Visit on a guided tour (book ahead) or see a show."}, "Maschio Angioino": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Maschio_Angioino_frontale.jpg/1280px-Maschio_Angioino_frontale.jpg", "q": "Maschio Angioino, Napoli", "pr": "~\u20ac6", "v": "The medieval castle by the port. Usually closed on Sundays."}, "Via Toledo": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Via_toledo_near_carafa_di_madalloni_palace.jpg/1280px-Via_toledo_near_carafa_di_madalloni_palace.jpg", "q": "Via Toledo, Napoli"}, "Quartieri Spagnoli & the Maradona mural": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Murales_Napoli.jpg/1280px-Murales_Napoli.jpg", "q": "Largo Maradona, Napoli"}, "Cappella Sansevero": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Cappella_Sansevero_%2815041603867%29.jpg/1280px-Cappella_Sansevero_%2815041603867%29.jpg", "q": "Cappella Sansevero, Napoli", "pr": "~\u20ac10 (book online)", "v": "Home of the Veiled Christ. Booking is mandatory and slots sell out.", "bp": "left 88%"}, "Duomo di Napoli": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Naples_Cathedral_-_Duomo_di_Napoli%2C_Fa%C3%A7ade_%285315-Pan%29.jpg/1280px-Naples_Cathedral_-_Duomo_di_Napoli%2C_Fa%C3%A7ade_%285315-Pan%29.jpg", "q": "Duomo di Napoli", "pr": "Free (museum extra)", "v": "The cathedral is free to enter. The San Gennaro Treasure museum and the baptistery have their own ticket."}, "Catacombe di San Gennaro": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Catacombe_di_San_Gennaro_020.jpg/1280px-Catacombe_di_San_Gennaro_020.jpg", "q": "Catacombe di San Gennaro, Napoli", "pr": "~\u20ac11 (guided)", "v": "Early Christian catacombs in the Sanit\u00e0 district, with frescoes. Guided visit, booking required."}, "Cimitero delle Fontanelle": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Cimitero_delle_Fontanelle_-_DM_-_001.jpg/1280px-Cimitero_delle_Fontanelle_-_DM_-_001.jpg", "q": "Cimitero delle Fontanelle, Napoli", "pr": "Free (book ahead)", "v": "A cave filled with thousands of skulls. Free, but entry is by booking and slots fill fast."}, "Capodimonte": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Real_Bosco_di_Capodimonte._%289923%29.jpg/1280px-Real_Bosco_di_Capodimonte._%289923%29.jpg", "q": "Museo di Capodimonte, Napoli", "pr": "\u20ac15 (park free)", "fs": 1, "v": "A palace-museum with a huge park above the city. The park is free."}, "Villa Comunale": {"q": "Villa Comunale, Napoli", "u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Villa_Comunale_-_panoramio_%283%29.jpg/1280px-Villa_Comunale_-_panoramio_%283%29.jpg"}, "Parco Virgiliano": {"u": "https://upload.wikimedia.org/wikipedia/commons/2/25/Nisida-Panorama_dal_Parco_Virgiliano.jpg", "q": "Parco Virgiliano, Napoli"}, "Pozzuoli": {"u": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Rione_Terra_%28Pozzuoli%29_02.jpg/1280px-Rione_Terra_%28Pozzuoli%29_02.jpg", "q": "Rione Terra, Pozzuoli"}, "Mount Vesuvius": {"u": "https://images.pexels.com/photos/12464311/pexels-photo-12464311.jpeg?auto=compress&cs=tinysrgb&w=800", "q": "Parco Nazionale del Vesuvio", "pr": "~\u20ac12 (book online)", "v": "Walk to the crater rim. Tickets are timed and sold online only: book ahead and bring water."}, "Capri": {"u": "https://images.pexels.com/photos/15027834/pexels-photo-15027834.jpeg?auto=compress&cs=tinysrgb&w=800", "q": "Marina Grande, Capri", "pr": "Ferry ~\u20ac22\u201325", "v": "About 50 minutes by hydrofoil from Molo Beverello. Go early to beat the crowds."}, "Ischia": {"u": "https://images.pexels.com/photos/15595689/pexels-photo-15595689.jpeg?auto=compress&cs=tinysrgb&w=800", "q": "Porto d'Ischia"}, "Procida": {"u": "https://images.pexels.com/photos/31665694/pexels-photo-31665694.jpeg?auto=compress&cs=tinysrgb&w=800", "q": "Marina Corricella, Procida"}, "Pompeii": {"q": "Scavi di Pompei", "pr": "\u20ac20 (book online)", "fs": 1, "v": "Allow a full day. Go early, bring water and book your ticket online."}, "Herculaneum": {"q": "Parco Archeologico di Ercolano", "pr": "Ticket", "fs": 1}, "Sorrento": {"q": "Sorrento"}, "Pizza where locals queue": {"n": "Best pizzerias in Naples", "v": "Our top 10, from the historic masters to the new generation.", "k": "Top 10", "pr": "See the list", "coll": "pizza", "nopin": 1, "q": null}, "Coffee + a pastry at the bar": {"n": "Best coffee & pastry", "v": "Where to stand at the bar for an espresso and a sfogliatella.", "k": "Top 10", "pr": "See the list", "coll": "coffee_pastry", "nopin": 1}, "Spritz at sunset": {"n": "Best sunset spots", "v": "Aperitivo with a view, plus the best free viewpoints.", "k": "Top 10", "pr": "See the list", "coll": "sunset", "nopin": 1, "t": "see eat"}};
+  P.forEach(function(p){var x=XTRA[p.n];if(x)for(var k in x)p[k]=x[k];});
+  P.push({n:'Best traditional restaurants',t:'eat',k:'Top 10',v:'Classic Neapolitan home cooking: ragu, genovese, pasta e patate.',pr:'See the list',la:40.84,lo:14.25,a:AR[0],lv:'essential',e:'🍝',coll:'trattorie',u:'https://images.pexels.com/photos/34627709/pexels-photo-34627709.jpeg?auto=compress&cs=tinysrgb&w=800',nopin:1,kw:'ristoranti trattorie restaurants traditional cucina napoletana ragu genovese'});
+  P.push({n:'Best seafood',t:'eat',k:'Top 10',v:'Fish and shellfish, from the waterfront to the old town.',pr:'See the list',la:40.84,lo:14.25,a:AR[1],lv:'essential',e:'🐟',coll:'seafood',u:'https://images.pexels.com/photos/36807098/pexels-photo-36807098.jpeg?auto=compress&cs=tinysrgb&w=800',nopin:1,kw:'pesce seafood fish ristoranti di pesce frutti di mare'});
+  P.push({n:'More to see in Naples',t:'see',k:'Guide',v:'Churches, museums, underground sites and more.',pr:'See the list',la:40.84,lo:14.25,a:AR[0],lv:'essential',e:'⛪',coll:'napoli_sights',nopin:1,kw:'chiese churches musei museums monumenti scavi archaeology'});
+  P.push({n:'Best street food',t:'eat',k:'Top 10',v:'Fried food and quick bites: cuoppo, frittatina, montanara.',pr:'See the list',la:40.84,lo:14.25,a:AR[0],lv:'essential',e:'🍤',coll:'street_food',u:'https://images.pexels.com/photos/15247972/pexels-photo-15247972.jpeg?auto=compress&cs=tinysrgb&w=800',nopin:1,kw:'street food fritto fried cuoppo frittatina montanara pizza fritta'});
+  var st={f:'all',area:'all',coll:null,vsel:null,sort:'top',view:'list',pos:{lat:CENTRE.lat,lon:CENTRE.lon},from:CENTRE.name,sel:null,saved:{}};
+  try{st.saved=JSON.parse(localStorage.getItem('saved')||'{}');}catch(e){}
+  var IMG=["https://images.pexels.com/photos/29609013/pexels-photo-29609013.jpeg?auto=compress&cs=tinysrgb&w=800", "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Spaccanapoli_verso_Castel_Sant%27Elmo.jpg/1280px-Spaccanapoli_verso_Castel_Sant%27Elmo.jpg", "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Castel_dell%27Ovo_%28Naples%29_02.jpg/1280px-Castel_dell%27Ovo_%28Naples%29_02.jpg", "https://upload.wikimedia.org/wikipedia/commons/2/28/Napoli13.jpg", "https://images.pexels.com/photos/34215717/pexels-photo-34215717.jpeg?auto=compress&cs=tinysrgb&w=800", "https://images.pexels.com/photos/39215055/pexels-photo-39215055.jpeg?auto=compress&cs=tinysrgb&w=800", "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Via_San_Gregorio_Armeno.jpg/1280px-Via_San_Gregorio_Armeno.jpg", "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Panorama_Festung_Castel_Sant%27Elmo_Museo_di_San_Martino_auf_Stadth%C3%BCgel_Vomero_Neapel_Foto_Wolfgang_Pehlemann_DSC04289.jpg/1280px-Panorama_Festung_Castel_Sant%27Elmo_Museo_di_San_Martino_auf_Stadth%C3%BCgel_Vomero_Neapel_Foto_Wolfgang_Pehlemann_DSC04289.jpg", "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Museo_Archeologico_Nazionale_di_Napoli_-_panoramio.jpg/1280px-Museo_Archeologico_Nazionale_di_Napoli_-_panoramio.jpg", "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Galer%C3%ADa_Humberto_I%2C_N%C3%A1poles%2C_Italia%2C_2023-03-25%2C_DD_157-159_HDR.jpg/1280px-Galer%C3%ADa_Humberto_I%2C_N%C3%A1poles%2C_Italia%2C_2023-03-25%2C_DD_157-159_HDR.jpg"];
+  function img(i){return IMG[i]?"url('"+IMG[i]+"')":'none';}
+  function imgOf(p){if(p.u)return "url('"+p.u+"')";if(typeof p.i==='number')return img(p.i);if(typeof p.th==='number')return thumbOf(p.th);return 'none';}
+  function lvTag(p){return '<span class="lv '+p.lv+'">'+LV[p.lv]+'</span>';}
+  function km(a,b,c,d){var r=Math.PI/180,x=(d-b)*r*Math.cos((a+c)/2*r),y=(c-a)*r;return 6371*Math.sqrt(x*x+y*y);}
+  function list(){
+    var a=P.filter(function(p){return !p.coll&&(st.f==='all'||p.t.split(' ').indexOf(st.f)>=0)&&(st.area==='all'||p.a===st.area);});
+    a.forEach(function(p){p.d=km(st.pos.lat,st.pos.lon,p.la,p.lo);});
+    if(st.sort==='near')a=a.slice().sort(function(x,y){return x.d-y.d;});
+    else a=a.slice().sort(function(x,y){return (AR.indexOf(x.a)-AR.indexOf(y.a))||(LVO[x.lv]-LVO[y.lv])||(P.indexOf(x)-P.indexOf(y));});
+    return a;
+  }
+  function dest(p){return encodeURIComponent(p.q||(p.la+','+p.lo));}
+  function isApple(){var u=navigator.userAgent||'',pl=navigator.platform||'';return /iPhone|iPad|iPod/.test(u)||(/Mac/.test(pl)&&navigator.maxTouchPoints>1)||/Macintosh/.test(u);}
+  function gmaps(p){return 'https://www.google.com/maps/dir/?api=1&destination='+dest(p)+'&travelmode=walking';}
+  function amaps(p){return 'https://maps.apple.com/?daddr='+dest(p)+'&dirflg=w';}
+  function goLinks(p){var a=isApple();return a?{main:amaps(p),mainL:'Take me there (Apple Maps)',alt:gmaps(p),altL:'Google Maps'}:{main:gmaps(p),mainL:'Take me there (Google Maps)',alt:amaps(p),altL:'Apple Maps'};}
+  function fsTag(p){return p.fs?'<span class="tg fs">Free 1st Sunday</span>':'';}
+  function dist(p){var m=Math.round(p.d*12);return (p.d<1?Math.round(p.d*100)*10+' m':p.d.toFixed(1)+' km')+(m<=90?' · '+m+' min walk':'');}
+  function save(p){if(st.saved[p.n])delete st.saved[p.n];else st.saved[p.n]=1;try{localStorage.setItem('saved',JSON.stringify(st.saved));}catch(e){}render();}
+  function renderSaved(){
+    var el=document.getElementById('saved'),keys=Object.keys(st.saved),h='<div class="top"><small>Your list</small><h1>Saved places</h1></div>';
+    el.innerHTML=h+(keys.length?'<div class="list" style="margin-top:14px">'+keys.map(function(k){return '<div class="li"><div class="t"><b>'+k+'</b></div>❤️</div>';}).join('')+'</div>':'<div class="empty">❤️<br>Tap the heart on any place to save it here. Works offline.</div>');
+  }
+  function render(){
+    var a=list(),box=document.getElementById('listv');bestOf();
+    document.getElementById('exinfo').textContent=a.length+' places'+(st.sort==='near'?' · from '+st.from:'');
+    var html='',cur='';
+    a.forEach(function(p){var n=P.indexOf(p),im=imgOf(p);
+      if(st.sort==='top'&&p.a!==cur){cur=p.a;html+='<div class="agh">'+cur+'</div>';}
+      html+='<div class="place" data-n="'+n+'">'+(im!=='none'?'<div class="ph2" style="--p:'+im+';--bp:'+(p.bp||'center')+'"></div>':'<div class="ph2 ph">'+(p.e||'📍')+'</div>')+
+        '<div class="pb"><b>'+p.n+'</b><div class="v">'+p.v+'</div><div class="meta">'+lvTag(p)+'<span class="tg">'+p.k+'</span><span class="tg">'+p.pr+'</span>'+fsTag(p)+'<span class="dist">'+(st.sort==='near'?dist(p):'')+'</span><button class="heart" data-s="'+n+'" aria-label="Save">'+(st.saved[p.n]?'❤️':'🤍')+'</button></div></div></div>';
+    });
+    box.innerHTML=html||'<div class="empty">No places here yet.</div>';
+    box.querySelectorAll('.heart').forEach(function(b){b.onclick=function(e){e.stopPropagation();save(P[+b.dataset.s]);};});
+    box.querySelectorAll('.place').forEach(function(b){b.onclick=function(){st.sel=+b.dataset.n;setView('map');};});
+    drawMap(a);renderSaved();
+  }
+  // ---------- real map (Leaflet + OpenStreetMap) ----------
+  var LM=null,layer=null,dtLayer=null,lastSel=null;
+  var PROV=[[40.53,13.80],[41.06,14.60]];      // Naples & province: Ischia to the Sorrento peninsula and Capri
+  var CITY=[[40.8397,14.2531],13];
+  var DT=[{n:'Pompeii',s:'Pompei Scavi Villa dei Misteri',la:40.7507,lo:14.4870},{n:'Herculaneum',s:'Ercolano Scavi',la:40.8060,lo:14.3478},{n:'Sorrento',s:'Sorrento',la:40.6263,lo:14.3758}];
+  function initMap(){
+    if(LM||!window.L)return;
+    L.Browser.any3d=false;   // integer pixel positions: avoids hairline seams between tiles on high-DPI screens
+    LM=L.map('lmap',{minZoom:8,maxBounds:[[39.9,13.2],[41.7,15.6]],maxBoundsViscosity:.7});
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(LM);
+    layer=L.markerClusterGroup({maxClusterRadius:38,showCoverageOnHover:false,iconCreateFunction:function(c){return L.divIcon({className:'',html:'<div class="lcl">'+c.getChildCount()+'</div>',iconSize:[36,36]});}}).addTo(LM);
+    dtLayer=L.layerGroup().addTo(LM);
+    function labels(){document.getElementById('lmap').classList.toggle('showlabels',LM.getZoom()>=13);}
+    LM.on('zoomend',labels);labels();
+    LM.fitBounds(PROV,{padding:[8,8]});
+  }
+  function pinIcon(n,on,far){return L.divIcon({className:'',html:'<div class="lpin'+(on?' sel':'')+(far?' far':'')+'">'+(P[n].e||'📍')+'</div>',iconSize:[26,26],iconAnchor:[13,13]});}
+  function drawMap(a){
+    if(st.view!=='map')return;
+    initMap();if(!LM){document.getElementById('lmap').innerHTML='<div class="empty">Map could not be loaded.</div>';return;}
+    LM.invalidateSize();layer.clearLayers();dtLayer.clearLayers();
+    var cb=document.getElementById('cbanner');cb.hidden=!st.coll;
+    document.querySelector('.legend').style.display=st.coll?'none':'';document.querySelector('.mctl').style.display=st.coll?'none':'';
+    if(st.coll){drawColl();return;}
+    if(st.from==='your position')L.marker([st.pos.lat,st.pos.lon],{icon:L.divIcon({className:'',html:'<div class="lme"></div>',iconSize:[16,16],iconAnchor:[8,8]}),interactive:false}).addTo(dtLayer);
+    a.forEach(function(p){var n=P.indexOf(p);
+      L.marker([p.la,p.lo],{icon:pinIcon(n,st.sel===n,p.far),zIndexOffset:st.sel===n?1000:0}).bindTooltip(p.n,{permanent:true,direction:'right',offset:[14,0],className:'ltip'+(p.far?' far':'')}).on('click',function(){st.sel=n;render();}).addTo(layer);});
+    if(st.sel!=null&&st.sel!==lastSel){LM.setView([P[st.sel].la,P[st.sel].lo],15,{animate:false});lastSel=st.sel;}
+    if(st.sel==null)lastSel=null;
+    var sh=document.getElementById('msheet'),p=P[st.sel];
+    if(p&&a.indexOf(p)>=0){sh.className='msheet on';sh.innerHTML='<div class="sh1">'+(imgOf(p)!=='none'?'<div class="shero" style="--p:'+imgOf(p)+';--bp:'+(p.bp||'center')+'"></div>':'<div class="shero ph">'+(p.e||'📍')+'</div>')+'<div class="shb"><b>'+p.n+'</b><div class="shv">'+p.v+'</div><div class="shm">'+lvTag(p)+' <span class="tg">'+p.pr+'</span> '+fsTag(p)+'</div></div><button class="heart" id="sheetheart">'+(st.saved[p.n]?'❤️':'🤍')+'</button></div><div class="sha"><a class="btn2" target="_blank" rel="noopener" href="'+goLinks(p).main+'">'+goLinks(p).mainL+'</a>'+(p.tr?'<a class="btn2 b2" href="#" id="sheettr">Next trains</a>':'')+'<a class="alt" target="_blank" rel="noopener" href="'+goLinks(p).alt+'">'+goLinks(p).altL+'</a></div>';
+      if(p.tr)document.getElementById('sheettr').onclick=function(e){e.preventDefault();window.openTrains(p.tr[0],p.tr[1]);};
+      document.getElementById('sheetheart').onclick=function(){save(p);};}
+    else{sh.className='msheet';}
+  }
+  document.querySelectorAll('.mctl button').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('.mctl button').forEach(function(x){x.classList.toggle('on',x===b);});
+    if(!LM)return;if(b.dataset.m==='prov')LM.fitBounds(PROV,{padding:[8,8]});else LM.setView(CITY[0],CITY[1]);};});
+  function setView(v){st.view=v;document.getElementById('listv').style.display=v==='list'?'':'none';document.getElementById('mapv').style.display=v==='map'?'block':'none';if(v==='map'&&LM)setTimeout(function(){LM.invalidateSize();},30);
+    document.querySelectorAll('.seg button').forEach(function(b){b.classList.toggle('on',b.dataset.v===v);});render();}
+  document.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){setView(b.dataset.v);};});
+  document.querySelectorAll('#exchips .chip').forEach(function(c){c.onclick=function(){document.querySelectorAll('#exchips .chip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');st.f=c.dataset.f;st.sel=null;render();};});
+  document.getElementById('sortTop').onclick=function(){st.sort='top';this.classList.add('on');document.getElementById('sortNear').classList.remove('on');render();};
+  document.getElementById('sortNear').onclick=function(){
+    st.sort='near';this.classList.add('on');document.getElementById('sortTop').classList.remove('on');render();
+    if(!navigator.geolocation)return;
+    navigator.geolocation.getCurrentPosition(function(g){
+      var d=km(CENTRE.lat,CENTRE.lon,g.coords.latitude,g.coords.longitude);
+      if(d<50){st.pos={lat:g.coords.latitude,lon:g.coords.longitude};st.from='your position';render();}
+    },function(){},{timeout:6000,maximumAge:600000});
+  };
+  var ea=document.getElementById('exarea');ea.innerHTML='<option value="all">All areas</option>'+AR.map(function(x){return '<option>'+x+'</option>';}).join('');
+  ea.onchange=function(){st.area=ea.value;st.sel=null;render();};
+  document.getElementById('seeall').onclick=function(e){e.preventDefault();document.querySelector('nav button[data-t=explore]').click();};
+  function go(t){document.querySelector('nav button[data-t='+t+']').click();}
+  function setFilter(f){st.f=f;st.area='all';ea.value='all';document.querySelectorAll('#exchips .chip').forEach(function(x){x.classList.toggle('on',x.dataset.f===f);});}
+  window.openPlace=function(n){if(P[n].coll){openColl(P[n].coll);return;}setFilter('all');st.sel=n;go('explore');setView('map');};
+  window.exploreFilter=function(f){setFilter(f);st.sel=null;go('explore');setView('list');};
+  document.querySelectorAll('.pc[data-go]').forEach(function(c){c.onclick=function(){window.openPlace(+c.dataset.go);};});
+  document.querySelectorAll('.tile').forEach(function(t){t.onclick=function(){
+    if(t.dataset.act==='trains')go('trains');else if(t.dataset.act==='rain')window.exploreFilter('rain');};});
+  // ---------- ranked "Top 10" lists ----------
+  var CO=window.COLLECTIONS||null,V={},curKey=null,curBack='explore',collFit=false;
+  var ICON={pizza:'🍕',trattorie:'🍝',seafood:'🐟',coffee_pastry:'☕',street_food:'🍤',sunset:'🌅'};
+  function plain(n){return n.replace(/\s*\([^)]*\)/g,'').trim();}
+  var ICONS={pizza:'🍕',restaurants:'🍝',street_food:'🍤',coffee_pastry:'☕'},ICONT={archaeology:'🏛️',museum:'🖼️',church:'⛪',monument:'🏰',viewpoint:'🔭',park:'🌳',beach:'🏖️',market:'🛒',spa:'♨️',other:'📍'};
+  function iconFor(key,i){if(ICON[key])return ICON[key];var m=key.match(/_(pizza|restaurants|street_food|coffee_pastry)$/);if(m)return ICONS[m[1]];return ICONT[(i.specialty||'other').toLowerCase()]||'📍';}
+  function venues(key){
+    if(V[key])return V[key];
+    var c=CO&&CO.cats[key];if(!c)return [];
+    V[key]=c.items.map(function(i){return {n:i.name,v:i.why||'',k:i.specialty||'',pr:i.price||'',la:i.lat,lo:i.lon,q:plain(i.name)+', '+(i.address||'Napoli'),e:iconFor(key,i),rank:i.rank,hrs:i.hours_note,fs:i.free_first_sunday,tip:i.tip,sc:i.source_count||0,conf:i.confidence,area:i.area,cat:key,ph:i.photo||null,addr:i.address,elsewhere:(i.is_chain?i.elsewhere:null),br:(i.branches||[]).map(function(b){return {label:b.label,address:b.address,area:b.area,la:b.lat,lo:b.lon,q:plain(i.name)+', '+b.address};})};});
+    return V[key];
+  }
+  function reviewsLink(v){return 'https://www.google.com/maps/search/?api=1&query='+dest(v);}
+  function heartOf(n){return st.saved[n]?'❤️':'🤍';}
+  function bestOf(){
+    townsRow();
+    var box=document.getElementById('bestof');
+    var cs=P.filter(function(p){return p.coll&&(st.f==='all'||p.t.split(' ').indexOf(st.f)>=0);});
+    if(st.view!=='list'||st.area!=='all'||!cs.length){box.innerHTML='';return;}
+    box.innerHTML='<h2 style="margin:16px 18px 10px;font-size:17px">Best of Naples</h2><div class="row">'+cs.map(function(p){var n=P.indexOf(p),im=imgOf(p),c=CO&&CO.cats[p.coll];
+      return '<div class="pc" data-n="'+n+'"><div class="img'+(im==='none'?' ph':'')+'" style="'+(im!=='none'?'--p:'+im:'')+'">'+(im==='none'?p.e:'Top 10')+'</div><div class="b"><b>'+esc(c?c.title:p.n)+'</b><span>'+esc(c?c.blurb:p.v)+'</span></div></div>';}).join('')+'</div>';
+    box.querySelectorAll('.pc').forEach(function(e){e.onclick=function(){openColl(P[+e.dataset.n].coll);};});
+  }
+  function showColl(){
+    document.querySelectorAll('nav button,.screen').forEach(function(e){e.classList.remove('on');});
+    document.getElementById('coll').classList.add('on');document.querySelector('nav button[data-t=explore]').classList.add('on');
+    document.getElementById('coll').scrollTop=0;
+  }
+  function openColl(key,rank,back){
+    var c=CO&&CO.cats[key];if(!c){alert('This list is coming soon.');return;}
+    curKey=key;curBack=back||'explore';document.getElementById('collback').textContent=curBack==='explore'?'‹ Explore':'‹ Back';
+    document.getElementById('colltitle').textContent=c.title;
+    document.getElementById('collsub').textContent=(c.city?'':'Top 10 · ')+c.blurb;
+    var vs=venues(key),h='';
+    vs.forEach(function(v,n){
+      h+='<div class="vn" data-r="'+v.rank+'">'+(v.ph?'<div class="vimg" style="--p:url(\''+v.ph.url+'\')"><div class="vr">'+v.rank+'</div></div>':'<a class="vimg ph" target="_blank" rel="noopener" href="'+reviewsLink(v)+'">'+v.e+'<span class="vph">See photos on Google</span><div class="vr">'+v.rank+'</div></a>')+'<div class="vb"><b>'+esc(v.n)+'</b><div class="vm">'+esc(v.area||'')+(v.pr?' · '+esc(v.pr):'')+'</div>'+(v.addr?'<div class="vm">\uD83D\uDCCD '+esc(v.addr)+(v.br.length?' (original)':'')+'</div>':'')+(v.k?'<div class="vk">'+esc(v.k)+'</div>':'')+
+        '<div class="vw">'+esc(v.v)+'</div>'+(v.hrs?'<div class="vt">🕒 '+esc(v.hrs)+'</div>':'')+(v.fs?'<div class="vs">Free on the first Sunday of the month</div>':'')+(v.tip?'<div class="vt">💡 '+esc(v.tip)+'</div>':'')+
+        (v.sc>=2?'<div class="vs">Recommended by '+v.sc+' sources</div>':'')+(v.conf==='low'?'<div class="vs warn">Check it is still open</div>':'')+
+        (v.br.length?'<div class="vbr"><div class="vbh">Other locations in Campania</div>'+v.br.map(function(b){return '<div class="vbi"><span>'+esc(b.label)+' \u00b7 '+esc(b.address)+'</span><a class="alt" target="_blank" rel="noopener" href="'+goLinks(b).main+'">Take me there</a></div>';}).join('')+'</div>':'')+
+        '<div class="sha"><a class="btn2" target="_blank" rel="noopener" href="'+goLinks(v).main+'">Take me there</a><a class="alt" target="_blank" rel="noopener" href="'+reviewsLink(v)+'">Photos &amp; reviews</a><button class="heart" data-v="'+n+'" aria-label="Save">'+heartOf(v.n)+'</button></div></div></div>';});
+    document.getElementById('collist').innerHTML=h;
+    document.querySelectorAll('#collist .heart').forEach(function(b){b.onclick=function(){var v=vs[+b.dataset.v];if(st.saved[v.n])delete st.saved[v.n];else st.saved[v.n]=1;try{localStorage.setItem('saved',JSON.stringify(st.saved));}catch(e){}b.textContent=heartOf(v.n);renderSaved();};});
+    document.getElementById('collcred').innerHTML=vs.filter(function(v){return v.ph;}).length?'Photos: '+vs.filter(function(v){return v.ph;}).map(function(v){return '<a href="'+esc(v.ph.page)+'" target="_blank" rel="noopener" style="color:inherit">'+esc(plain(v.n))+'</a>, '+esc(v.ph.author)+' ('+esc(v.ph.license)+')';}).join(' \u00b7 ')+'.':'';
+    document.getElementById('collnote').textContent='Ranked from public guides, press and aggregate ratings, last checked '+(CO.updated||'')+'. Opening hours and prices change: please confirm before you go.';
+    showColl();
+    if(rank){var el=document.querySelector('#collist .vn[data-r="'+rank+'"]');if(el){el.classList.add('hl');setTimeout(function(){el.scrollIntoView({block:'center'});},50);}}
+  }
+  document.getElementById('collback').onclick=function(){if(curBack!=='explore'&&CO&&CO.cities&&CO.cities[curBack])openCity(curBack);else go('explore');};
+  document.getElementById('collmap').onclick=function(){st.coll=curKey;st.vsel=null;collFit=true;go('explore');setView('map');};
+  document.getElementById('msx').onclick=function(){st.sel=null;st.vsel=null;lastSel=null;render();};
+  document.getElementById('cclear').onclick=function(){st.coll=null;st.vsel=null;lastSel=null;render();};
+  function drawColl(){
+    var vs=venues(st.coll),pts=[],miss=0;
+    vs.forEach(function(v){
+      var shown=0;
+      function pin(la,lo,label,isBr){
+        if(la==null||lo==null)return;shown++;pts.push([la,lo]);
+        L.marker([la,lo],{icon:L.divIcon({className:'',html:'<div class="lpin'+(isBr?' br':'')+(st.vsel===v.rank?' sel':'')+'">'+v.rank+'</div>',iconSize:[26,26],iconAnchor:[13,13]}),zIndexOffset:st.vsel===v.rank?1000:0})
+          .bindTooltip(label,{permanent:true,direction:'right',offset:[14,0],className:'ltip'}).on('click',function(){st.vsel=v.rank;render();}).addTo(layer);
+      }
+      pin(v.la,v.lo,v.n,false);
+      v.br.forEach(function(b){pin(b.la,b.lo,v.n+' \u00b7 '+b.label,true);});
+      if(!shown)miss++;
+    });
+    document.querySelector('#cbanner span').textContent='Top 10 · '+CO.cats[st.coll].title+' (numbers = ranking)'+(miss?' · '+miss+' not on the map':'');
+    if(collFit&&pts.length){LM.fitBounds(pts,{padding:[30,30],maxZoom:15});collFit=false;}
+    var sh=document.getElementById('msheet'),v=vs.filter(function(x){return x.rank===st.vsel;})[0];
+    if(v){sh.className='msheet on';
+      sh.innerHTML='<div class="sh1">'+(v.ph?'<div class="shero" style="--p:url(\''+v.ph.url+'\')"></div>':'<a class="shero ph" target="_blank" rel="noopener" href="'+reviewsLink(v)+'" title="See photos on Google">'+v.e+'</a>')+'<div class="shb"><b>'+esc(v.n)+'</b><div class="shv">'+esc(v.v)+'</div><div class="shm"><span class="lv essential">#'+v.rank+'</span> <span class="tg">'+esc(v.pr)+'</span></div></div><button class="heart" id="sheetheart">'+heartOf(v.n)+'</button></div><div class="sha"><a class="btn2" target="_blank" rel="noopener" href="'+goLinks(v).main+'">'+goLinks(v).mainL+'</a><a class="alt" target="_blank" rel="noopener" href="'+reviewsLink(v)+'">Photos &amp; reviews</a><a class="alt" target="_blank" rel="noopener" href="'+goLinks(v).alt+'">'+goLinks(v).altL+'</a></div>'+(v.br.length?'<div class="shbr">Other locations: '+v.br.map(function(b){return '<a class="alt" target="_blank" rel="noopener" href="'+goLinks(b).main+'">'+esc(b.label)+'</a>';}).join(' \u00b7 ')+'</div>':'');
+      document.getElementById('sheetheart').onclick=function(){if(st.saved[v.n])delete st.saved[v.n];else st.saved[v.n]=1;try{localStorage.setItem('saved',JSON.stringify(st.saved));}catch(e){}render();};}
+    else{sh.className='msheet';}
+  }
+
+  // ---------- nearby towns ----------
+  var TOWNTR={pompei:['Napoli Porta Nolana','Pompei Scavi Villa dei Misteri'],ercolano:['Napoli Porta Nolana','Ercolano Scavi'],torre_annunziata:['Napoli Porta Nolana','Torre Annunziata - Oplonti'],castellammare:['Napoli Porta Nolana','Castellammare di Stabia'],sorrento:['Napoli Porta Nolana','Sorrento'],pozzuoli:['Montesanto','Pozzuoli']};
+  function townPhoto(slug){var c=CO&&CO.cats[slug+'_sights'];if(!c)return null;for(var i=0;i<c.items.length;i++){if(c.items[i].photo)return c.items[i].photo.url;}return null;}
+  function townsRow(){
+    var box=document.getElementById('towns');
+    if(!CO||!CO.cities||st.view!=='list'||st.area!=='all'||st.f!=='all'){box.innerHTML='';return;}
+    var ks=Object.keys(CO.cities).filter(function(k){return k!=='napoli'&&CO.cities[k].cats.length;});
+    if(!ks.length){box.innerHTML='';return;}
+    box.innerHTML='<h2 style="margin:16px 18px 10px;font-size:17px">Nearby towns</h2><div class="row">'+ks.map(function(k){var c=CO.cities[k],ph=townPhoto(k);
+      return '<div class="pc" data-city="'+k+'"><div class="img'+(ph?'':' ph')+'" style="'+(ph?'--p:url(\''+ph+'\')':'')+'">'+(ph?'By train':'🏘️')+'</div><div class="b"><b>'+esc(c.name)+'</b><span>Sights, food, how to get there</span></div></div>';}).join('')+'</div>';
+    box.querySelectorAll('.pc').forEach(function(e){e.onclick=function(){openCity(e.dataset.city);};});
+  }
+  function showScreen(id){
+    document.querySelectorAll('nav button,.screen').forEach(function(e){e.classList.remove('on');});
+    document.getElementById(id).classList.add('on');document.querySelector('nav button[data-t=explore]').classList.add('on');
+    document.getElementById(id).scrollTop=0;
+  }
+  function openCity(slug){
+    var c=CO&&CO.cities&&CO.cities[slug];if(!c){alert('This town is coming soon.');return;}
+    document.getElementById('cityname').textContent=c.name;
+    document.getElementById('citysub').textContent='Day trip from Naples';
+    var h='<div class="gt"><div class="gth">How to get there</div>';
+    if(c.ride)h+='<div class="gtr">'+esc(c.ride)+'</div>';
+    (c.stations||[]).forEach(function(x){h+='<div class="stn"><b>'+esc(x.name)+'</b> · '+esc(x.line||'')+(x.note?'<div class="gtt">'+esc(x.note)+'</div>':'')+'</div>';});
+    var tr=TOWNTR[slug];
+    if(tr)h+='<div style="margin-top:10px"><a class="btn2" href="#" id="citytrains">Next trains</a></div>';
+    h+='</div>';
+    if((c.tips||[]).length){h+='<h2>Good to know</h2><div class="gt">'+c.tips.map(function(t){return '<div class="stn">💡 '+esc(t.text)+'</div>';}).join('')+'</div>';}
+    h+='<h2>Explore '+esc(c.name)+'</h2><div class="row">'+c.cats.map(function(k){var cc=CO.cats[k],ph=null,i;for(i=0;i<cc.items.length;i++){if(cc.items[i].photo){ph=cc.items[i].photo.url;break;}}
+      var title=cc.title.split(' · ')[1]||cc.title,ico=iconFor(k,cc.items[0]);
+      return '<div class="pc" data-k="'+k+'"><div class="img'+(ph?'':' ph')+'" style="'+(ph?'--p:url(\''+ph+'\')':'')+'">'+(ph?esc(title):ico)+'</div><div class="b"><b>'+esc(title)+'</b><span>'+cc.items.length+' places</span></div></div>';}).join('')+'</div>';
+    h+='<p class="note">Based on public guides, press and official notices. Prices, hours and closures change: please check before you go.</p>';
+    document.getElementById('citybody').innerHTML=h;
+    document.querySelectorAll('#citybody .pc').forEach(function(e){e.onclick=function(){openColl(e.dataset.k,null,slug);};});
+    if(tr)document.getElementById('citytrains').onclick=function(ev){ev.preventDefault();window.openTrains(tr[0],tr[1]);};
+    showScreen('city');
+  }
+  window.openCity=openCity;
+  document.getElementById('cityback').onclick=function(){go('explore');};
+  // home: day-trip rows open the town guide
+  var HOMETOWN=['pompei','ercolano','sorrento'];
+  document.querySelectorAll('#home > .list .li').forEach(function(li,i){li.style.cursor='pointer';li.onclick=function(){
+    if(CO&&CO.cities&&CO.cities[HOMETOWN[i]])openCity(HOMETOWN[i]);else if(TOWNTR[HOMETOWN[i]])window.openTrains(TOWNTR[HOMETOWN[i]][0],TOWNTR[HOMETOWN[i]][1]);};});
+
+  // sunset for Naples (NOAA approximation), shown in Italian time
+  function sunsetMin(d){var lat=40.8397,lon=14.2531,r=Math.PI/180,
+    n=Math.floor((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-Date.UTC(d.getFullYear(),0,0))/864e5),
+    g=2*Math.PI/365*(n-1),
+    eq=229.18*(0.000075+0.001868*Math.cos(g)-0.032077*Math.sin(g)-0.014615*Math.cos(2*g)-0.040849*Math.sin(2*g)),
+    dc=0.006918-0.399912*Math.cos(g)+0.070257*Math.sin(g)-0.006758*Math.cos(2*g)+0.000907*Math.sin(2*g)-0.002697*Math.cos(3*g)+0.00148*Math.sin(3*g),
+    ha=Math.acos(Math.cos(90.833*r)/(Math.cos(lat*r)*Math.cos(dc))-Math.tan(lat*r)*Math.tan(dc))/r;
+    return 720-4*(lon-ha)-eq;}
+  function rome(d){var f=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(d),o={};f.forEach(function(x){o[x.type]=x.value;});return {h:+o.hour,m:+o.minute};}
+  function hhmm(h,m){return ('0'+h).slice(-2)+':'+('0'+m).slice(-2);}
+  function rightNow(){
+    var now=new Date(),t=rome(now),h=t.h+t.m/60,
+        sd=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate())+sunsetMin(now)*60000),ss=rome(sd),
+        goBy=rome(new Date(sd.getTime()-45*60000)),
+        slot=h<11?{k:'Breakfast',i:4,t:'Coffee + a pastry at the bar',d:'Stand at the bar like a local: quick, cheap and better.'}
+            :h<15?{k:'Lunch',i:0,t:'Where we really eat',d:'Thin, blistered pizza. Go early to skip the queue.'}
+            :h<18?{k:'Afternoon',i:7,t:"Sant'Elmo: the best view",d:'The one view that explains the whole city.'}
+            :h<(ss.h+ss.m/60+1.5)?{k:'Sunset',i:2,t:"Castel dell'Ovo at golden hour",d:'Sunset is at '+hhmm(ss.h,ss.m)+'. Be there by '+hhmm(goBy.h,goBy.m)+'.'}
+            :{k:'Evening',i:3,t:'A stroll on the lungomare',d:'Mergellina and the seafront, with the Vesuvius in the dark.'};
+    var el=document.getElementById('rightnow');
+    el.style.setProperty('--p',img(slot.i));
+    el.innerHTML='<div class="bd"><span>Right now · '+hhmm(t.h,t.m)+'</span><span>&#9728;&#65039; 24° sample</span></div><h3>'+slot.t+'</h3><p>'+slot.d+'</p>';
+    el.onclick=function(){window.openPlace(slot.i);};
+  }
+  rightNow();setInterval(rightNow,60000);
+
+  // ---------- search ----------
+  var TR=window.TRAINS,q=document.getElementById('q'),qx=document.getElementById('qx'),res=document.getElementById('sres'),home=document.getElementById('home');
+  function norm(x){return x.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ');}
+  function lev(a,b){var m=[],i,j;for(i=0;i<=a.length;i++){m[i]=[i];}for(j=1;j<=b.length;j++){m[0][j]=j;}
+    for(i=1;i<=a.length;i++)for(j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return m[a.length][b.length];}
+  var KWP=['pizza pizzeria margherita eat mangiare food cibo lunch pranzo ristorante',
+    'spaccanapoli centro storico old town walk passeggiata tribunali free gratis gratuito',
+    'castel dell ovo castello castle tramonto sunset mare free gratis gratuito',
+    'mergellina lungomare seafront mare sea passeggiata walk aperitivo free gratis gratuito',
+    'caffe coffee colazione breakfast cornetto sfogliatella pastry dolci bar eat mangiare',
+    'aperitivo spritz drink cocktail sunset tramonto eat bere',
+    'san gregorio armeno presepi presepe nativity craft artigianato free gratis gratuito',
+    'sant elmo castel vista view panorama belvedere funicolare vomero',
+    'museo museum mann archeologico archaeological pompei pompeii reperti rain pioggia piove rainy coperto',
+    'galleria umberto shopping rain pioggia piove rainy coperto free gratis gratuito'];
+  function thumbOf(k){var e=document.querySelectorAll('#home .li .th')[k];return e?getComputedStyle(e).getPropertyValue('--p'):'none';}
+  function items(){
+    var a=[];
+    [['Pompeii','Pompei Scavi Villa dei Misteri','35 min by train · next trains and tickets','pompei pompeii scavi ruins rovine vesuvio vesuvius gita day trip excursion'],
+     ['Herculaneum','Ercolano Scavi','20 min by train · easier, less crowded','ercolano herculaneum ercolano scavi ruins rovine gita day trip excursion'],
+     ['Sorrento','Sorrento','65 min by train · next trains','sorrento costiera amalfitana coast gita day trip excursion mare sea']
+    ].forEach(function(d,k){a.push({g:'Day trips',p:0,t:d[0],s:d[2],th:thumbOf(k),kw:d[3],act:function(){var tc=['pompei','ercolano','sorrento'][k];if(CO&&CO.cities&&CO.cities[tc])openCity(tc);else window.openTrains('Napoli Porta Nolana',d[1]);}});});
+    P.forEach(function(pl,n){if(pl.th!==undefined)return;var im=imgOf(pl);a.push({g:'Places',p:1,t:pl.n,s:pl.v,th:im!=='none'?im:null,ic:pl.e,kw:(pl.kw||KWP[n]||'')+' '+pl.n+' '+pl.k,act:function(){window.openPlace(n);}});});
+    a.push({g:'Quick help',p:2,t:'Airport to the centre',s:'Coming soon',ic:'✈️',kw:'aeroporto airport transfer capodichino taxi bus alibus',act:function(){}});
+    a.push({g:'Quick help',p:2,t:'Trains',s:'Timetables, scheduled',ic:'🚆',kw:'treno treni train trains eav circumvesuviana cumana orari timetable',act:function(){go('trains');}});
+    a.push({g:'Quick help',p:2,t:'Tickets',s:'Coming soon',ic:'🎟️',kw:'biglietti biglietto tickets ticket pass prenota book',act:function(){}});
+    a.push({g:'Quick help',p:2,t:'Rainy day',s:'Places to go when it rains',ic:'☔️',kw:'pioggia piove rain rainy coperto indoor',act:function(){window.exploreFilter('rain');}});
+    if(CO&&CO.cities)Object.keys(CO.cities).forEach(function(k){if(k==='napoli')return;var ct=CO.cities[k];a.push({g:'Nearby towns',p:0.5,t:ct.name,s:'Sights, food and how to get there',ic:'\uD83C\uDFD8\uFE0F',kw:ct.name+' '+k.replace('_',' ')+' town citta visit guida',act:function(){openCity(k);}});});
+    if(CO)Object.keys(CO.cats).forEach(function(k){venues(k).forEach(function(v){a.push({g:'Top lists',p:1.5,t:v.n,s:v.v,ic:ICON[k],kw:v.n+' '+v.k+' '+k.replace('_',' ')+' '+(v.area||''),act:function(){openColl(k,v.rank);}});});});
+    if(TR)TR.stops.forEach(function(s){a.push({g:'Train stations',p:3,t:s.name,s:'Next trains from here',ic:'🚆',kw:s.name+' stazione station',act:function(){window.openTrains(s.name,null);}});});
+    return a;
+  }
+  var ALL=null;
+  function score(it,toks){
+    var words=norm(it.kw).split(' ').filter(Boolean),sc=0;
+    for(var i=0;i<toks.length;i++){var t=toks[i],best=0;
+      for(var j=0;j<words.length;j++){var w=words[j];
+        if(w===t)best=Math.max(best,3);else if(w.indexOf(t)===0)best=Math.max(best,2);
+        else if(t.length>=3&&w.indexOf(t)>=0)best=Math.max(best,1);
+        else if(t.length>=6&&w.length>=5&&lev(t,w)<=1)best=Math.max(best,1);}
+      if(!best)return 0;sc+=best;}
+    return sc;
+  }
+  function search(text){
+    ALL=ALL||items();var toks=norm(text).split(' ').filter(Boolean);if(!toks.length)return [];
+    var r=[];ALL.forEach(function(it){var sc=score(it,toks);if(sc)r.push({it:it,sc:sc});});
+    r.sort(function(a,b){return (a.it.p-b.it.p)||(b.sc-a.sc);});
+    var st=0;return r.filter(function(x){if(x.it.g==='Train stations'){st++;return st<=3;}return true;}).slice(0,10).map(function(x){return x.it;});
+  }
+  function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function showSearch(on){home.classList.toggle('searching',on);res.hidden=!on;}
+  function clearSearch(){q.value='';qx.hidden=true;showSearch(false);}
+  function drawRes(){
+    var v=q.value.trim();qx.hidden=!q.value;
+    if(!v){res.innerHTML='<div class="gl">Popular searches</div><div class="pop">'+['pizza','Pompei','sunset','free','rain','museum'].map(function(w){return '<span class="chip" data-w="'+w+'">'+w+'</span>';}).join('')+'</div>';
+      res.querySelectorAll('.chip').forEach(function(c){c.onclick=function(){q.value=c.dataset.w;drawRes();};});return;}
+    var r=search(v);
+    if(!r.length){try{var m=JSON.parse(localStorage.getItem('missed')||'[]');if(m.indexOf(v)<0){m.push(v);localStorage.setItem('missed',JSON.stringify(m.slice(-50)));}}catch(e){}
+      res.innerHTML='<div class="empty" style="margin:30px 30px">Nothing for “'+esc(v)+'” yet.<br>We’re adding more places all the time.</div>';return;}
+    var html='',g='';
+    r.forEach(function(it,n){if(it.g!==g){g=it.g;html+='<div class="gl">'+g+'</div>';}
+      html+='<div class="li" data-n="'+n+'" style="cursor:pointer;margin:0 18px;background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:8px">'+
+        (it.th?'<div class="th" style="--p:'+it.th+'"></div>':'<div class="ic">'+it.ic+'</div>')+
+        '<div class="t"><b>'+esc(it.t)+'</b><span>'+esc(it.s)+'</span></div>›</div>';});
+    res.innerHTML=html;
+    res.querySelectorAll('.li').forEach(function(e){e.onclick=function(){var it=r[+e.dataset.n];clearSearch();it.act();};});
+  }
+  q.onfocus=function(){showSearch(true);drawRes();};
+  q.oninput=function(){showSearch(true);drawRes();};
+  q.onkeydown=function(e){if(e.key==='Escape'){clearSearch();q.blur();}else if(e.key==='Enter'){var f=res.querySelector('.li');if(f)f.click();}};
+  qx.onclick=function(){clearSearch();q.blur();};
+  res.onmousedown=function(e){e.preventDefault();};
+  q.onblur=function(){setTimeout(function(){if(!q.value)showSearch(false);},150);};
+  render();
+})();
+</script>
+<script>
+(function(){var b=document.getElementById('beta'),x=document.getElementById('betax');if(!b||!x)return;
+try{if(sessionStorage.getItem('betaHidden')==='1')b.style.display='none';}catch(e){}
+x.onclick=function(){b.style.display='none';try{sessionStorage.setItem('betaHidden','1');}catch(e){}};})();
+</script>
+</body>
+</html>
