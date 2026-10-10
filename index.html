@@ -13,7 +13,7 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:#0b1118;font:15px/1.45 system-ui,Segoe UI,Roboto,sans-serif;color:var(--ink);display:flex;justify-content:center;align-items:center;min-height:100vh}
 .phone{width:390px;height:820px;max-height:100vh;background:var(--bg);border-radius:34px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-@media(max-width:430px){body{display:block}.phone{width:100%;height:100vh;height:100dvh;border-radius:0;box-shadow:none}}
+@media(max-width:500px){body{display:block}.phone{width:100%;height:100vh;height:100dvh;border-radius:0;box-shadow:none}}
 .screen{flex:1;overflow-y:auto;display:none;padding-bottom:12px}
 .screen.on{display:block}
 .top{background:linear-gradient(160deg,var(--azz),var(--azzd));color:#fff;padding:22px 18px 26px;border-radius:0 0 26px 26px}
@@ -151,8 +151,6 @@ a{text-decoration:none}
 .tg{white-space:nowrap}
 .shm{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .shm .tg{max-width:100%;overflow:hidden;text-overflow:ellipsis}
-#beta{background:#f7c53b;color:#3b2d00;font-size:11.5px;font-weight:700;padding:5px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
-#beta button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer;color:#3b2d00;font-size:11px;line-height:1}
 .lme{width:16px;height:16px;border-radius:50%;background:#2b7de9;border:3px solid #fff;box-shadow:0 0 0 4px rgba(43,125,233,.3)}
 .ldt{background:#f7c53b;color:#3b2d00;font:700 11px system-ui,sans-serif;border:1.5px solid #fff;border-radius:99px;padding:2px 8px;box-shadow:0 1px 4px rgba(0,0,0,.4);white-space:nowrap}
 .pin{cursor:pointer}
@@ -170,6 +168,8 @@ a{text-decoration:none}
 .tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 4px;text-align:center;font-size:12px;font-weight:600;line-height:1.25;cursor:pointer}
 .tile i{display:block;font-style:normal;font-size:24px;margin-bottom:4px}
 .tip{margin:0 18px;background:var(--sun);color:#3b2d00;border-radius:16px;padding:14px;font-size:14px}
+#beta{background:#f7c53b;color:#3b2d00;font-size:11.5px;font-weight:700;padding:5px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
+#beta button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer;color:#3b2d00;font-size:11px;line-height:1}
 </style>
 </head>
 <body>
@@ -203,7 +203,7 @@ a{text-decoration:none}
   </div>
   <h2>Local tip</h2>
   <div class="tip"><b>&#128161; Coffee is drunk standing at the bar.</b><br>It costs about half the price of a table, and it's how Neapolitans do it. Sample text: replace with your own tip of the day.</div>
-  <p class="credits">Photos via Pexels (free licence): pizza, mographe · pastry, Patricia Rodriguez · aperitivo, nati-87264186 · Pompeii, James Frid · Sorrento, Kelly · Vesuvius, Kelly · Capri, hess80 · Ischia, Alberto Brunello · Procida, Raffaele Felaco · traditional restaurants, Anna Vitória Martins Sousa · seafood, Letizia Klaver · street food, Magda Ehlers. Via Wikimedia Commons: Spaccanapoli, TatsuoTabei (public domain) · Castel dell'Ovo, Bernard Gagnon (CC BY 4.0) · lungomare, vick1111 (CC BY-SA 3.0) · San Gregorio Armeno, Photo2023 (CC BY 4.0) · Sant'Elmo, Wolfgang Pehlemann (CC BY-SA 3.0 de) · MANN, Mister No (CC BY 3.0) · Galleria Umberto I and Herculaneum, Diego Delso (CC BY-SA 4.0) · Plebiscito, Giorgio Visco · Palazzo Reale and Capodimonte, Giuseppe Guida · Teatro San Carlo, Diego Delso · Maschio Angioino, Paestum · Via Toledo, Panek · Quartieri Spagnoli, Photo2023 (CC BY 4.0) · Cappella Sansevero, David Sivyer (CC BY-SA 2.0) · Villa Comunale, Mister No (CC BY 3.0) · Duomo, Marco Ober · Catacombe and Fontanelle, Dominik Matus · Parco Virgiliano, ChiaraSki · Pozzuoli, Superchilum (all CC BY-SA 4.0 unless noted).</p>
+  <p class="credits">Weather: <a href="https://open-meteo.com/" target="_blank" rel="noopener" style="color:inherit">Open-Meteo.com</a> (CC BY 4.0). Photos via Pexels (free licence): pizza, mographe · pastry, Patricia Rodriguez · aperitivo, nati-87264186 · Pompeii, James Frid · Sorrento, Kelly · Vesuvius, Kelly · Capri, hess80 · Ischia, Alberto Brunello · Procida, Raffaele Felaco · traditional restaurants, Anna Vitória Martins Sousa · seafood, Letizia Klaver · street food, Magda Ehlers. Via Wikimedia Commons: Spaccanapoli, TatsuoTabei (public domain) · Castel dell'Ovo, Bernard Gagnon (CC BY 4.0) · lungomare, vick1111 (CC BY-SA 3.0) · San Gregorio Armeno, Photo2023 (CC BY 4.0) · Sant'Elmo, Wolfgang Pehlemann (CC BY-SA 3.0 de) · MANN, Mister No (CC BY 3.0) · Galleria Umberto I and Herculaneum, Diego Delso (CC BY-SA 4.0) · Plebiscito, Giorgio Visco · Palazzo Reale and Capodimonte, Giuseppe Guida · Teatro San Carlo, Diego Delso · Maschio Angioino, Paestum · Via Toledo, Panek · Quartieri Spagnoli, Photo2023 (CC BY 4.0) · Cappella Sansevero, David Sivyer (CC BY-SA 2.0) · Villa Comunale, Mister No (CC BY 3.0) · Duomo, Marco Ober · Catacombe and Fontanelle, Dominik Matus · Parco Virgiliano, ChiaraSki · Pozzuoli, Superchilum (all CC BY-SA 4.0 unless noted).</p>
 </div>
 
 <!-- EXPLORE -->
@@ -427,7 +427,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     if(st.sel!=null&&st.sel!==lastSel){LM.setView([P[st.sel].la,P[st.sel].lo],15,{animate:false});lastSel=st.sel;}
     if(st.sel==null)lastSel=null;
     var sh=document.getElementById('msheet'),p=P[st.sel];
-    if(p&&a.indexOf(p)>=0){sh.className='msheet on';sh.innerHTML='<div class="sh1">'+(imgOf(p)!=='none'?'<div class="shero" style="--p:'+imgOf(p)+';--bp:'+(p.bp||'center')+'"></div>':'<div class="shero ph">'+(p.e||'📍')+'</div>')+'<div class="shb"><b>'+p.n+'</b><div class="shv">'+p.v+'</div><div class="shm">'+lvTag(p)+' <span class="tg">'+p.pr+'</span> '+fsTag(p)+'</div></div><button class="heart" id="sheetheart">'+(st.saved[p.n]?'❤️':'🤍')+'</button></div><div class="sha"><a class="btn2" target="_blank" rel="noopener" href="'+goLinks(p).main+'">'+goLinks(p).mainL+'</a>'+(p.tr?'<a class="btn2 b2" href="#" id="sheettr">Next trains</a>':'')+'<a class="alt" target="_blank" rel="noopener" href="'+goLinks(p).alt+'">'+goLinks(p).altL+'</a></div>';
+    if(p&&a.indexOf(p)>=0){sh.className='msheet on';sh.innerHTML='<div class="sh1">'+(imgOf(p)!=='none'?'<div class="shero" style="--p:'+imgOf(p)+';--bp:'+(p.bp||'center')+'"></div>':'<div class="shero ph">'+(p.e||'📍')+'</div>')+'<div class="shb"><b>'+p.n+'</b><div class="shv">'+p.v+'</div><div class="shm">'+lvTag(p)+' <span class="tg">'+p.pr+'</span> '+fsTag(p)+'</div></div><button class="heart" id="sheetheart">'+(st.saved[p.n]?'❤️':'🤍')+'</button></div><div class="sha"><a class="btn2" target="_blank" rel="noopener" href="'+goLinks(p).main+'">'+goLinks(p).mainL+'</a>'+(p.tr?'<a class="btn2 b2" href="#" id="sheettr">Next trains</a>':'')+ticketBtn(p.n,p.pr)+'<a class="alt" target="_blank" rel="noopener" href="'+goLinks(p).alt+'">'+goLinks(p).altL+'</a></div>';
       if(p.tr)document.getElementById('sheettr').onclick=function(e){e.preventDefault();window.openTrains(p.tr[0],p.tr[1]);};
       document.getElementById('sheetheart').onclick=function(){save(p);};}
     else{sh.className='msheet';}
@@ -470,6 +470,17 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     V[key]=c.items.map(function(i){return {n:i.name,v:i.why||'',k:i.specialty||'',pr:i.price||'',la:i.lat,lo:i.lon,q:plain(i.name)+', '+(i.address||'Napoli'),e:iconFor(key,i),rank:i.rank,hrs:i.hours_note,fs:i.free_first_sunday,tip:i.tip,sc:i.source_count||0,conf:i.confidence,area:i.area,cat:key,ph:i.photo||null,addr:i.address,elsewhere:(i.is_chain?i.elsewhere:null),br:(i.branches||[]).map(function(b){return {label:b.label,address:b.address,area:b.area,la:b.lat,lo:b.lon,q:plain(i.name)+', '+b.address};})};});
     return V[key];
   }
+  var SITES=[[/pompe|oplontis|villa of the mysteries|house of the|forum of pompeii|amphitheatre of pompeii/i,'https://pompeiisites.org/'],
+    [/ercolano|herculaneum|terme suburbane/i,'https://ercolano.cultura.gov.it/'],
+    [/vesuvius|vesuvio/i,'https://www.parconazionaledelvesuvio.it/'],
+    [/archaeological museum|mann\b/i,'https://www.museoarcheologiconapoli.it/'],
+    [/palazzo reale/i,'https://palazzorealedinapoli.org/'],
+    [/teatro san carlo/i,'https://www.teatrosancarlo.it/'],
+    [/sansevero/i,'https://www.museosansevero.it/'],
+    [/catacombe di san gennaro/i,'https://catacombedinapoli.it/it/'],
+    [/capodimonte/i,'https://capodimonte.cultura.gov.it/']];
+  function siteFor(n){for(var i=0;i<SITES.length;i++){if(SITES[i][0].test(n))return SITES[i][1];}return null;}
+  function ticketBtn(n,pr){var u=siteFor(n);return (u&&pr&&!/^free/i.test(pr))?'<a class="btn2 b2" target="_blank" rel="noopener" href="'+u+'">Official site &amp; tickets</a>':'';}
   function reviewsLink(v){return 'https://www.google.com/maps/search/?api=1&query='+dest(v);}
   function heartOf(n){return st.saved[n]?'❤️':'🤍';}
   function bestOf(){
@@ -497,7 +508,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
         '<div class="vw">'+esc(v.v)+'</div>'+(v.hrs?'<div class="vt">🕒 '+esc(v.hrs)+'</div>':'')+(v.fs?'<div class="vs">Free on the first Sunday of the month</div>':'')+(v.tip?'<div class="vt">💡 '+esc(v.tip)+'</div>':'')+
         (v.sc>=2?'<div class="vs">Recommended by '+v.sc+' sources</div>':'')+(v.conf==='low'?'<div class="vs warn">Check it is still open</div>':'')+
         (v.br.length?'<div class="vbr"><div class="vbh">Other locations in Campania</div>'+v.br.map(function(b){return '<div class="vbi"><span>'+esc(b.label)+' \u00b7 '+esc(b.address)+'</span><a class="alt" target="_blank" rel="noopener" href="'+goLinks(b).main+'">Take me there</a></div>';}).join('')+'</div>':'')+
-        '<div class="sha"><a class="btn2" target="_blank" rel="noopener" href="'+goLinks(v).main+'">Take me there</a><a class="alt" target="_blank" rel="noopener" href="'+reviewsLink(v)+'">Photos &amp; reviews</a><button class="heart" data-v="'+n+'" aria-label="Save">'+heartOf(v.n)+'</button></div></div></div>';});
+        '<div class="sha"><a class="btn2" target="_blank" rel="noopener" href="'+goLinks(v).main+'">Take me there</a>'+ticketBtn(v.n,v.pr)+'<a class="alt" target="_blank" rel="noopener" href="'+reviewsLink(v)+'">Photos &amp; reviews</a><button class="heart" data-v="'+n+'" aria-label="Save">'+heartOf(v.n)+'</button></div></div></div>';});
     document.getElementById('collist').innerHTML=h;
     document.querySelectorAll('#collist .heart').forEach(function(b){b.onclick=function(){var v=vs[+b.dataset.v];if(st.saved[v.n])delete st.saved[v.n];else st.saved[v.n]=1;try{localStorage.setItem('saved',JSON.stringify(st.saved));}catch(e){}b.textContent=heartOf(v.n);renderSaved();};});
     document.getElementById('collcred').innerHTML=vs.filter(function(v){return v.ph;}).length?'Photos: '+vs.filter(function(v){return v.ph;}).map(function(v){return '<a href="'+esc(v.ph.page)+'" target="_blank" rel="noopener" style="color:inherit">'+esc(plain(v.n))+'</a>, '+esc(v.ph.author)+' ('+esc(v.ph.license)+')';}).join(' \u00b7 ')+'.':'';
@@ -585,6 +596,12 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     return 720-4*(lon-ha)-eq;}
   function rome(d){var f=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(d),o={};f.forEach(function(x){o[x.type]=x.value;});return {h:+o.hour,m:+o.minute};}
   function hhmm(h,m){return ('0'+h).slice(-2)+':'+('0'+m).slice(-2);}
+  var WX=null;
+  function wxIcon(c,day){if(c===0)return day?'\u2600\uFE0F':'\uD83C\uDF19';if(c<=2)return day?'\u26C5':'\u2601\uFE0F';if(c===3)return '\u2601\uFE0F';if(c===45||c===48)return '\uD83C\uDF2B\uFE0F';if(c>=51&&c<=57)return '\uD83C\uDF26\uFE0F';if((c>=61&&c<=67)||(c>=80&&c<=82))return '\uD83C\uDF27\uFE0F';if(c>=71&&c<=77)return '\u2744\uFE0F';if(c>=95)return '\u26C8\uFE0F';return '\u2601\uFE0F';}
+  function loadWx(){
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=40.8518&longitude=14.2681&current=temperature_2m,weather_code,is_day&timezone=Europe%2FRome')
+      .then(function(r){return r.json();}).then(function(j){var c=j&&j.current;if(c){WX={t:Math.round(c.temperature_2m),c:c.weather_code,d:c.is_day===1};rightNow();}}).catch(function(){});
+  }
   function rightNow(){
     var now=new Date(),t=rome(now),h=t.h+t.m/60,
         sd=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate())+sunsetMin(now)*60000),ss=rome(sd),
@@ -596,10 +613,10 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
             :{k:'Evening',i:3,t:'A stroll on the lungomare',d:'Mergellina and the seafront, with the Vesuvius in the dark.'};
     var el=document.getElementById('rightnow');
     el.style.setProperty('--p',img(slot.i));
-    el.innerHTML='<div class="bd"><span>Right now · '+hhmm(t.h,t.m)+'</span><span>&#9728;&#65039; 24° sample</span></div><h3>'+slot.t+'</h3><p>'+slot.d+'</p>';
+    el.innerHTML='<div class="bd"><span>Right now · '+hhmm(t.h,t.m)+'</span>'+(WX?'<span>'+wxIcon(WX.c,WX.d)+' '+WX.t+'\u00b0</span>':'<span></span>')+'</div><h3>'+slot.t+'</h3><p>'+slot.d+'</p>';
     el.onclick=function(){window.openPlace(slot.i);};
   }
-  rightNow();setInterval(rightNow,60000);
+  rightNow();setInterval(rightNow,60000);loadWx();setInterval(loadWx,900000);
 
   // ---------- search ----------
   var TR=window.TRAINS,q=document.getElementById('q'),qx=document.getElementById('qx'),res=document.getElementById('sres'),home=document.getElementById('home');
@@ -680,7 +697,6 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
 <script>
 (function(){var b=document.getElementById('beta'),x=document.getElementById('betax');if(!b||!x)return;
 try{if(sessionStorage.getItem('betaHidden')==='1')b.style.display='none';}catch(e){}
-x.onclick=function(){b.style.display='none';try{sessionStorage.setItem('betaHidden','1');}catch(e){}};})();
-</script>
+x.onclick=function(){b.style.display='none';try{sessionStorage.setItem('betaHidden','1');}catch(e){}};})();</script>
 </body>
 </html>
