@@ -416,7 +416,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     });
     box.innerHTML=html||'<div class="empty">No places here yet.</div>';
     box.querySelectorAll('.heart').forEach(function(b){b.onclick=function(e){e.stopPropagation();save(P[+b.dataset.s]);};});
-    box.querySelectorAll('.place').forEach(function(b){b.onclick=function(){st.sel=+b.dataset.n;setView('map');};});
+    box.querySelectorAll('.place').forEach(function(b){b.onclick=function(){st.sel=+b.dataset.n;setView('map');scrollToMap();};});
     drawMap(a);renderSaved();
   }
   // ---------- real map (Leaflet + OpenStreetMap) ----------
@@ -445,8 +445,8 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     if(st.coll){drawColl();return;}
     if(st.from==='your position')L.marker([st.pos.lat,st.pos.lon],{icon:L.divIcon({className:'',html:'<div class="lme"></div>',iconSize:[16,16],iconAnchor:[8,8]}),interactive:false}).addTo(dtLayer);
     a.forEach(function(p){var n=P.indexOf(p);
-      L.marker([p.la,p.lo],{icon:pinIcon(n,st.sel===n,p.far),zIndexOffset:st.sel===n?1000:0}).bindTooltip(p.n,{permanent:true,direction:'right',offset:[14,0],className:'ltip'+(p.far?' far':'')}).on('click',function(){st.sel=n;render();}).addTo(layer);});
-    if(st.sel!=null&&st.sel!==lastSel){LM.setView([P[st.sel].la,P[st.sel].lo],15,{animate:false});lastSel=st.sel;}
+      L.marker([p.la,p.lo],{icon:pinIcon(n,st.sel===n,p.far),zIndexOffset:st.sel===n?1000:0}).bindTooltip(p.n,{permanent:true,direction:'right',offset:[14,0],className:'ltip'+(p.far?' far':'')}).on('click',function(){st.sel=n;render();}).addTo(st.sel===n?dtLayer:layer);});
+    if(st.sel!=null&&st.sel!==lastSel){LM.setView([P[st.sel].la,P[st.sel].lo],16,{animate:false});lastSel=st.sel;}
     if(st.sel==null)lastSel=null;
     var sh=document.getElementById('msheet'),p=P[st.sel];
     if(p&&a.indexOf(p)>=0){sh.className='msheet on';sh.innerHTML='<div class="sh1">'+(imgOf(p)!=='none'?'<div class="shero" style="--p:'+imgOf(p)+';--bp:'+(p.bp||'center')+'"></div>':'<div class="shero ph">'+(p.e||'📍')+'</div>')+'<div class="shb"><b>'+p.n+'</b><div class="shv">'+p.v+'</div><div class="shm">'+lvTag(p)+' <span class="tg">'+p.pr+'</span> '+fsTag(p)+'</div></div><button class="heart" id="sheetheart">'+(st.saved[p.n]?'❤️':'🤍')+'</button></div><div class="sha"><a class="btn2" target="_blank" rel="noopener" href="'+goLinks(p).main+'">'+goLinks(p).mainL+'</a>'+(p.tr?'<a class="btn2 b2" href="#" id="sheettr">Next trains</a>':'')+ticketBtn(p.n,p.pr)+'<a class="alt" target="_blank" rel="noopener" href="'+goLinks(p).alt+'">'+goLinks(p).altL+'</a></div>';
@@ -457,6 +457,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.mctl button').forEach(function(b){b.onclick=function(){
     document.querySelectorAll('.mctl button').forEach(function(x){x.classList.toggle('on',x===b);});
     if(!LM)return;if(b.dataset.m==='prov')LM.fitBounds(PROV,{padding:[8,8]});else LM.setView(CITY[0],CITY[1]);};});
+  function scrollToMap(){var sc=document.getElementById('explore'),mv=document.getElementById('lmap');setTimeout(function(){if(LM)LM.invalidateSize();var r=mv.getBoundingClientRect(),sr=sc.getBoundingClientRect();sc.scrollTop+=r.top-sr.top-6;},80);}
   function setView(v){st.view=v;document.getElementById('listv').style.display=v==='list'?'':'none';document.getElementById('mapv').style.display=v==='map'?'block':'none';if(v==='map'&&LM)setTimeout(function(){LM.invalidateSize();},30);
     document.querySelectorAll('.seg button').forEach(function(b){b.classList.toggle('on',b.dataset.v===v);});render();}
   document.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){setView(b.dataset.v);};});
@@ -475,7 +476,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   document.getElementById('seeall').onclick=function(e){e.preventDefault();document.querySelector('nav button[data-t=explore]').click();};
   function go(t){document.querySelector('nav button[data-t='+t+']').click();}
   function setFilter(f){st.f=f;st.area='all';ea.value='all';document.querySelectorAll('#exchips .chip').forEach(function(x){x.classList.toggle('on',x.dataset.f===f);});}
-  window.openPlace=function(n){if(P[n].coll){openColl(P[n].coll);return;}setFilter('all');st.sel=n;go('explore');setView('map');};
+  window.openPlace=function(n){if(P[n].coll){openColl(P[n].coll);return;}setFilter('all');st.sel=n;go('explore');setView('map');scrollToMap();};
   window.exploreFilter=function(f){setFilter(f);st.sel=null;go('explore');setView('list');};
   document.querySelectorAll('.pc[data-go]').forEach(function(c){c.onclick=function(){window.openPlace(+c.dataset.go);};});
   document.querySelectorAll('.tile').forEach(function(t){t.onclick=function(){

@@ -1246,5 +1246,6 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Our picks in Trecase": "Unsere Tipps in Trecase",
 "The castle itself is closed for restoration works, but you can walk around the outside, along Via Partenope and out to Borgo Marinari, and watch the sun go down behind the bay.": "Die Burg ist wegen Restaurierungsarbeiten geschlossen, aber Sie können außen herumgehen, die Via Partenope entlang bis zum Borgo Marinari, und die Sonne hinter der Bucht untergehen sehen.",
 "The castle itself is closed to visitors during restoration works, but you can walk around the outside, along Via Partenope and out to Borgo Marinari, with an open sweep of the bay, Vesuvius and the skyline as the sun drops.": "Die Burg ist während der Restaurierungsarbeiten für Besucher geschlossen, aber Sie können außen herumgehen, die Via Partenope entlang bis zum Borgo Marinari, mit freiem Blick auf die Bucht, den Vesuv und die Skyline bei Sonnenuntergang.",
-"€10 (book online)": "10 € (online buchen)"
+"€10 (book online)": "10 € (online buchen)",
+"By reservation; usually Mon-Sat 9:00-18:00, Sun 9:00-17:00 (check the official site)": "Nach Reservierung; meist Mo-Sa 9:00-18:00, So 9:00-17:00 Uhr (offizielle Website prüfen)"
 };
