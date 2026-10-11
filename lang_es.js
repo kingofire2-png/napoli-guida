@@ -1234,5 +1234,17 @@ window.I18N=window.I18N||{};window.I18N.es={
 "A gelateria on Via Lepanto, close to the Sanctuary: a cold stop after the visit.": "Una heladería en Via Lepanto, cerca del Santuario: una pausa fresca después de la visita.",
 "Check the opening hours before you go": "Comprueba el horario de apertura antes de ir",
 "€8 (official 2026 fee list)": "8 € (tarifas oficiales 2026)",
-"€10 full, €8 reduced (official site)": "10 € entrada completa, 8 € reducida (sitio oficial)"
+"€10 full, €8 reduced (official site)": "10 € entrada completa, 8 € reducida (sitio oficial)",
+"A pizzeria on the town square, next to the church of Santa Maria delle Grazie and San Gennaro, run by Mimmo and chosen by a Trecase local.": "Una pizzería en la plaza del pueblo, junto a la iglesia de Santa Maria delle Grazie y San Gennaro, regentada por Mimmo y elegida por un vecino de Trecase.",
+"A restaurant and pizzeria in Trecase, with vegetarian and vegan options, chosen by a Trecase local.": "Un restaurante y pizzería en Trecase, con opciones vegetarianas y veganas, elegido por un vecino de Trecase.",
+"Arrive 30-45 minutes before sunset to find a spot on the seafront walls.": "Llega 30-45 minutos antes del atardecer para encontrar sitio en los muros del paseo marítimo.",
+"Call ahead to check the hours": "Llama antes para comprobar el horario",
+"Castle interior closed for restoration; seafront and Borgo Marinari always accessible": "Interior del castillo cerrado por restauración; paseo marítimo y Borgo Marinari siempre accesibles",
+"Italian restaurant and pizzeria": "Restaurante y pizzería italianos",
+"Limited parking in front: there is free parking along the main road.": "Aparcamiento limitado delante: hay aparcamiento gratuito a lo largo de la carretera principal.",
+"Max 211 m.": "Altitud máxima 211 m.",
+"Our picks in Trecase": "Nuestras recomendaciones en Trecase",
+"The castle itself is closed for restoration works, but you can walk around the outside, along Via Partenope and out to Borgo Marinari, and watch the sun go down behind the bay.": "El castillo está cerrado por obras de restauración, pero puedes pasear por el exterior, a lo largo de Via Partenope hasta Borgo Marinari, y ver el sol ponerse tras la bahía.",
+"The castle itself is closed to visitors during restoration works, but you can walk around the outside, along Via Partenope and out to Borgo Marinari, with an open sweep of the bay, Vesuvius and the skyline as the sun drops.": "El castillo está cerrado a los visitantes durante las obras de restauración, pero puedes pasear por el exterior, a lo largo de Via Partenope hasta Borgo Marinari, con una vista abierta de la bahía, el Vesubio y el perfil de la ciudad al ponerse el sol.",
+"€10 (book online)": "10 € (reserva en línea)"
 };
