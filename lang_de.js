@@ -1248,5 +1248,17 @@ window.I18N=window.I18N||{};window.I18N.de={
 "The castle itself is closed to visitors during restoration works, but you can walk around the outside, along Via Partenope and out to Borgo Marinari, with an open sweep of the bay, Vesuvius and the skyline as the sun drops.": "Die Burg ist während der Restaurierungsarbeiten für Besucher geschlossen, aber Sie können außen herumgehen, die Via Partenope entlang bis zum Borgo Marinari, mit freiem Blick auf die Bucht, den Vesuv und die Skyline bei Sonnenuntergang.",
 "€10 (book online)": "10 € (online buchen)",
 "By reservation; usually Mon-Sat 9:00-18:00, Sun 9:00-17:00 (check the official site)": "Nach Reservierung; meist Mo-Sa 9:00-18:00, So 9:00-17:00 Uhr (offizielle Website prüfen)",
-"The royal apartments and a grand staircase, right on the square. Closed on Wednesdays; free under 18.": "Die königlichen Gemächer und eine große Treppe, direkt am Platz. Mittwochs geschlossen; unter 18 Jahren frei."
+"The royal apartments and a grand staircase, right on the square. Closed on Wednesdays; free under 18.": "Die königlichen Gemächer und eine große Treppe, direkt am Platz. Mittwochs geschlossen; unter 18 Jahren frei.",
+"€12 (book ahead)": "12 € (vorher buchen)",
+"€13": "13 €",
+"About €6-8 (book ahead)": "Etwa 6-8 € (vorher buchen)",
+"€10": "10 €",
+"€20": "20 €",
+"€16": "16 €",
+"€5": "5 €",
+"Home of the Veiled Christ. Booking is mandatory and slots sell out. Closed on Tuesdays.": "Die Heimat des Verhüllten Christus. Buchung ist Pflicht und die Termine sind schnell vergriffen. Dienstags geschlossen.",
+"Early Christian catacombs in the Sanità district, with frescoes. Guided visit, booking required. Closed on Wednesdays.": "Frühchristliche Katakomben im Viertel Sanità, mit Fresken. Führung, Buchung erforderlich. Mittwochs geschlossen.",
+"A cave filled with thousands of skulls. Entry is by booking only and slots fill fast; closed on Wednesdays.": "Eine Höhle voller Tausender Schädel. Zutritt nur mit Reservierung, die Plätze sind schnell weg; mittwochs geschlossen.",
+"A palace-museum with a huge park above the city. The park is free. Closed on Wednesdays.": "Ein Palastmuseum mit einem riesigen Park über der Stadt. Der Park ist kostenlos. Mittwochs geschlossen.",
+"The medieval castle by the port. Closed on Sundays.": "Die mittelalterliche Burg am Hafen. Sonntags geschlossen."
 };
