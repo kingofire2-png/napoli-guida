@@ -1298,5 +1298,9 @@ window.I18N=window.I18N||{};window.I18N.de={
 "A villa restaurant on the Via Panoramica with Italian cuisine and barbecue, also used for events.": "Ein Villenrestaurant an der Via Panoramica mit italienischer Küche und Barbecue, auch für Veranstaltungen genutzt.",
 "Italian cuisine": "Italienische Küche",
 "A restaurant on Via Cifelli with Italian cuisine, popular for celebrations.": "Ein Restaurant an der Via Cifelli mit italienischer Küche, beliebt für Feiern.",
-"A restaurant with Italian and seafood cuisine, popular for ceremonies and events.": "Ein Restaurant mit italienischer Küche und Meeresfrüchten, oft für Feiern und Veranstaltungen gewählt."
+"A restaurant with Italian and seafood cuisine, popular for ceremonies and events.": "Ein Restaurant mit italienischer Küche und Meeresfrüchten, oft für Feiern und Veranstaltungen gewählt.",
+"{0} reviews": "{0} Bewertungen",
+"Chosen by a local": "Von einem Einheimischen ausgewählt",
+"Oct 2026": "Okt. 2026",
+"Tripadvisor": "Tripadvisor"
 };

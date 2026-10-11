@@ -44,6 +44,7 @@
     function (s) { var m = /^(\d+) places?$/.exec(s); return m && [m[1] === '1' ? '{0} place' : '{0} places', [m[1]]]; },
     function (s) { var m = /^in (\d+) min$/.exec(s); return m && ['in {0} min', [m[1]]]; },
     function (s) { var m = /^in (\d+) h (\d+) min$/.exec(s); return m && ['in {0} h {1} min', [m[1], m[2]]]; },
+    function (s) { var m = /^([\d.,]+) reviews$/.exec(s); return m && ['{0} reviews', [m[1]]]; },
     function (s) { var m = /^(\d+) min walk$/.exec(s); return m && ['{0} min walk', [m[1]]]; },
     function (s) { var m = /^Line ([^.:;]+)$/.exec(s); return m && ['Line {0}', [m[1]]]; },
     function (s) { var m = /^To ([^.:;]+)$/.exec(s); return m && ['To {0}', [m[1]]]; },

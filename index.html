@@ -39,6 +39,8 @@ body{margin:0;background:#0b1118;font:15px/1.45 system-ui,Segoe UI,Roboto,sans-s
 #sres{padding:6px 0 14px}
 #sres .gl{margin:14px 18px 6px;font-size:12px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.4px}
 #sres .li .t span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vrt{font-size:13px;font-weight:700;color:#e0a800;margin-top:3px}
+.vlp{display:inline-block;background:rgba(46,160,90,.18);color:#2e9d5a;font-size:11.5px;font-weight:700;border-radius:99px;padding:2px 9px;margin-top:4px}
 #sres .pop{display:flex;flex-wrap:wrap;gap:8px;margin:0 18px}
 .ic{width:56px;height:56px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;font-size:24px;background:var(--bg)}
 .pill{margin:10px 18px 0;display:inline-flex;gap:8px;align-items:center;background:var(--sun);color:#3b2d00;border-radius:99px;padding:5px 6px 5px 12px;font-size:13px;font-weight:700}
@@ -299,11 +301,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610111813";</script>
-<script src="i18n.js?v=202610111813"></script>
-<script src="trains.js?v=202610111813"></script>
-<script src="collections.js?v=202610111813"></script>
-<script src="tickets.js?v=202610111813"></script>
+<script>window.APP_V="202610111913";</script>
+<script src="i18n.js?v=202610111913"></script>
+<script src="trains.js?v=202610111913"></script>
+<script src="collections.js?v=202610111913"></script>
+<script src="tickets.js?v=202610111913"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -497,7 +499,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   function venues(key){
     if(V[key])return V[key];
     var c=CO&&CO.cats[key];if(!c)return [];
-    V[key]=c.items.map(function(i){return {n:i.name,v:i.why||'',k:i.specialty||'',pr:i.price||'',la:i.lat,lo:i.lon,q:plain(i.name)+', '+(i.address||'Napoli'),e:iconFor(key,i),rank:i.rank,hrs:i.hours_note,fs:i.free_first_sunday,tip:i.tip,sc:i.source_count||0,conf:i.confidence,area:i.area,cat:key,ph:i.photo||null,ta:i.tripadvisor||null,addr:i.address,elsewhere:(i.is_chain?i.elsewhere:null),br:(i.branches||[]).map(function(b){return {label:b.label,address:b.address,area:b.area,la:b.lat,lo:b.lon,q:plain(i.name)+', '+b.address};})};});
+    V[key]=c.items.map(function(i){return {n:i.name,v:i.why||'',k:i.specialty||'',pr:i.price||'',la:i.lat,lo:i.lon,q:plain(i.name)+', '+(i.address||'Napoli'),e:iconFor(key,i),rank:i.rank,hrs:i.hours_note,fs:i.free_first_sunday,tip:i.tip,sc:i.source_count||0,conf:i.confidence,area:i.area,cat:key,ph:i.photo||null,rt:i.rating||null,lp:!!i.local_pick,ta:i.tripadvisor||null,addr:i.address,elsewhere:(i.is_chain?i.elsewhere:null),br:(i.branches||[]).map(function(b){return {label:b.label,address:b.address,area:b.area,la:b.lat,lo:b.lon,q:plain(i.name)+', '+b.address};})};});
     return V[key];
   }
   var SITES=[[/pompe|oplontis|villa of the mysteries|house of the|forum of pompeii|amphitheatre of pompeii/i,'https://pompeiisites.org/'],
@@ -547,7 +549,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     document.getElementById('collsub').textContent=(c.city?'':'Top 10 · ')+c.blurb;
     var vs=venues(key),h='';
     vs.forEach(function(v,n){
-      h+='<div class="vn" data-r="'+v.rank+'">'+(v.ph?'<div class="vimg" style="--p:url(\''+v.ph.url+'\')"><div class="vr">'+v.rank+'</div></div>':'<a class="vimg ph" target="_blank" rel="noopener" href="'+reviewsLink(v)+'">'+v.e+'<span class="vph">Photos &amp; reviews on Google</span><div class="vr">'+v.rank+'</div></a>')+'<div class="vb"><b>'+esc(v.n)+'</b><div class="vm">'+esc(v.area||'')+(v.pr?' · '+esc(v.pr):'')+'</div>'+(v.addr?'<div class="vm">\uD83D\uDCCD '+esc(v.addr)+(v.br.length?' (original)':'')+'</div>':'')+(v.k?'<div class="vk">'+esc(v.k)+'</div>':'')+
+      h+='<div class="vn" data-r="'+v.rank+'">'+(v.ph?'<div class="vimg" style="--p:url(\''+v.ph.url+'\')"><div class="vr">'+v.rank+'</div></div>':'<a class="vimg ph" target="_blank" rel="noopener" href="'+reviewsLink(v)+'">'+v.e+'<span class="vph">Photos &amp; reviews on Google</span><div class="vr">'+v.rank+'</div></a>')+'<div class="vb"><b>'+esc(v.n)+'</b>'+(v.lp?'<div class="vlp">Chosen by a local</div>':'')+(v.rt?'<div class="vrt">★ '+v.rt.value+' · '+Number(v.rt.count).toLocaleString('en')+' reviews · '+esc(v.rt.source)+' · '+esc(v.rt.date)+'</div>':'')+'<div class="vm">'+esc(v.area||'')+(v.pr?' · '+esc(v.pr):'')+'</div>'+(v.addr?'<div class="vm">\uD83D\uDCCD '+esc(v.addr)+(v.br.length?' (original)':'')+'</div>':'')+(v.k?'<div class="vk">'+esc(v.k)+'</div>':'')+
         '<div class="vw">'+esc(v.v)+'</div>'+(v.hrs?'<div class="vt">🕒 '+esc(v.hrs)+'</div>':'')+(v.fs?'<div class="vs">Free on the first Sunday of the month</div>':'')+(v.tip?'<div class="vt">💡 '+esc(v.tip)+'</div>':'')+
         (v.sc>=2?'<div class="vs">Recommended by '+v.sc+' sources</div>':'')+(v.conf==='low'?'<div class="vs warn">Check it is still open</div>':'')+
         (v.br.length?'<div class="vbr"><div class="vbh">Other locations in Campania</div>'+v.br.map(function(b){return '<div class="vbi"><span>'+esc(b.label)+' \u00b7 '+esc(b.address)+'</span><a class="alt" target="_blank" rel="noopener" href="'+goLinks(b).main+'">Take me there</a></div>';}).join('')+'</div>':'')+
