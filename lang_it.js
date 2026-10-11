@@ -1276,5 +1276,12 @@ window.I18N=window.I18N||{};window.I18N.it={
 "Book at least one day ahead: the shuttle leaves from Via Plinio 137 in Pompei.": "Prenota almeno un giorno prima: la navetta parte da Via Plinio 137 a Pompei.",
 "Tours at 11:00, 12:30, 14:00 and 15:30 (by booking)": "Tour alle 11:00, 12:30, 14:00 e 15:30 (su prenotazione)",
 "Places to visit": "Luoghi da visitare",
-"Where to eat": "Dove mangiare"
+"Where to eat": "Dove mangiare",
+"Italian cuisine and pizza": "Cucina italiana e pizza",
+"A restaurant and pizzeria on Via Cifelli, the road that climbs to the Strada Matrone trail, and one of the most popular places in Trecase.": "Un ristorante e pizzeria in Via Cifelli, la strada che sale al sentiero della Strada Matrone, e uno dei locali più frequentati di Trecase.",
+"Simple home-style country cooking": "Cucina contadina semplice e casalinga",
+"About €35 per person": "Circa €35 a persona",
+"A small osteria on the slopes of Vesuvius serving simple, home-style country cooking.": "Una piccola osteria sulle pendici del Vesuvio con cucina contadina semplice e casalinga.",
+"Check the opening days: it is closed on Tuesdays (listings differ).": "Controlla i giorni di apertura: è chiuso il martedì (gli elenchi non concordano).",
+"Lunch and dinner; closed Tuesday": "Pranzo e cena; chiuso il martedì"
 };

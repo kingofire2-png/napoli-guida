@@ -1276,5 +1276,12 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Book at least one day ahead: the shuttle leaves from Via Plinio 137 in Pompei.": "Mindestens einen Tag vorher buchen: Der Shuttle fährt ab Via Plinio 137 in Pompeji.",
 "Tours at 11:00, 12:30, 14:00 and 15:30 (by booking)": "Touren um 11:00, 12:30, 14:00 und 15:30 Uhr (nach Reservierung)",
 "Places to visit": "Sehenswertes",
-"Where to eat": "Wo essen"
+"Where to eat": "Wo essen",
+"Italian cuisine and pizza": "Italienische Küche und Pizza",
+"A restaurant and pizzeria on Via Cifelli, the road that climbs to the Strada Matrone trail, and one of the most popular places in Trecase.": "Ein Restaurant und eine Pizzeria an der Via Cifelli, der Straße hinauf zum Wanderweg Strada Matrone, und eines der beliebtesten Lokale in Trecase.",
+"Simple home-style country cooking": "Einfache, hausgemachte bäuerliche Küche",
+"About €35 per person": "Etwa 35 € pro Person",
+"A small osteria on the slopes of Vesuvius serving simple, home-style country cooking.": "Eine kleine Osteria an den Hängen des Vesuvs mit einfacher, hausgemachter bäuerlicher Küche.",
+"Check the opening days: it is closed on Tuesdays (listings differ).": "Öffnungstage prüfen: dienstags geschlossen (die Verzeichnisse stimmen nicht überein).",
+"Lunch and dinner; closed Tuesday": "Mittag- und Abendessen; dienstags geschlossen"
 };
