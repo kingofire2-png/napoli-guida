@@ -1247,5 +1247,6 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "The castle itself is closed for restoration works, but you can walk around the outside, along Via Partenope and out to Borgo Marinari, and watch the sun go down behind the bay.": "Le château est fermé pour travaux de restauration, mais vous pouvez en faire le tour, le long de la Via Partenope jusqu'au Borgo Marinari, et regarder le soleil se coucher derrière la baie.",
 "The castle itself is closed to visitors during restoration works, but you can walk around the outside, along Via Partenope and out to Borgo Marinari, with an open sweep of the bay, Vesuvius and the skyline as the sun drops.": "Le château est fermé aux visiteurs pendant les travaux de restauration, mais vous pouvez en faire le tour, le long de la Via Partenope jusqu'au Borgo Marinari, avec une vue dégagée sur la baie, le Vésuve et les toits au coucher du soleil.",
 "€10 (book online)": "10 € (réservation en ligne)",
-"By reservation; usually Mon-Sat 9:00-18:00, Sun 9:00-17:00 (check the official site)": "Sur réservation ; en général lun-sam 9h00-18h00, dim 9h00-17h00 (vérifiez le site officiel)"
+"By reservation; usually Mon-Sat 9:00-18:00, Sun 9:00-17:00 (check the official site)": "Sur réservation ; en général lun-sam 9h00-18h00, dim 9h00-17h00 (vérifiez le site officiel)",
+"The royal apartments and a grand staircase, right on the square. Closed on Wednesdays; free under 18.": "Les appartements royaux et un grand escalier, juste sur la place. Fermé le mercredi ; gratuit pour les moins de 18 ans."
 };
