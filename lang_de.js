@@ -1271,5 +1271,8 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Quirinoli (family farm lunch)": "Quirinoli (Mittagessen auf einem Familienbauernhof)",
 "Ask the farm for the current price": "Fragen Sie den Hof nach dem aktuellen Preis",
 "A family farm on the slopes of Vesuvius: a guided walk through the farm, then an organic lunch with local products and wine tasting, about two and a half hours.": "Ein Familienbauernhof an den Hängen des Vesuvs: geführter Rundgang über den Hof, dann ein Bio-Mittagessen mit lokalen Produkten und Weinverkostung, etwa zweieinhalb Stunden.",
-"By booking only. Some tours meet in Pompei.": "Nur nach Reservierung. Manche Touren starten in Pompeji."
+"By booking only. Some tours meet in Pompei.": "Nur nach Reservierung. Manche Touren starten in Pompeji.",
+"€50 per adult (lunch, 4 wines, shuttle from Pompei)": "50 € pro Erwachsenem (Mittagessen, 4 Weine, Shuttle ab Pompeji)",
+"Book at least one day ahead: the shuttle leaves from Via Plinio 137 in Pompei.": "Mindestens einen Tag vorher buchen: Der Shuttle fährt ab Via Plinio 137 in Pompeji.",
+"Tours at 11:00, 12:30, 14:00 and 15:30 (by booking)": "Touren um 11:00, 12:30, 14:00 und 15:30 Uhr (nach Reservierung)"
 };

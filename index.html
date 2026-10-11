@@ -603,6 +603,9 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   function openCity(slug){
     var c=CO&&CO.cities&&CO.cities[slug];if(!c){alert(window.tr?window.tr('This town is coming soon.'):'This town is coming soon.');return;}
     document.getElementById('cityname').textContent=c.name;
+    var hp=townPhoto(slug),ht=document.querySelector('#city .top');
+    ht.style.background=hp?"linear-gradient(180deg,rgba(0,0,0,.30),rgba(0,0,0,.62)),url('"+hp+"') center/cover":'';
+    ht.style.paddingTop=hp?'46px':'';
     document.getElementById('citysub').textContent='Day trip from Naples';
     var h='<div class="gt"><div class="gth">How to get there</div>';
     if(c.ride)h+='<div class="gtr">'+esc(c.ride)+'</div>';
