@@ -1284,5 +1284,6 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "A small osteria on the slopes of Vesuvius serving simple, home-style country cooking.": "Une petite osteria sur les pentes du Vésuve, avec une cuisine paysanne simple, comme à la maison.",
 "Check the opening days: it is closed on Tuesdays (listings differ).": "Vérifiez les jours d'ouverture : fermé le mardi (les annuaires ne concordent pas).",
 "Lunch and dinner; closed Tuesday": "Déjeuner et dîner ; fermé le mardi",
-"Photos on Tripadvisor": "Photos sur Tripadvisor"
+"Photos on Tripadvisor": "Photos sur Tripadvisor",
+"Photos & reviews on Google": "Photos et avis sur Google"
 };
