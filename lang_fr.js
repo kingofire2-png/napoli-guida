@@ -1228,5 +1228,11 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "Wineries on the Via Panoramica are normally visited by reservation.": "Les caves de la Via Panoramica se visitent normalement sur réservation.",
 "You can also start from Pompei: take a taxi or the seasonal EAV bus (April to September, check the timetable).": "Vous pouvez aussi partir de Pompéi : prenez un taxi ou le bus EAV saisonnier (d'avril à septembre, vérifiez l'horaire).",
 "closed": "fermé",
-"not stated": "non indiqué"
+"not stated": "non indiqué",
+"€10 (park free)": "10 € (parc gratuit)",
+"Gelato": "Glace",
+"A gelateria on Via Lepanto, close to the Sanctuary: a cold stop after the visit.": "Un glacier sur la Via Lepanto, près du Sanctuaire : une pause fraîche après la visite.",
+"Check the opening hours before you go": "Vérifiez les horaires d'ouverture avant d'y aller",
+"€8 (official 2026 fee list)": "8 € (tarifs officiels 2026)",
+"€10 full, €8 reduced (official site)": "10 € plein tarif, 8 € réduit (site officiel)"
 };
