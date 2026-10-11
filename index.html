@@ -18,6 +18,19 @@ body{margin:0;background:#0b1118;font:15px/1.45 system-ui,Segoe UI,Roboto,sans-s
 .screen.on{display:block}
 .top{background:linear-gradient(160deg,var(--azz),var(--azzd));color:#fff;padding:22px 18px 26px;border-radius:0 0 26px 26px}
 .top small{opacity:.85}
+.top{position:relative}
+.langbtn{position:absolute;top:12px;right:14px;z-index:7;display:flex;align-items:center;gap:7px;border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:99px;padding:6px 10px 6px 8px;cursor:pointer;font:inherit}
+.langbtn:hover,.langbtn[aria-expanded=true]{background:rgba(255,255,255,.32)}
+.langbtn:focus-visible,.lopt:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
+.langbtn .caret{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid #fff;opacity:.9}
+.flag{display:inline-block;flex:none;width:26px;height:18px;border-radius:3px;background-size:100% 100%;background-repeat:no-repeat;box-shadow:inset 0 0 0 1px rgba(0,0,0,.22)}
+.langmenu{position:absolute;top:52px;right:14px;z-index:8;min-width:176px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:4px;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+.langmenu[hidden]{display:none}
+.lopt{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;color:inherit;font:inherit;font-size:15px;padding:9px 10px;border-radius:10px;text-align:left;cursor:pointer}
+.lopt:hover{background:var(--bg)}
+.lopt.on{font-weight:700;background:var(--bg)}
+.lopt.on::after{content:"\2713";margin-left:auto;color:var(--azz)}
+#home .top small{display:block;padding-right:70px}
 .top h1{margin:2px 0 14px;font-size:24px;line-height:1.15}
 .search{background:#fff;color:#6a7783;border-radius:14px;padding:6px 14px;font-size:14px;display:flex;align-items:center;gap:8px}
 .search input{flex:1;min-width:0;border:0;outline:0;background:none;font:inherit;font-size:15px;color:#16222d;padding:6px 0}
@@ -277,6 +290,7 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
+<script src="i18n.js"></script>
 <script src="trains.js"></script>
 <script src="collections.js"></script>
 <script>
@@ -385,7 +399,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   }
   function render(){
     var a=list(),box=document.getElementById('listv');bestOf();
-    document.getElementById('exinfo').textContent=a.length+' places'+(st.sort==='near'?' · from '+st.from:'');
+    document.getElementById('exinfo').textContent=a.length+(a.length===1?' place':' places')+(st.sort==='near'?' · from '+st.from:'');
     var html='',cur='';
     a.forEach(function(p){var n=P.indexOf(p),im=imgOf(p);
       if(st.sort==='top'&&p.a!==cur){cur=p.a;html+='<div class="agh">'+cur+'</div>';}
@@ -448,7 +462,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
       if(d<50){st.pos={lat:g.coords.latitude,lon:g.coords.longitude};st.from='your position';render();}
     },function(){},{timeout:6000,maximumAge:600000});
   };
-  var ea=document.getElementById('exarea');ea.innerHTML='<option value="all">All areas</option>'+AR.map(function(x){return '<option>'+x+'</option>';}).join('');
+  var ea=document.getElementById('exarea');ea.innerHTML='<option value="all">All areas</option>'+AR.map(function(x){return '<option value="'+x+'">'+x+'</option>';}).join('');
   ea.onchange=function(){st.area=ea.value;st.sel=null;render();};
   document.getElementById('seeall').onclick=function(e){e.preventDefault();document.querySelector('nav button[data-t=explore]').click();};
   function go(t){document.querySelector('nav button[data-t='+t+']').click();}
@@ -492,13 +506,14 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
       return '<div class="pc" data-n="'+n+'"><div class="img'+(im==='none'?' ph':'')+'" style="'+(im!=='none'?'--p:'+im:'')+'">'+(im==='none'?p.e:'Top 10')+'</div><div class="b"><b>'+esc(c?c.title:p.n)+'</b><span>'+esc(c?c.blurb:p.v)+'</span></div></div>';}).join('')+'</div>';
     box.querySelectorAll('.pc').forEach(function(e){e.onclick=function(){openColl(P[+e.dataset.n].coll);};});
   }
+  window.openColl=function(k,r,b){return openColl(k,r,b);};
   function showColl(){
     document.querySelectorAll('nav button,.screen').forEach(function(e){e.classList.remove('on');});
     document.getElementById('coll').classList.add('on');document.querySelector('nav button[data-t=explore]').classList.add('on');
     document.getElementById('coll').scrollTop=0;
   }
   function openColl(key,rank,back){
-    var c=CO&&CO.cats[key];if(!c){alert('This list is coming soon.');return;}
+    var c=CO&&CO.cats[key];if(!c){alert(window.tr?window.tr('This list is coming soon.'):'This list is coming soon.');return;}
     curKey=key;curBack=back||'explore';document.getElementById('collback').textContent=curBack==='explore'?'‹ Explore':'‹ Back';
     document.getElementById('colltitle').textContent=c.title;
     document.getElementById('collsub').textContent=(c.city?'':'Top 10 · ')+c.blurb;
@@ -560,7 +575,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     document.getElementById(id).scrollTop=0;
   }
   function openCity(slug){
-    var c=CO&&CO.cities&&CO.cities[slug];if(!c){alert('This town is coming soon.');return;}
+    var c=CO&&CO.cities&&CO.cities[slug];if(!c){alert(window.tr?window.tr('This town is coming soon.'):'This town is coming soon.');return;}
     document.getElementById('cityname').textContent=c.name;
     document.getElementById('citysub').textContent='Day trip from Naples';
     var h='<div class="gt"><div class="gth">How to get there</div>';
@@ -572,7 +587,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     if((c.tips||[]).length){h+='<h2>Good to know</h2><div class="gt">'+c.tips.map(function(t){return '<div class="stn">💡 '+esc(t.text)+'</div>';}).join('')+'</div>';}
     h+='<h2>Explore '+esc(c.name)+'</h2><div class="row">'+c.cats.map(function(k){var cc=CO.cats[k],ph=null,i;for(i=0;i<cc.items.length;i++){if(cc.items[i].photo){ph=cc.items[i].photo.url;break;}}
       var title=cc.title.split(' · ')[1]||cc.title,ico=iconFor(k,cc.items[0]);
-      return '<div class="pc" data-k="'+k+'"><div class="img'+(ph?'':' ph')+'" style="'+(ph?'--p:url(\''+ph+'\')':'')+'">'+(ph?esc(title):ico)+'</div><div class="b"><b>'+esc(title)+'</b><span>'+cc.items.length+' places</span></div></div>';}).join('')+'</div>';
+      return '<div class="pc" data-k="'+k+'"><div class="img'+(ph?'':' ph')+'" style="'+(ph?'--p:url(\''+ph+'\')':'')+'">'+(ph?esc(title):ico)+'</div><div class="b"><b>'+esc(title)+'</b><span>'+cc.items.length+(cc.items.length===1?' place':' places')+'</span></div></div>';}).join('')+'</div>';
     h+='<p class="note">Based on public guides, press and official notices. Prices, hours and closures change: please check before you go.</p>';
     document.getElementById('citybody').innerHTML=h;
     document.querySelectorAll('#citybody .pc').forEach(function(e){e.onclick=function(){openColl(e.dataset.k,null,slug);};});
@@ -652,7 +667,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   }
   var ALL=null;
   function score(it,toks){
-    var words=norm(it.kw).split(' ').filter(Boolean),sc=0;
+    var words=norm(it.kw+(window.tr?' '+window.tr(it.t)+' '+window.tr(it.s):'')).split(' ').filter(Boolean),sc=0;
     for(var i=0;i<toks.length;i++){var t=toks[i],best=0;
       for(var j=0;j<words.length;j++){var w=words[j];
         if(w===t)best=Math.max(best,3);else if(w.indexOf(t)===0)best=Math.max(best,2);
@@ -662,7 +677,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     return sc;
   }
   function search(text){
-    ALL=ALL||items();var toks=norm(text).split(' ').filter(Boolean);if(!toks.length)return [];
+    ALL=ALL||items();if(window.untr)text=window.untr(text);var toks=norm(text).split(' ').filter(Boolean);if(!toks.length)return [];
     var r=[];ALL.forEach(function(it){var sc=score(it,toks);if(sc)r.push({it:it,sc:sc});});
     r.sort(function(a,b){return (a.it.p-b.it.p)||(b.sc-a.sc);});
     var st=0;return r.filter(function(x){if(x.it.g==='Train stations'){st++;return st<=3;}return true;}).slice(0,10).map(function(x){return x.it;});
@@ -673,7 +688,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   function drawRes(){
     var v=q.value.trim();qx.hidden=!q.value;
     if(!v){res.innerHTML='<div class="gl">Popular searches</div><div class="pop">'+['pizza','Pompei','sunset','free','rain','museum'].map(function(w){return '<span class="chip" data-w="'+w+'">'+w+'</span>';}).join('')+'</div>';
-      res.querySelectorAll('.chip').forEach(function(c){c.onclick=function(){q.value=c.dataset.w;drawRes();};});return;}
+      res.querySelectorAll('.chip').forEach(function(c){c.onclick=function(){q.value=window.tr?window.tr(c.dataset.w):c.dataset.w;drawRes();};});return;}
     var r=search(v);
     if(!r.length){try{var m=JSON.parse(localStorage.getItem('missed')||'[]');if(m.indexOf(v)<0){m.push(v);localStorage.setItem('missed',JSON.stringify(m.slice(-50)));}}catch(e){}
       res.innerHTML='<div class="empty" style="margin:30px 30px">Nothing for “'+esc(v)+'” yet.<br>We’re adding more places all the time.</div>';return;}
