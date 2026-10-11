@@ -181,6 +181,13 @@ a{text-decoration:none}
 .tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 4px;text-align:center;font-size:12px;font-weight:600;line-height:1.25;cursor:pointer}
 .tile i{display:block;font-style:normal;font-size:24px;margin-bottom:4px}
 .tip{margin:0 18px;background:var(--sun);color:#3b2d00;border-radius:16px;padding:14px;font-size:14px}
+#tkmodal{position:absolute;inset:0;z-index:2000;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:24px}
+#tkmodal[hidden]{display:none}
+.tkbox{background:var(--card);color:var(--ink);border-radius:18px;padding:20px;max-width:320px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.tkbox b{font-size:18px}.tkbox p{margin:10px 0 16px;font-size:14.5px;line-height:1.4}
+.tkbtns{display:flex;gap:10px;justify-content:flex-end}
+.tkbtns button{border:0;border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;background:var(--line);color:var(--ink)}
+.tkbtns #tkgo{background:var(--red);color:#fff}
 #beta{background:#f7c53b;color:#3b2d00;font-size:11.5px;font-weight:700;padding:5px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
 #beta button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer;color:#3b2d00;font-size:11px;line-height:1}
 </style>
@@ -287,12 +294,14 @@ a{text-decoration:none}
   <button data-t="plans"><i>📅</i>Plans</button>
   <button data-t="saved"><i>❤️</i>Saved</button>
 </nav>
+<div id="tkmodal" hidden><div class="tkbox"><b>Book ticket</b><p>You will be redirected to the official website to book your ticket.</p><div class="tkbtns"><button id="tkno" type="button">Cancel</button><button id="tkgo" type="button">Continue</button></div></div></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
 <script src="i18n.js"></script>
 <script src="trains.js"></script>
 <script src="collections.js"></script>
+<script src="tickets.js"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -494,7 +503,19 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     [/catacombe di san gennaro/i,'https://catacombedinapoli.it/it/'],
     [/capodimonte/i,'https://capodimonte.cultura.gov.it/']];
   function siteFor(n){for(var i=0;i<SITES.length;i++){if(SITES[i][0].test(n))return SITES[i][1];}return null;}
-  function ticketBtn(n,pr){var u=siteFor(n);return (u&&pr&&!/^free/i.test(pr))?'<a class="btn2 b2" target="_blank" rel="noopener" href="'+u+'">Official site &amp; tickets</a>':'';}
+  // official booking page: data from tickets.js (verified per place), else the regex list above
+  function ticketBtn(n,pr){
+    var t=window.TICKETS&&window.TICKETS[n],u=t?(t.ticket_url||t.official_url):siteFor(n);
+    if(!u||(t&&t.free))return '';
+    if(!t&&(!pr||/^free/i.test(pr)))return '';
+    return '<a class="btn2 b2" href="#" data-tk="'+esc(u)+'">Book ticket</a>';
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('[data-tk]');if(!a)return;
+    e.preventDefault();var m=document.getElementById('tkmodal');m.dataset.url=a.getAttribute('data-tk');m.hidden=false;});
+  document.getElementById('tkgo').onclick=function(){var m=document.getElementById('tkmodal');var u=m.dataset.url;m.hidden=true;if(u)window.open(u,'_blank','noopener');};
+  document.getElementById('tkno').onclick=function(){document.getElementById('tkmodal').hidden=true;};
+  document.getElementById('tkmodal').onclick=function(e){if(e.target===this)this.hidden=true;};
   function reviewsLink(v){return 'https://www.google.com/maps/search/?api=1&query='+dest(v);}
   function heartOf(n){return st.saved[n]?'❤️':'🤍';}
   function bestOf(){
@@ -558,7 +579,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   }
 
   // ---------- nearby towns ----------
-  var TOWNTR={pompei:['Napoli Porta Nolana','Pompei Scavi Villa dei Misteri'],ercolano:['Napoli Porta Nolana','Ercolano Scavi'],torre_annunziata:['Napoli Porta Nolana','Torre Annunziata - Oplonti'],castellammare:['Napoli Porta Nolana','Castellammare di Stabia'],sorrento:['Napoli Porta Nolana','Sorrento'],pozzuoli:['Montesanto','Pozzuoli']};
+  var TOWNTR={pompei:['Napoli Porta Nolana','Pompei Scavi Villa dei Misteri'],ercolano:['Napoli Porta Nolana','Ercolano Scavi'],torre_annunziata:['Napoli Porta Nolana','Torre Annunziata - Oplonti'],castellammare:['Napoli Porta Nolana','Castellammare di Stabia'],sorrento:['Napoli Porta Nolana','Sorrento'],pozzuoli:['Montesanto','Pozzuoli'],trecase:['Napoli Porta Nolana','Trecase'],vesuvio:['Napoli Porta Nolana','Ercolano Scavi']};
   function townPhoto(slug){var c=CO&&CO.cats[slug+'_sights'];if(!c)return null;for(var i=0;i<c.items.length;i++){if(c.items[i].photo)return c.items[i].photo.url;}return null;}
   function townsRow(){
     var box=document.getElementById('towns');
