@@ -1283,5 +1283,6 @@ window.I18N=window.I18N||{};window.I18N.de={
 "About €35 per person": "Etwa 35 € pro Person",
 "A small osteria on the slopes of Vesuvius serving simple, home-style country cooking.": "Eine kleine Osteria an den Hängen des Vesuvs mit einfacher, hausgemachter bäuerlicher Küche.",
 "Check the opening days: it is closed on Tuesdays (listings differ).": "Öffnungstage prüfen: dienstags geschlossen (die Verzeichnisse stimmen nicht überein).",
-"Lunch and dinner; closed Tuesday": "Mittag- und Abendessen; dienstags geschlossen"
+"Lunch and dinner; closed Tuesday": "Mittag- und Abendessen; dienstags geschlossen",
+"Photos on Tripadvisor": "Fotos auf Tripadvisor"
 };
