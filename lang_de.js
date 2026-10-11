@@ -1274,5 +1274,7 @@ window.I18N=window.I18N||{};window.I18N.de={
 "By booking only. Some tours meet in Pompei.": "Nur nach Reservierung. Manche Touren starten in Pompeji.",
 "€50 per adult (lunch, 4 wines, shuttle from Pompei)": "50 € pro Erwachsenem (Mittagessen, 4 Weine, Shuttle ab Pompeji)",
 "Book at least one day ahead: the shuttle leaves from Via Plinio 137 in Pompei.": "Mindestens einen Tag vorher buchen: Der Shuttle fährt ab Via Plinio 137 in Pompeji.",
-"Tours at 11:00, 12:30, 14:00 and 15:30 (by booking)": "Touren um 11:00, 12:30, 14:00 und 15:30 Uhr (nach Reservierung)"
+"Tours at 11:00, 12:30, 14:00 and 15:30 (by booking)": "Touren um 11:00, 12:30, 14:00 und 15:30 Uhr (nach Reservierung)",
+"Places to visit": "Sehenswertes",
+"Where to eat": "Wo essen"
 };

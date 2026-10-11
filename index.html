@@ -38,6 +38,7 @@ body{margin:0;background:#0b1118;font:15px/1.45 system-ui,Segoe UI,Roboto,sans-s
 #home.searching>:not(.top):not(#sres){display:none}
 #sres{padding:6px 0 14px}
 #sres .gl{margin:14px 18px 6px;font-size:12px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.4px}
+#sres .li .t span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 #sres .pop{display:flex;flex-wrap:wrap;gap:8px;margin:0 18px}
 .ic{width:56px;height:56px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;font-size:24px;background:var(--bg)}
 .pill{margin:10px 18px 0;display:inline-flex;gap:8px;align-items:center;background:var(--sun);color:#3b2d00;border-radius:99px;padding:5px 6px 5px 12px;font-size:13px;font-weight:700}
@@ -690,7 +691,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     a.push({g:'Quick help',p:2,t:'Tickets',s:'Coming soon',ic:'🎟️',kw:'biglietti biglietto tickets ticket pass prenota book',act:function(){}});
     a.push({g:'Quick help',p:2,t:'Rainy day',s:'Places to go when it rains',ic:'☔️',kw:'pioggia piove rain rainy coperto indoor',act:function(){window.exploreFilter('rain');}});
     if(CO&&CO.cities)Object.keys(CO.cities).forEach(function(k){if(k==='napoli')return;var ct=CO.cities[k];a.push({g:'Nearby towns',p:0.5,t:ct.name,s:'Sights, food and how to get there',ic:'\uD83C\uDFD8\uFE0F',kw:ct.name+' '+k.replace('_',' ')+' town citta visit guida',act:function(){openCity(k);}});});
-    if(CO)Object.keys(CO.cats).forEach(function(k){venues(k).forEach(function(v){a.push({g:'Top lists',p:1.5,t:v.n,s:v.v,ic:v.e,kw:v.n+' '+v.k+' '+k.replace('_',' ')+' '+(v.area||''),act:function(){openColl(k,v.rank);}});});});
+    if(CO)Object.keys(CO.cats).forEach(function(k){venues(k).forEach(function(v){var sg=/_sights$/.test(k);a.push({g:sg?'Places to visit':(/_(pizza|restaurants|street_food|coffee_pastry)$/.test(k)?'Where to eat':'Top lists'),p:sg?1.4:1.5,t:v.n,s:v.v,ic:v.e,kw:v.n+' '+v.k+' '+k.replace('_',' ')+' '+(v.area||''),act:function(){openColl(k,v.rank);}});});});
     if(TR)TR.stops.forEach(function(s){a.push({g:'Train stations',p:3,t:s.name,s:'Next trains from here',ic:'🚆',kw:s.name+' stazione station',act:function(){window.openTrains(s.name,null);}});});
     return a;
   }
