@@ -1142,5 +1142,10 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Near the excavations with strong ratings (4.7 on Google from about 500 reviews).": "In der Nähe der Ausgrabungen, sehr gut bewertet (4,7 auf Google bei etwa 500 Bewertungen).",
 "About €10-20": "Etwa 10-20 €",
 "About €10-50": "Etwa 10-50 €",
-"About €1-10": "Etwa 1-10 €"
+"About €1-10": "Etwa 1-10 €",
+"Creative Neapolitan and Campanian cuisine, fine dining": "Kreative neapolitanische und kampanische Küche, gehobene Gastronomie",
+"A long-established fine-dining restaurant right by the Sanctuary, with creative Neapolitan and Campanian cuisine and a 4.5 rating on Tripadvisor from about 620 reviews.": "Ein traditionsreiches Gourmetrestaurant direkt am Heiligtum, mit kreativer neapolitanischer und kampanischer Küche und 4,5 auf Tripadvisor bei etwa 620 Bewertungen.",
+"Book ahead: it is a fine-dining restaurant.": "Vorher reservieren: Es ist ein Gourmetrestaurant.",
+"Wed-Sat 12:00-15:00 and 19:00-24:00; Sun 12:00-15:00": "Mi-Sa 12:00-15:00 und 19:00-24:00 Uhr; So 12:00-15:00 Uhr",
+"The most famous gelateria in Sorrento, on Corso Italia since the 1960s, known for its lemon Delizia and gelato made with local lemons.": "Die berühmteste Eisdiele von Sorrent, seit den 1960er-Jahren am Corso Italia, bekannt für ihre Zitronen-Delizia und Eis aus lokalen Zitronen."
 };

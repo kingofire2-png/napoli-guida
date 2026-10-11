@@ -1142,5 +1142,10 @@ window.I18N=window.I18N||{};window.I18N.it={
 "Near the excavations with strong ratings (4.7 on Google from about 500 reviews).": "Vicino agli scavi, con ottime valutazioni (4,7 su Google da circa 500 recensioni).",
 "About €10-20": "Circa €10-20",
 "About €10-50": "Circa €10-50",
-"About €1-10": "Circa €1-10"
+"About €1-10": "Circa €1-10",
+"Creative Neapolitan and Campanian cuisine, fine dining": "Cucina napoletana e campana creativa, alta cucina",
+"A long-established fine-dining restaurant right by the Sanctuary, with creative Neapolitan and Campanian cuisine and a 4.5 rating on Tripadvisor from about 620 reviews.": "Un ristorante di alta cucina storico, proprio accanto al Santuario, con cucina napoletana e campana creativa e 4,5 su Tripadvisor da circa 620 recensioni.",
+"Book ahead: it is a fine-dining restaurant.": "Prenota in anticipo: è un ristorante di alta cucina.",
+"Wed-Sat 12:00-15:00 and 19:00-24:00; Sun 12:00-15:00": "Mer-Sab 12:00-15:00 e 19:00-24:00; Dom 12:00-15:00",
+"The most famous gelateria in Sorrento, on Corso Italia since the 1960s, known for its lemon Delizia and gelato made with local lemons.": "La gelateria più famosa di Sorrento, su Corso Italia dagli anni Sessanta, nota per la delizia al limone e il gelato fatto con i limoni locali."
 };
