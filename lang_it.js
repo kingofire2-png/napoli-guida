@@ -1260,5 +1260,16 @@ window.I18N=window.I18N||{};window.I18N.it={
 "Early Christian catacombs in the Sanità district, with frescoes. Guided visit, booking required. Closed on Wednesdays.": "Catacombe paleocristiane nel rione Sanità, con affreschi. Visita guidata, prenotazione obbligatoria. Chiuse il mercoledì.",
 "A cave filled with thousands of skulls. Entry is by booking only and slots fill fast; closed on Wednesdays.": "Una grotta piena di migliaia di teschi. Si entra solo su prenotazione e i posti finiscono presto; chiuso il mercoledì.",
 "A palace-museum with a huge park above the city. The park is free. Closed on Wednesdays.": "Un palazzo-museo con un enorme parco sopra la città. Il parco è gratuito. Chiuso il mercoledì.",
-"The medieval castle by the port. Closed on Sundays.": "Il castello medievale vicino al porto. Chiuso la domenica."
+"The medieval castle by the port. Closed on Sundays.": "Il castello medievale vicino al porto. Chiuso la domenica.",
+"About EUR 55 per person (2-hour tour with tasting and lunch)": "Circa €55 a persona (tour di 2 ore con degustazione e pranzo)",
+"EUR 8": "€8",
+"Marietta mamapasta (pasta cooking class)": "Marietta mamapasta (corso di cucina della pasta)",
+"Ask the host for the current price": "Chiedi alla padrona di casa il prezzo aggiornato",
+"A hands-on pasta class in Marietta's home: you make fresh pasta by hand and then eat what you have cooked.": "Un corso pratico di pasta a casa di Marietta: prepari la pasta fresca a mano e poi mangi quello che hai cucinato.",
+"Book ahead and check the details with the host.": "Prenota in anticipo e controlla i dettagli con la padrona di casa.",
+"By booking": "Su prenotazione",
+"Quirinoli (family farm lunch)": "Quirinoli (pranzo in una fattoria di famiglia)",
+"Ask the farm for the current price": "Chiedi alla fattoria il prezzo aggiornato",
+"A family farm on the slopes of Vesuvius: a guided walk through the farm, then an organic lunch with local products and wine tasting, about two and a half hours.": "Una fattoria di famiglia sulle pendici del Vesuvio: passeggiata guidata nell'azienda, poi un pranzo biologico con prodotti locali e degustazione di vino, circa due ore e mezza.",
+"By booking only. Some tours meet in Pompei.": "Solo su prenotazione. Alcuni tour partono da Pompei."
 };

@@ -1260,5 +1260,16 @@ window.I18N=window.I18N||{};window.I18N.es={
 "Early Christian catacombs in the Sanità district, with frescoes. Guided visit, booking required. Closed on Wednesdays.": "Catacumbas paleocristianas en el barrio de la Sanità, con frescos. Visita guiada, reserva obligatoria. Cerradas los miércoles.",
 "A cave filled with thousands of skulls. Entry is by booking only and slots fill fast; closed on Wednesdays.": "Una cueva llena de miles de cráneos. Solo se entra con reserva y las plazas se agotan pronto; cerrado los miércoles.",
 "A palace-museum with a huge park above the city. The park is free. Closed on Wednesdays.": "Un palacio-museo con un enorme parque sobre la ciudad. El parque es gratuito. Cerrado los miércoles.",
-"The medieval castle by the port. Closed on Sundays.": "El castillo medieval junto al puerto. Cerrado los domingos."
+"The medieval castle by the port. Closed on Sundays.": "El castillo medieval junto al puerto. Cerrado los domingos.",
+"About EUR 55 per person (2-hour tour with tasting and lunch)": "Unos 55 € por persona (visita de 2 horas con cata y comida)",
+"EUR 8": "8 €",
+"Marietta mamapasta (pasta cooking class)": "Marietta mamapasta (clase de cocina de pasta)",
+"Ask the host for the current price": "Pregunta a la anfitriona el precio actual",
+"A hands-on pasta class in Marietta's home: you make fresh pasta by hand and then eat what you have cooked.": "Una clase práctica de pasta en casa de Marietta: haces pasta fresca a mano y luego te comes lo que has cocinado.",
+"Book ahead and check the details with the host.": "Reserva con antelación y confirma los detalles con la anfitriona.",
+"By booking": "Con reserva",
+"Quirinoli (family farm lunch)": "Quirinoli (comida en una granja familiar)",
+"Ask the farm for the current price": "Pregunta a la granja el precio actual",
+"A family farm on the slopes of Vesuvius: a guided walk through the farm, then an organic lunch with local products and wine tasting, about two and a half hours.": "Una granja familiar en las laderas del Vesubio: paseo guiado por la finca y después una comida ecológica con productos locales y cata de vino, unas dos horas y media.",
+"By booking only. Some tours meet in Pompei.": "Solo con reserva. Algunas visitas salen de Pompeya."
 };

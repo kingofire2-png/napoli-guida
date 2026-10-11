@@ -1260,5 +1260,16 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Early Christian catacombs in the Sanità district, with frescoes. Guided visit, booking required. Closed on Wednesdays.": "Frühchristliche Katakomben im Viertel Sanità, mit Fresken. Führung, Buchung erforderlich. Mittwochs geschlossen.",
 "A cave filled with thousands of skulls. Entry is by booking only and slots fill fast; closed on Wednesdays.": "Eine Höhle voller Tausender Schädel. Zutritt nur mit Reservierung, die Plätze sind schnell weg; mittwochs geschlossen.",
 "A palace-museum with a huge park above the city. The park is free. Closed on Wednesdays.": "Ein Palastmuseum mit einem riesigen Park über der Stadt. Der Park ist kostenlos. Mittwochs geschlossen.",
-"The medieval castle by the port. Closed on Sundays.": "Die mittelalterliche Burg am Hafen. Sonntags geschlossen."
+"The medieval castle by the port. Closed on Sundays.": "Die mittelalterliche Burg am Hafen. Sonntags geschlossen.",
+"About EUR 55 per person (2-hour tour with tasting and lunch)": "Etwa 55 € pro Person (2-Stunden-Tour mit Verkostung und Mittagessen)",
+"EUR 8": "8 €",
+"Marietta mamapasta (pasta cooking class)": "Marietta mamapasta (Pasta-Kochkurs)",
+"Ask the host for the current price": "Fragen Sie die Gastgeberin nach dem aktuellen Preis",
+"A hands-on pasta class in Marietta's home: you make fresh pasta by hand and then eat what you have cooked.": "Ein praktischer Pasta-Kurs bei Marietta zu Hause: Sie machen frische Pasta von Hand und essen dann, was Sie gekocht haben.",
+"Book ahead and check the details with the host.": "Vorher buchen und die Einzelheiten mit der Gastgeberin klären.",
+"By booking": "Nach Reservierung",
+"Quirinoli (family farm lunch)": "Quirinoli (Mittagessen auf einem Familienbauernhof)",
+"Ask the farm for the current price": "Fragen Sie den Hof nach dem aktuellen Preis",
+"A family farm on the slopes of Vesuvius: a guided walk through the farm, then an organic lunch with local products and wine tasting, about two and a half hours.": "Ein Familienbauernhof an den Hängen des Vesuvs: geführter Rundgang über den Hof, dann ein Bio-Mittagessen mit lokalen Produkten und Weinverkostung, etwa zweieinhalb Stunden.",
+"By booking only. Some tours meet in Pompei.": "Nur nach Reservierung. Manche Touren starten in Pompeji."
 };

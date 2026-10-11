@@ -1260,5 +1260,16 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "Early Christian catacombs in the Sanità district, with frescoes. Guided visit, booking required. Closed on Wednesdays.": "Catacombes paléochrétiennes dans le quartier de la Sanità, avec des fresques. Visite guidée, réservation obligatoire. Fermées le mercredi.",
 "A cave filled with thousands of skulls. Entry is by booking only and slots fill fast; closed on Wednesdays.": "Une grotte remplie de milliers de crânes. Entrée sur réservation uniquement, les créneaux partent vite ; fermé le mercredi.",
 "A palace-museum with a huge park above the city. The park is free. Closed on Wednesdays.": "Un palais-musée avec un immense parc au-dessus de la ville. Le parc est gratuit. Fermé le mercredi.",
-"The medieval castle by the port. Closed on Sundays.": "Le château médiéval près du port. Fermé le dimanche."
+"The medieval castle by the port. Closed on Sundays.": "Le château médiéval près du port. Fermé le dimanche.",
+"About EUR 55 per person (2-hour tour with tasting and lunch)": "Environ 55 € par personne (visite de 2 h avec dégustation et déjeuner)",
+"EUR 8": "8 €",
+"Marietta mamapasta (pasta cooking class)": "Marietta mamapasta (cours de cuisine de pâtes)",
+"Ask the host for the current price": "Demandez à l'hôte le prix actuel",
+"A hands-on pasta class in Marietta's home: you make fresh pasta by hand and then eat what you have cooked.": "Un cours de pâtes pratique chez Marietta : vous préparez des pâtes fraîches à la main, puis vous dégustez le résultat.",
+"Book ahead and check the details with the host.": "Réservez à l'avance et vérifiez les détails avec l'hôte.",
+"By booking": "Sur réservation",
+"Quirinoli (family farm lunch)": "Quirinoli (déjeuner dans une ferme familiale)",
+"Ask the farm for the current price": "Demandez à la ferme le prix actuel",
+"A family farm on the slopes of Vesuvius: a guided walk through the farm, then an organic lunch with local products and wine tasting, about two and a half hours.": "Une ferme familiale sur les pentes du Vésuve : promenade guidée dans l'exploitation, puis déjeuner bio avec produits locaux et dégustation de vin, environ deux heures et demie.",
+"By booking only. Some tours meet in Pompei.": "Uniquement sur réservation. Certaines visites partent de Pompéi."
 };
