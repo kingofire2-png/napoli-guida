@@ -1131,5 +1131,16 @@ window.I18N=window.I18N||{};window.I18N.it={
 "Central Pozzuoli": "Centro di Pozzuoli",
 "Oplontis - Villa of Poppaea": "Oplontis - Villa di Poppea",
 "Oplontis Villa B": "Oplontis Villa B",
-"Cattedrale of Castellammare": "Cattedrale di Castellammare"
+"Cattedrale of Castellammare": "Cattedrale di Castellammare",
+"A terrace in front of the church of Sant'Antonio with a wide view over the Gulf: Vesuvius, the palaces of the Riviera di Chiaia, the Mergellina port, and Castel Sant'Elmo and Castel dell'Ovo at the two ends.": "Una terrazza davanti alla chiesa di Sant'Antonio con una vista ampia sul Golfo: il Vesuvio, i palazzi della Riviera di Chiaia, il porto di Mergellina e, ai due lati, Castel Sant'Elmo e Castel dell'Ovo.",
+"Take the Mergellina funicular to the Sant'Antonio stop and walk about 300 m; by car there is free parking in front of the church. Via Orazio nearby has views towards Capri.": "Prendi la funicolare di Mergellina fino alla fermata Sant'Antonio e cammina per circa 300 m; in auto c'è parcheggio gratuito davanti alla chiesa. Via Orazio, lì vicino, ha viste verso Capri.",
+"Italian cuisine, outdoor tables, vegetarian dishes": "Cucina italiana, tavoli all'aperto, piatti vegetariani",
+"A popular restaurant near the ruins, with outdoor tables, vegetarian dishes and about 1,800 reviews on Google.": "Un ristorante molto frequentato vicino agli scavi, con tavoli all'aperto, piatti vegetariani e circa 1.800 recensioni su Google.",
+"Pastries and cornetti": "Dolci e cornetti",
+"A pastry shop and cornetteria on Piazza Bartolo Longo, in front of the Sanctuary, with a 4.5 rating on Google from about 260 reviews.": "Una pasticceria con cornetteria in Piazza Bartolo Longo, davanti al Santuario, con 4,5 su Google da circa 260 recensioni.",
+"Check the opening times: it may open only in the evening.": "Controlla gli orari: potrebbe aprire solo la sera.",
+"Near the excavations with strong ratings (4.7 on Google from about 500 reviews).": "Vicino agli scavi, con ottime valutazioni (4,7 su Google da circa 500 recensioni).",
+"About €10-20": "Circa €10-20",
+"About €10-50": "Circa €10-50",
+"About €1-10": "Circa €1-10"
 };

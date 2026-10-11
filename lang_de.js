@@ -1131,5 +1131,16 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Central Pozzuoli": "Zentrum von Pozzuoli",
 "Oplontis - Villa of Poppaea": "Oplontis - Villa der Poppaea",
 "Oplontis Villa B": "Oplontis Villa B",
-"Cattedrale of Castellammare": "Kathedrale von Castellammare"
+"Cattedrale of Castellammare": "Kathedrale von Castellammare",
+"A terrace in front of the church of Sant'Antonio with a wide view over the Gulf: Vesuvius, the palaces of the Riviera di Chiaia, the Mergellina port, and Castel Sant'Elmo and Castel dell'Ovo at the two ends.": "Eine Terrasse vor der Kirche Sant'Antonio mit weitem Blick über den Golf: Vesuv, die Paläste der Riviera di Chiaia, der Hafen von Mergellina und an den beiden Enden Castel Sant'Elmo und Castel dell'Ovo.",
+"Take the Mergellina funicular to the Sant'Antonio stop and walk about 300 m; by car there is free parking in front of the church. Via Orazio nearby has views towards Capri.": "Nehmen Sie die Standseilbahn von Mergellina bis zur Haltestelle Sant'Antonio und gehen Sie etwa 300 m; mit dem Auto gibt es kostenlose Parkplätze vor der Kirche. Die nahe Via Orazio bietet Blicke Richtung Capri.",
+"Italian cuisine, outdoor tables, vegetarian dishes": "Italienische Küche, Tische im Freien, vegetarische Gerichte",
+"A popular restaurant near the ruins, with outdoor tables, vegetarian dishes and about 1,800 reviews on Google.": "Ein beliebtes Restaurant in der Nähe der Ausgrabungen, mit Tischen im Freien, vegetarischen Gerichten und rund 1.800 Google-Bewertungen.",
+"Pastries and cornetti": "Gebäck und Cornetti",
+"A pastry shop and cornetteria on Piazza Bartolo Longo, in front of the Sanctuary, with a 4.5 rating on Google from about 260 reviews.": "Eine Konditorei mit Cornetteria an der Piazza Bartolo Longo, gegenüber dem Heiligtum, mit 4,5 auf Google bei etwa 260 Bewertungen.",
+"Check the opening times: it may open only in the evening.": "Öffnungszeiten prüfen: Es öffnet möglicherweise nur abends.",
+"Near the excavations with strong ratings (4.7 on Google from about 500 reviews).": "In der Nähe der Ausgrabungen, sehr gut bewertet (4,7 auf Google bei etwa 500 Bewertungen).",
+"About €10-20": "Etwa 10-20 €",
+"About €10-50": "Etwa 10-50 €",
+"About €1-10": "Etwa 1-10 €"
 };

@@ -1131,5 +1131,16 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "Central Pozzuoli": "Centre de Pozzuoli",
 "Oplontis - Villa of Poppaea": "Oplontis - Villa de Poppée",
 "Oplontis Villa B": "Oplontis Villa B",
-"Cattedrale of Castellammare": "Cathédrale de Castellammare"
+"Cattedrale of Castellammare": "Cathédrale de Castellammare",
+"A terrace in front of the church of Sant'Antonio with a wide view over the Gulf: Vesuvius, the palaces of the Riviera di Chiaia, the Mergellina port, and Castel Sant'Elmo and Castel dell'Ovo at the two ends.": "Une terrasse devant l'église Sant'Antonio avec une vue large sur le golfe : le Vésuve, les palais de la Riviera di Chiaia, le port de Mergellina et, aux deux extrémités, Castel Sant'Elmo et Castel dell'Ovo.",
+"Take the Mergellina funicular to the Sant'Antonio stop and walk about 300 m; by car there is free parking in front of the church. Via Orazio nearby has views towards Capri.": "Prenez le funiculaire de Mergellina jusqu'à l'arrêt Sant'Antonio, puis marchez environ 300 m ; en voiture, il y a un parking gratuit devant l'église. La Via Orazio, tout près, offre des vues vers Capri.",
+"Italian cuisine, outdoor tables, vegetarian dishes": "Cuisine italienne, tables en terrasse, plats végétariens",
+"A popular restaurant near the ruins, with outdoor tables, vegetarian dishes and about 1,800 reviews on Google.": "Un restaurant très fréquenté près des ruines, avec des tables en terrasse, des plats végétariens et environ 1 800 avis sur Google.",
+"Pastries and cornetti": "Pâtisseries et cornetti",
+"A pastry shop and cornetteria on Piazza Bartolo Longo, in front of the Sanctuary, with a 4.5 rating on Google from about 260 reviews.": "Une pâtisserie avec cornetteria sur la Piazza Bartolo Longo, devant le Sanctuaire, notée 4,5 sur Google pour environ 260 avis.",
+"Check the opening times: it may open only in the evening.": "Vérifiez les horaires : il peut n'ouvrir que le soir.",
+"Near the excavations with strong ratings (4.7 on Google from about 500 reviews).": "Près des fouilles, très bien noté (4,7 sur Google pour environ 500 avis).",
+"About €10-20": "Environ 10-20 €",
+"About €10-50": "Environ 10-50 €",
+"About €1-10": "Environ 1-10 €"
 };
