@@ -1285,5 +1285,18 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "Check the opening days: it is closed on Tuesdays (listings differ).": "Vérifiez les jours d'ouverture : fermé le mardi (les annuaires ne concordent pas).",
 "Lunch and dinner; closed Tuesday": "Déjeuner et dîner ; fermé le mardi",
 "Photos on Tripadvisor": "Photos sur Tripadvisor",
-"Photos & reviews on Google": "Photos et avis sur Google"
+"Photos & reviews on Google": "Photos et avis sur Google",
+"A pizzeria set in a citrus grove, with Neapolitan pizza and a Mediterranean menu.": "Une pizzeria au milieu d'un agrumeraie, avec pizza napolitaine et carte méditerranéenne.",
+"Pizza and Italian cuisine": "Pizza et cuisine italienne",
+"An inexpensive restaurant and pizzeria in Trecase.": "Un restaurant et pizzeria bon marché à Trecase.",
+"Wine bar and Neapolitan cuisine": "Bar à vins et cuisine napolitaine",
+"A winery with an enoteca restaurant on the slopes of Vesuvius, serving Neapolitan dishes with its own wines.": "Une cave avec restaurant-enoteca sur les pentes du Vésuve, avec des plats napolitains et ses propres vins.",
+"Italian and seafood cuisine": "Cuisine italienne et de la mer",
+"An upscale restaurant with Italian and seafood cuisine, on Via Cifelli.": "Un restaurant haut de gamme avec cuisine italienne et de la mer, sur la Via Cifelli.",
+"A restaurant with Italian and seafood cuisine, also used for ceremonies and events.": "Un restaurant avec cuisine italienne et de la mer, utilisé aussi pour cérémonies et événements.",
+"Italian cuisine and barbecue": "Cuisine italienne et barbecue",
+"A villa restaurant on the Via Panoramica with Italian cuisine and barbecue, also used for events.": "Un restaurant dans une villa sur la Via Panoramica, avec cuisine italienne et barbecue, utilisé aussi pour des événements.",
+"Italian cuisine": "Cuisine italienne",
+"A restaurant on Via Cifelli with Italian cuisine, popular for celebrations.": "Un restaurant sur la Via Cifelli avec cuisine italienne, très prisé pour les fêtes.",
+"A restaurant with Italian and seafood cuisine, popular for ceremonies and events.": "Un restaurant avec cuisine italienne et de la mer, souvent choisi pour cérémonies et événements."
 };

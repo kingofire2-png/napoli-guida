@@ -1285,5 +1285,18 @@ window.I18N=window.I18N||{};window.I18N.it={
 "Check the opening days: it is closed on Tuesdays (listings differ).": "Controlla i giorni di apertura: è chiuso il martedì (gli elenchi non concordano).",
 "Lunch and dinner; closed Tuesday": "Pranzo e cena; chiuso il martedì",
 "Photos on Tripadvisor": "Foto su Tripadvisor",
-"Photos & reviews on Google": "Foto e recensioni su Google"
+"Photos & reviews on Google": "Foto e recensioni su Google",
+"A pizzeria set in a citrus grove, with Neapolitan pizza and a Mediterranean menu.": "Una pizzeria in mezzo a un agrumeto, con pizza napoletana e un menu mediterraneo.",
+"Pizza and Italian cuisine": "Pizza e cucina italiana",
+"An inexpensive restaurant and pizzeria in Trecase.": "Un ristorante e pizzeria economico a Trecase.",
+"Wine bar and Neapolitan cuisine": "Enoteca e cucina napoletana",
+"A winery with an enoteca restaurant on the slopes of Vesuvius, serving Neapolitan dishes with its own wines.": "Una cantina con ristorante-enoteca sulle pendici del Vesuvio, con piatti napoletani e vini propri.",
+"Italian and seafood cuisine": "Cucina italiana e di pesce",
+"An upscale restaurant with Italian and seafood cuisine, on Via Cifelli.": "Un ristorante di alto livello con cucina italiana e di pesce, in Via Cifelli.",
+"A restaurant with Italian and seafood cuisine, also used for ceremonies and events.": "Un ristorante con cucina italiana e di pesce, usato anche per cerimonie ed eventi.",
+"Italian cuisine and barbecue": "Cucina italiana e barbecue",
+"A villa restaurant on the Via Panoramica with Italian cuisine and barbecue, also used for events.": "Un ristorante in villa sulla Via Panoramica con cucina italiana e barbecue, usato anche per eventi.",
+"Italian cuisine": "Cucina italiana",
+"A restaurant on Via Cifelli with Italian cuisine, popular for celebrations.": "Un ristorante in Via Cifelli con cucina italiana, molto scelto per le feste.",
+"A restaurant with Italian and seafood cuisine, popular for ceremonies and events.": "Un ristorante con cucina italiana e di pesce, scelto spesso per cerimonie ed eventi."
 };
