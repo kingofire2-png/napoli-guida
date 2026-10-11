@@ -179,7 +179,7 @@
   function loadDict(code, cb) {
     if (window.I18N[code]) { cb(true); return; }
     var s = document.createElement('script');
-    s.src = 'lang_' + code + '.js';
+    s.src = 'lang_' + code + '.js' + (window.APP_V ? '?v=' + window.APP_V : '');
     s.onload = function () { cb(!!window.I18N[code]); };
     s.onerror = function () { cb(false); };
     document.head.appendChild(s);
@@ -263,7 +263,7 @@
         if (ok && window.I18N[cur]) { dict = window.I18N[cur]; dictLang = cur; }
         applyAll();
       };
-      document.write('<script src="lang_' + cur + '.js" onload="__i18nLoaded(true)" onerror="__i18nLoaded(false)"><\/script>');
+      document.write('<script src="lang_' + cur + '.js' + (window.APP_V ? '?v=' + window.APP_V : '') + '" onload="__i18nLoaded(true)" onerror="__i18nLoaded(false)"><\/script>');
     } else setLang(cur, false);
   }
 
