@@ -1322,5 +1322,8 @@ window.I18N=window.I18N||{};window.I18N.it={
 "Nearest stations": "Stazioni più vicine",
 "You seem to be far from the train network: choose a station from the list.": "Sembra che tu sia lontano dalla rete ferroviaria: scegli una stazione dall'elenco.",
 "We could not get your position: choose a station from the list.": "Non siamo riusciti a trovare la tua posizione: scegli una stazione dall'elenco.",
-"Finding your position…": "Cerco la tua posizione…"
+"Finding your position…": "Cerco la tua posizione…",
+"Location access is blocked for this site. Allow it in your phone or browser settings and try again, or choose a station from the list.": "L'accesso alla posizione è bloccato per questo sito. Consentilo nelle impostazioni del telefono o del browser e riprova, oppure scegli una stazione dall'elenco.",
+"Your phone could not find its position. Turn on Location Services and try again, or choose a station from the list.": "Il telefono non riesce a trovare la posizione. Attiva i servizi di localizzazione e riprova, oppure scegli una stazione dall'elenco.",
+"Finding your position took too long. Try again, or choose a station from the list.": "Trovare la posizione ha richiesto troppo tempo. Riprova, oppure scegli una stazione dall'elenco."
 };

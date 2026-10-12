@@ -330,11 +330,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610122016";</script>
-<script src="i18n.js?v=202610122016"></script>
-<script src="trains.js?v=202610122016"></script>
-<script src="collections.js?v=202610122016"></script>
-<script src="tickets.js?v=202610122016"></script>
+<script>window.APP_V="202610122019";</script>
+<script src="i18n.js?v=202610122019"></script>
+<script src="trains.js?v=202610122019"></script>
+<script src="collections.js?v=202610122019"></script>
+<script src="tickets.js?v=202610122019"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -461,7 +461,7 @@ a{text-decoration:none}
     if(!navigator.geolocation){box.innerHTML='<div class="plnone">We could not get your position: choose a station from the list.</div>';return;}
     box.innerHTML='<div class="plnone">Finding your position\u2026</div>';
     navigator.geolocation.getCurrentPosition(function(g){showNear(nearestStations(g.coords.latitude,g.coords.longitude));},
-      function(){box.innerHTML='<div class="plnone">We could not get your position: choose a station from the list.</div>';},{timeout:10000,maximumAge:60000,enableHighAccuracy:false});
+      function(er){var c=er&&er.code;box.innerHTML='<div class="plnone">'+(c===1?'Location access is blocked for this site. Allow it in your phone or browser settings and try again, or choose a station from the list.':c===2?'Your phone could not find its position. Turn on Location Services and try again, or choose a station from the list.':c===3?'Finding your position took too long. Try again, or choose a station from the list.':'We could not get your position: choose a station from the list.')+'</div>';},{timeout:20000,maximumAge:60000,enableHighAccuracy:false});
   };
   pfrom.onchange=function(){var box=document.getElementById('plnear');box.querySelectorAll('.plchip').forEach(function(o){o.classList.toggle('on',o.dataset.id===pfrom.value);});plan();};pto.onchange=plan;
   document.getElementById('pswap').onclick=function(){var f=pfrom.value,t=pto.value;if(t){pfrom.value=t;pto.value=f;}plan();};

@@ -1322,5 +1322,8 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "Nearest stations": "Gares les plus proches",
 "You seem to be far from the train network: choose a station from the list.": "Vous semblez loin du réseau ferroviaire : choisissez une gare dans la liste.",
 "We could not get your position: choose a station from the list.": "Impossible d'obtenir votre position : choisissez une gare dans la liste.",
-"Finding your position…": "Recherche de votre position…"
+"Finding your position…": "Recherche de votre position…",
+"Location access is blocked for this site. Allow it in your phone or browser settings and try again, or choose a station from the list.": "L'accès à la position est bloqué pour ce site. Autorisez-le dans les réglages du téléphone ou du navigateur et réessayez, ou choisissez une gare dans la liste.",
+"Your phone could not find its position. Turn on Location Services and try again, or choose a station from the list.": "Votre téléphone ne parvient pas à trouver sa position. Activez la localisation et réessayez, ou choisissez une gare dans la liste.",
+"Finding your position took too long. Try again, or choose a station from the list.": "La recherche de votre position a pris trop de temps. Réessayez, ou choisissez une gare dans la liste."
 };
