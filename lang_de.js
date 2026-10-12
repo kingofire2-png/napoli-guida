@@ -1337,5 +1337,7 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Departures from a station": "Abfahrten ab einem Bahnhof",
 "⇅ Swap": "⇅ Tauschen",
 "Departures from": "Abfahrten ab",
-"Take": "Nehmen Sie den Zug"
+"Take": "Nehmen Sie den Zug",
+"Live departures board": "Live-Abfahrtstafel",
+"Official EAV board: platform, delays and cancellations in real time.": "Offizielle EAV-Tafel: Gleis, Verspätungen und Ausfälle in Echtzeit."
 };

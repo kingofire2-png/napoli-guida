@@ -1337,5 +1337,7 @@ window.I18N=window.I18N||{};window.I18N.it={
 "Departures from a station": "Partenze da una stazione",
 "⇅ Swap": "⇅ Inverti",
 "Departures from": "Partenze da",
-"Take": "Prendi il treno"
+"Take": "Prendi il treno",
+"Live departures board": "Tabellone partenze in tempo reale",
+"Official EAV board: platform, delays and cancellations in real time.": "Tabellone ufficiale EAV: binario, ritardi e soppressioni in tempo reale."
 };

@@ -316,6 +316,7 @@ a{text-decoration:none}
   </div>
   <h2 class="plh2">Departures from a station</h2>
   <select id="station" aria-label="Station"></select>
+  <a class="plive" id="slive" target="_blank" rel="noopener" style="margin:6px 18px 0" hidden></a>
   <div id="tdest"></div>
   <div class="demo">Scheduled times from the official EAV timetable (open data). Delays and strikes are not included: check EAV for live updates.</div>
   <div class="list" id="deps"></div>
@@ -355,11 +356,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610122040";</script>
-<script src="i18n.js?v=202610122040"></script>
-<script src="trains.js?v=202610122040"></script>
-<script src="collections.js?v=202610122040"></script>
-<script src="tickets.js?v=202610122040"></script>
+<script>window.APP_V="202610122102";</script>
+<script src="i18n.js?v=202610122102"></script>
+<script src="trains.js?v=202610122102"></script>
+<script src="collections.js?v=202610122102"></script>
+<script src="tickets.js?v=202610122102"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -376,6 +377,8 @@ a{text-decoration:none}
     function ok(d){if(!DEST)return true;var tr=T.trips[d[4]],k=tr.indexOf(id);return k>=0&&tr.indexOf(DEST,k+1)>=0;}
     (T.deps[id]||[]).forEach(function(d){if(ok(d)&&today.indexOf(d[3])>=0&&d[0]>=secs)out.push([d[0],d]);});
     (T.deps[id]||[]).forEach(function(d){if(ok(d)&&tmr.indexOf(d[3])>=0&&d[0]<4*3600)out.push([d[0]+86400,d]);});
+    var sl=document.getElementById('slive'),se=T.eav&&T.eav[id];
+    if(se){sl.hidden=false;sl.href='https://orariotreni.eavsrl.it/teleindicatori/?stazione='+se+'&tipo=P';sl.innerHTML='<span>Live departures board</span>: <b>'+byId[id]+'</b>';}else sl.hidden=true;
     var pill=document.getElementById('tdest');
     pill.innerHTML=DEST?'<span class="pill">To '+byId[DEST]+' <button id="tdx" aria-label="Remove filter">\u2715</button></span>':'';
     if(DEST)document.getElementById('tdx').onclick=function(){DEST=null;render();};
@@ -459,7 +462,10 @@ a{text-decoration:none}
     if(sel.value!==from||DEST!==to){sel.value=from;DEST=to;render();}
     var pdep=document.getElementById('pdep');pdep.hidden=false;pdep.innerHTML='<span>Departures from</span> <b>'+esc2(byId[from])+'</b>';
     pdep.onclick=function(){var d=document.getElementById('deps');if(d)d.scrollIntoView({behavior:'smooth',block:'start'});};
-    plive.hidden=false;var hint=document.getElementById('plhint');hint.hidden=false;hint.textContent='Then choose the station “'+byId[from].toUpperCase()+'” in the list.';
+    plive.hidden=false;var hint=document.getElementById('plhint');
+    var eid=T.eav&&T.eav[from];
+    if(eid){plive.href='https://orariotreni.eavsrl.it/teleindicatori/?stazione='+eid+'&tipo=P';plive.innerHTML='<span>Live departures board</span>: <b>'+esc2(byId[from])+'</b>';hint.hidden=false;hint.textContent='Official EAV board: platform, delays and cancellations in real time.';}
+    else{plive.href='https://orariotreni.eavsrl.it/';plive.textContent='Live board (official EAV site)';hint.hidden=true;}
     if(!out.length){pres.innerHTML='<div class="plnone">No trains found for this trip today. Check tomorrow morning.</div>';return;}
     pres.innerHTML=out.map(function(it){
       var m=Math.round((it.arr-it.dep)/60),w=Math.round((it.dep-secs)/60);
