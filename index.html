@@ -191,6 +191,19 @@ a{text-decoration:none}
 .tkbtns{display:flex;gap:10px;justify-content:flex-end}
 .tkbtns button{border:0;border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;background:var(--line);color:var(--ink)}
 .tkbtns #tkgo{background:var(--red);color:#fff}
+.plan{margin:14px 18px 0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}
+.plh{font-size:12px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.plrow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.plrow label{width:44px;font-size:13px;font-weight:700}
+.plrow select{flex:1;min-width:0;padding:9px 10px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14px}
+.plswap{border:0;background:var(--line);color:var(--ink);border-radius:99px;padding:5px 12px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;margin-bottom:6px}
+.pit{border-top:1px solid var(--line);padding:10px 0}
+.pit:first-child{border-top:0}
+.pit b{font-size:15px}.pit .pm{color:var(--mute);font-size:12.5px;margin-top:2px}
+.pit .pl{font-size:13px;margin-top:5px}
+.pit .pc2{color:#e0a800;font-size:12.5px;font-weight:700;margin-top:3px}
+.plive{display:inline-block;margin-top:8px;color:var(--azz);font-weight:700;font-size:13.5px}
+.plnone{padding:8px 0;color:var(--mute);font-size:13.5px}
 #beta{background:#f7c53b;color:#3b2d00;font-size:11.5px;font-weight:700;padding:5px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
 #beta button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer;color:#3b2d00;font-size:11px;line-height:1}
 </style>
@@ -261,6 +274,15 @@ a{text-decoration:none}
 <!-- TRAINS -->
 <div class="screen" id="trains">
   <div class="top"><small>EAV · Circumvesuviana</small><h1>Next trains</h1></div>
+  <div class="plan" id="planner">
+    <div class="plh">Plan a trip</div>
+    <div class="plrow"><label for="pfrom">From</label><select id="pfrom"></select></div>
+    <div class="plrow"><label for="pto">To</label><select id="pto"></select></div>
+    <button type="button" id="pswap" class="plswap">Swap</button>
+    <div id="pres"></div>
+    <a class="plive" id="plive" href="https://orariotreni.eavsrl.it/" target="_blank" rel="noopener" hidden>Live board (official EAV site)</a>
+    <div class="pm" id="plhint" hidden></div>
+  </div>
   <select id="station" aria-label="Station"></select>
   <div id="tdest"></div>
   <div class="demo">Scheduled times from the official EAV timetable (open data). Delays and strikes are not included: check EAV for live updates.</div>
@@ -301,11 +323,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610112117";</script>
-<script src="i18n.js?v=202610112117"></script>
-<script src="trains.js?v=202610112117"></script>
-<script src="collections.js?v=202610112117"></script>
-<script src="tickets.js?v=202610112117"></script>
+<script>window.APP_V="202610122010";</script>
+<script src="i18n.js?v=202610122010"></script>
+<script src="trains.js?v=202610122010"></script>
+<script src="collections.js?v=202610122010"></script>
+<script src="tickets.js?v=202610122010"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -331,8 +353,91 @@ a{text-decoration:none}
       :'<div class="li"><div class="t"><b>No more departures today</b><span>Check tomorrow morning</span></div></div>';
   }
   sel.onchange=function(){DEST=null;render();};
-  window.openTrains=function(from,to){var f=idByName[from];if(f)sel.value=f;DEST=to?idByName[to]:null;render();document.querySelector('nav button[data-t=trains]').click();};
-  render();setInterval(render,30000);
+  window.openTrains=function(from,to){var f=idByName[from];if(f)sel.value=f;DEST=to?idByName[to]:null;if(f)pfrom.value=f;pto.value=(to&&idByName[to])||'';plan();render();document.querySelector('nav button[data-t=trains]').click();};
+  // ---------- trip planner (scheduled times, up to one change) ----------
+  var pfrom=document.getElementById('pfrom'),pto=document.getElementById('pto'),pres=document.getElementById('pres'),plive=document.getElementById('plive');
+  var PMIN_CHANGE=2*60,PMAX_WAIT=50*60;
+  (function(){
+    var pop=opts(T.featured),rest2=opts(rest);
+    var all='<optgroup label="Popular">'+pop+'</optgroup><optgroup label="All stations">'+rest2+'</optgroup>';
+    pfrom.innerHTML=all;pto.innerHTML='<option value="">Choose destination</option>'+all;
+    pfrom.value=idByName['Napoli Porta Nolana']||T.featured[0];
+  })();
+  function hmm(sec){sec=Math.round(sec);var d=sec>=86400?1:0;sec%=86400;return ('0'+Math.floor(sec/3600)).slice(-2)+':'+('0'+Math.floor(sec%3600/60)).slice(-2);}
+  function plan(){
+    var from=pfrom.value,to=pto.value;
+    if(!to||from===to){pres.innerHTML=to?'<div class="plnone">Choose two different stations.</div>':'';plive.hidden=!to;document.getElementById('plhint').hidden=true;return;}
+    var now=new Date(),secs=now.getHours()*3600+now.getMinutes()*60,tomorrow=new Date(now.getTime()+864e5);
+    var dayOff=[[ymd(now),0],[ymd(tomorrow),86400]],res=[];
+    function pos(tr,id,from0){var k=T.trips[tr].indexOf(id,from0||0);return k;}
+    // direct and one-change itineraries
+    dayOff.forEach(function(dy){
+      var act=T.days[dy[0]]||[],off=dy[1];
+      for(var a=0;a<T.trips.length;a++){
+        if(act.indexOf(T.ti[a][0])<0)continue;
+        var pa=pos(a,from);if(pa<0)continue;
+        var dep=T.tm[a][pa]+off;
+        // departure time = arrival time at the first stop: use departure stored in deps when available
+        var depA=depAt(a,from);if(depA!==null)dep=depA+off;
+        if(dep<secs)continue;
+        var pd=pos(a,to,pa+1);
+        if(pd>=0){res.push({dep:dep,arr:T.tm[a][pd]+off,legs:[{tr:a,from:from,to:to,dep:dep,arr:T.tm[a][pd]+off}],chg:0});continue;}
+        var best=null;
+        for(var k=pa+1;k<T.trips[a].length;k++){
+          var x=T.trips[a][k],arrX=T.tm[a][k]+off;
+          var cand=tripsAt(x);
+          for(var bi=0;bi<cand.length;bi++){
+            var b=cand[bi];
+            if(b===a)continue;
+            var bs=T.ti[b][0];if(act.indexOf(bs)<0&&(T.days[dayOff[1][0]]||[]).indexOf(bs)<0)continue;
+            var px=pos(b,x);if(px<0)continue;
+            var pdB=pos(b,to,px+1);if(pdB<0)continue;
+            var depB=depAt(b,x);if(depB===null)continue;
+            var offB=off;
+            if(act.indexOf(bs)<0)offB=86400;
+            var d2=depB+offB;
+            if(d2<arrX+PMIN_CHANGE||d2>arrX+PMAX_WAIT)continue;
+            var arr=T.tm[b][pdB]+offB;
+            if(!best||arr<best.arr)best={dep:dep,arr:arr,chg:1,legs:[{tr:a,from:from,to:x,dep:dep,arr:arrX},{tr:b,from:x,to:to,dep:d2,arr:arr}],wait:d2-arrX,at:x};
+          }
+        }
+        if(best)res.push(best);
+      }
+    });
+    res.sort(function(p,q){return (p.dep-q.dep)||(p.arr-q.arr);});
+    // when a direct train leaves soon, do not suggest itineraries with a change (they would only double back)
+    var dr=res.filter(function(r){return !r.chg;});if(dr.length&&dr[0].dep-secs<=5400)res=dr;
+    // keep the best itinerary for each departure time, drop the ones that are slower than a later departure
+    var out=[],lastArr=1e9;
+    for(var i=res.length-1;i>=0;i--){if(res[i].arr<lastArr){out.unshift(res[i]);lastArr=res[i].arr;}}
+    out=out.slice(0,5);
+    plive.hidden=false;var hint=document.getElementById('plhint');hint.hidden=false;hint.textContent='Then choose the station “'+byId[from].toUpperCase()+'” in the list.';
+    if(!out.length){pres.innerHTML='<div class="plnone">No trains found for this trip today. Check tomorrow morning.</div>';return;}
+    pres.innerHTML=out.map(function(it){
+      var m=Math.round((it.arr-it.dep)/60),w=Math.round((it.dep-secs)/60);
+      var h='<div class="pit"><b>'+hmm(it.dep)+' \u2192 '+hmm(it.arr)+'</b> <span class="pm">'+m+' min \u00b7 '+(it.chg?'1 change':'Direct')+'</span>';
+      it.legs.forEach(function(lg){var inf=T.ti[lg.tr];
+        h+='<div class="pl">'+hmm(lg.dep)+' '+esc2(byId[lg.from])+' \u2192 '+hmm(lg.arr)+' '+esc2(byId[lg.to])+'<div class="pm"><span>Line '+inf[1]+'</span> &middot; <span>Towards '+esc2(inf[2])+'</span></div></div>';});
+      if(it.chg)h+='<div class="pc2">Change at '+esc2(byId[it.at])+'</div><div class="pm">Wait '+Math.round(it.wait/60)+' min</div>';
+      h+='<div class="pm">'+(w<60?'in '+w+' min':'in '+Math.floor(w/60)+' h '+(w%60)+' min')+'</div></div>';
+      return h;}).join('');
+  }
+  function esc2(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  // departure time of trip a at stop id (the last stop of a trip has no departure)
+  var AT=null;
+  function tripsAt(id){
+    if(!AT){AT={};T.trips.forEach(function(tr,i){tr.forEach(function(st){(AT[st]=AT[st]||[]).push(i);});});}
+    return AT[id]||[];
+  }
+  var DEPIDX=null;
+  function depAt(a,id){
+    if(!DEPIDX){DEPIDX={};Object.keys(T.deps).forEach(function(st){T.deps[st].forEach(function(d){DEPIDX[d[4]+'|'+st]=d[0];});});}
+    var v=DEPIDX[a+'|'+id];return v===undefined?null:v;
+  }
+  pfrom.onchange=plan;pto.onchange=plan;
+  document.getElementById('pswap').onclick=function(){var f=pfrom.value,t=pto.value;if(t){pfrom.value=t;pto.value=f;}plan();};
+  window.planTrip=plan;
+  render();setInterval(render,30000);setInterval(plan,60000);
 })();
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('nav button,.screen').forEach(e=>e.classList.remove('on'));

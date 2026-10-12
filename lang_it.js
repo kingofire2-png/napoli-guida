@@ -1302,5 +1302,20 @@ window.I18N=window.I18N||{};window.I18N.it={
 "{0} reviews": "{0} recensioni",
 "Chosen by a local": "Scelto da un locale",
 "Oct 2026": "ott. 2026",
-"Tripadvisor": "Tripadvisor"
+"Tripadvisor": "Tripadvisor",
+"Plan a trip": "Pianifica un viaggio",
+"From": "Da",
+"To": "A",
+"Swap": "Inverti",
+"Choose destination": "Scegli la destinazione",
+"Choose two different stations.": "Scegli due stazioni diverse.",
+"No trains found for this trip today. Check tomorrow morning.": "Oggi non ci sono treni per questo viaggio. Controlla domani mattina.",
+"Direct": "Diretto",
+"1 change": "1 cambio",
+"Towards {0}": "Direzione {0}",
+"Change at {0}": "Cambia a {0}",
+"Wait {0} min": "Attesa {0} min",
+"{0} min": "{0} min",
+"Live board (official EAV site)": "Tabellone in tempo reale (sito ufficiale EAV)",
+"Then choose the station “{0}” in the list.": "Poi scegli la stazione “{0}” nell'elenco."
 };
