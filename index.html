@@ -224,6 +224,21 @@ a{text-decoration:none}
 .plnote b{color:var(--ink)}
 .plh2{margin:18px 18px 8px;font-size:16px}
 #planner [hidden]{display:none!important}
+#trip{position:absolute;inset:0;z-index:1500;background:var(--bg);display:flex;flex-direction:column}
+#trip[hidden]{display:none}
+.trh{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);font-size:16px}
+.trh button{border:0;background:var(--line);color:var(--ink);border-radius:99px;width:30px;height:30px;font-size:14px;cursor:pointer}
+.trs{padding:10px 16px;background:var(--card);border-bottom:1px solid var(--line)}
+#trmain{font-size:19px;font-weight:800;line-height:1.25}
+#trmain.go{color:#e0a800}
+#trsub{color:var(--mute);font-size:13.5px;margin-top:4px}
+#trlist{font-size:12.5px;margin-top:6px;color:var(--mute);line-height:1.5}
+#trlist b{color:var(--ink)}
+#trmap{flex:1;min-height:180px}
+.trf{display:flex;align-items:center;gap:8px;padding:8px 16px;border-top:1px solid var(--line);background:var(--card)}
+.trf label{font-size:12.5px;font-weight:700;white-space:nowrap}
+.trf select{flex:1;min-width:0;padding:7px 8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:13.5px}
+.pfollow{margin-top:8px;background:var(--azz);color:#fff}
 .plnone{padding:8px 0;color:var(--mute);font-size:13.5px}
 #beta{background:#f7c53b;color:#3b2d00;font-size:11.5px;font-weight:700;padding:5px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
 #beta button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer;color:#3b2d00;font-size:11px;line-height:1}
@@ -352,15 +367,21 @@ a{text-decoration:none}
   <button data-t="plans"><i>📅</i>Plans</button>
   <button data-t="saved"><i>❤️</i>Saved</button>
 </nav>
+<div id="trip" hidden>
+  <div class="trh"><b>Follow my trip</b><button type="button" id="trx" aria-label="Close">\u2715</button></div>
+  <div class="trs"><div id="trmain"></div><div id="trsub"></div><div id="trlist"></div></div>
+  <div id="trmap"></div>
+  <div class="trf"><label for="trwhere">Where am I now?</label><select id="trwhere"></select></div>
+</div>
 <div id="tkmodal" hidden><div class="tkbox"><b>Book ticket</b><p>You will be redirected to the official website to book your ticket.</p><div class="tkbtns"><button id="tkno" type="button">Cancel</button><button id="tkgo" type="button">Continue</button></div></div></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610122102";</script>
-<script src="i18n.js?v=202610122102"></script>
-<script src="trains.js?v=202610122102"></script>
-<script src="collections.js?v=202610122102"></script>
-<script src="tickets.js?v=202610122102"></script>
+<script>window.APP_V="202610122144";</script>
+<script src="i18n.js?v=202610122144"></script>
+<script src="trains.js?v=202610122144"></script>
+<script src="collections.js?v=202610122144"></script>
+<script src="tickets.js?v=202610122144"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -394,6 +415,7 @@ a{text-decoration:none}
   var qfrom=document.getElementById('qfrom'),qto=document.getElementById('qto');
   var PMIN_CHANGE=2*60,PMAX_WAIT=50*60;
   function hmm(sec){sec=Math.round(sec);var d=sec>=86400?1:0;sec%=86400;return ('0'+Math.floor(sec/3600)).slice(-2)+':'+('0'+Math.floor(sec%3600/60)).slice(-2);}
+  var LASTOUT=[];
   function nowSecs(){var n=new Date();return n.getHours()*3600+n.getMinutes()*60;}
   function searchTrips(from,to,minSecs){
     var now=new Date(),secs=Math.max(nowSecs(),minSecs||0),tomorrow=new Date(now.getTime()+864e5);
@@ -453,7 +475,7 @@ a{text-decoration:none}
       if(o.length){var sc=o[0].arr+t.min*60+f.min*60*0.3;if(!best||sc<best.sc)best={sc:sc,out:o,f:f,t:t};}
     });});
     if(!best){var f0=candsOf('from',from)[0],t0=candsOf('to',to)[0];best={out:[],f:f0,t:t0};}
-    var out=best.out;from=best.f.id;to=best.t.id;
+    var out=best.out;LASTOUT=out;from=best.f.id;to=best.t.id;
     pfrom.value=from;pto.value=to;
     document.querySelectorAll('#plnear .plchip').forEach(function(o){o.classList.toggle('on',o.dataset.id===from);});
     ['from','to'].forEach(function(w){var e=ENDS[w],c=w==='from'?best.f:best.t,note=document.getElementById(w==='from'?'notefrom':'noteto');
@@ -473,8 +495,10 @@ a{text-decoration:none}
       it.legs.forEach(function(lg){var inf=T.ti[lg.tr];
         h+='<div class="pl">'+hmm(lg.dep)+' '+esc2(byId[lg.from])+' \u2192 '+hmm(lg.arr)+' '+esc2(byId[lg.to])+'<div class="ptake"><span>Take</span> <b class="lnb">'+inf[1]+'</b> <span>Towards '+esc2(inf[2])+'</span></div></div>';});
       if(it.chg)h+='<div class="pc2">Change at '+esc2(byId[it.at])+'</div><div class="pm">Wait '+Math.round(it.wait/60)+' min</div>';
-      h+='<div class="pm">'+(w<60?'in '+w+' min':'in '+Math.floor(w/60)+' h '+(w%60)+' min')+'</div></div>';
+      h+='<div class="pm">'+(w<60?'in '+w+' min':'in '+Math.floor(w/60)+' h '+(w%60)+' min')+'</div>';
+      h+='<button type="button" class="plswap pfollow" data-i="'+LASTOUT.indexOf(it)+'">Follow my trip</button></div>';
       return h;}).join('');
+    pres.querySelectorAll('.pfollow').forEach(function(b){b.onclick=function(){openTrip(LASTOUT[+b.dataset.i]);};});
   }
   function esc2(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   // departure time of trip a at stop id (the last stop of a trip has no departure)
@@ -626,6 +650,78 @@ a{text-decoration:none}
     document.getElementById('plnear').innerHTML='';
     setEnd('from',b);setEnd('to',a);
   };
+  // ---------- follow my trip: "get off in N stops" + live map ----------
+  var LL={};T.stops.forEach(function(x){if(x.la!=null)LL[x.id]=[x.la,x.lo];});
+  var TM={map:null,grp:null,me:null,watch:null,it:null,leg:0,pos:null,manual:'',buzz:{}};
+  function legStops(lg){var tr=T.trips[lg.tr],a=tr.indexOf(lg.from),b=tr.indexOf(lg.to,a+1);return tr.slice(a,b+1);}
+  function openTrip(it){
+    if(!it)return;
+    TM.it=it;TM.leg=0;TM.pos=null;TM.manual='';TM.buzz={};
+    var box=document.getElementById('trip');box.hidden=false;
+    var ids=[],seen={};it.legs.forEach(function(lg){legStops(lg).forEach(function(id){if(!seen[id]){seen[id]=1;ids.push(id);}});});
+    var w=document.getElementById('trwhere');
+    w.innerHTML='<option value="">Use my GPS</option>'+ids.map(function(id){return '<option value="'+id+'">'+esc2(byId[id])+'</option>';}).join('');
+    w.onchange=function(){TM.manual=w.value;update();};
+    if(!TM.map){TM.map=L.map('trmap',{zoomControl:true});
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(TM.map);}
+    if(TM.grp)TM.grp.remove();
+    TM.grp=L.featureGroup().addTo(TM.map);TM.me=null;
+    var cols=['#0e8fd0','#e0701a'];
+    it.legs.forEach(function(lg,k){
+      var l=legStops(lg),pts=l.map(function(id){return LL[id];}).filter(Boolean);
+      L.polyline(pts,{color:cols[k%2],weight:5,opacity:.85}).addTo(TM.grp);
+      l.forEach(function(id,i){if(!LL[id])return;var end=(i===0||i===l.length-1);
+        var m=L.circleMarker(LL[id],{radius:end?8:4,color:cols[k%2],weight:2,fillColor:end?'#fff':cols[k%2],fillOpacity:1}).addTo(TM.grp);
+        if(end)m.bindTooltip(byId[id],{permanent:true,direction:'top',offset:[0,-6]});});
+    });
+    setTimeout(function(){TM.map.invalidateSize();TM.map.fitBounds(TM.grp.getBounds(),{padding:[24,24]});},60);
+    if(navigator.geolocation&&TM.watch===null)TM.watch=navigator.geolocation.watchPosition(function(g){TM.pos=[g.coords.latitude,g.coords.longitude];TM.gpsErr='';update();},
+      function(){TM.gpsErr='1';update();},{enableHighAccuracy:true,maximumAge:5000,timeout:20000});
+    update();
+  }
+  function closeTrip(){document.getElementById('trip').hidden=true;if(TM.watch!==null){navigator.geolocation.clearWatch(TM.watch);TM.watch=null;}}
+  document.getElementById('trx').onclick=closeTrip;
+  function update(){
+    var it=TM.it;if(!it)return;
+    var main=document.getElementById('trmain'),sub=document.getElementById('trsub'),list=document.getElementById('trlist');
+    var pos=TM.manual?LL[TM.manual]:TM.pos;
+    main.className='';list.innerHTML='';
+    if(!pos){main.textContent='Waiting for your position…';sub.textContent=TM.gpsErr?'Position not available: choose where you are below.':'Or choose where you are below.';return;}
+    // move on to the next leg once the traveller is on it (after its first stop)
+    while(TM.leg<it.legs.length-1){var nl=legStops(it.legs[TM.leg+1]),nb=-1,nd=1e9;
+      nl.forEach(function(id,i){var d=km2(pos[0],pos[1],LL[id][0],LL[id][1]);if(d<nd){nd=d;nb=i;}});
+      if(nb>=1&&nd<0.35)TM.leg++;else break;}
+    var lg=it.legs[TM.leg],ids=legStops(lg),inf=T.ti[lg.tr],last=ids.length-1;
+    var best=0,bd=1e9;
+    ids.forEach(function(id,i){var d=km2(pos[0],pos[1],LL[id][0],LL[id][1]);if(d<bd){bd=d;best=i;}});
+    if(TM.manual)bd=0;
+    var dest=byId[lg.to],lastLeg=TM.leg===it.legs.length-1,nxt=it.legs[TM.leg+1];
+    var cur=byId[ids[best]];
+    function dist(i){return km2(pos[0],pos[1],LL[ids[i]][0],LL[ids[i]][1]);}
+    if(bd>=3&&!TM.manual){
+      main.textContent='Go to the station '+byId[lg.from];sub.textContent='You are '+Math.round(bd*10)/10+' km from the route. Nearest station on it: '+cur+'.';
+    }else if(bd<0.35){
+      if(best===0){main.className='go';main.textContent='Board line '+inf[1]+' towards '+inf[2];sub.textContent='You are at '+cur+'. Departure '+hmm(lg.dep)+'.';}
+      else if(best===last){
+        if(lastLeg){main.className='go';main.textContent='Get off now: '+dest;sub.textContent='You have arrived.';buzz(TM.leg+'a');}
+        else{main.className='go';main.textContent='Change here: '+dest;sub.textContent='Take line '+T.ti[nxt.tr][1]+' towards '+T.ti[nxt.tr][2]+' at '+hmm(nxt.dep)+'.';buzz(TM.leg+'a');}
+      }else{
+        var n=last-best;main.textContent=n===1?'Get off at '+dest+' at the next stop':'Get off at '+dest+' in '+n+' stops';
+        sub.textContent='Now at '+cur+'.';if(n===1)buzz(TM.leg+'b');}
+    }else{
+      var nextI=best;if(best<last&&(best===0||dist(best+1)<dist(best-1)))nextI=best+1;
+      var m2=last-nextI+1;
+      main.textContent=m2===1?'Get off at '+dest+' at the next stop':'Get off at '+dest+' in '+m2+' stops';
+      sub.textContent='Next stop: '+byId[ids[nextI]]+'.';if(m2===1)buzz(TM.leg+'b');
+    }
+    var from=Math.max(0,Math.min(best,last)),h=[];
+    ids.slice(from,from+8).forEach(function(id,i){h.push(id===lg.to?'<b>'+esc2(byId[id])+'</b>':esc2(byId[id]));});
+    if(ids.length-from>8)h.push('…','<b>'+esc2(dest)+'</b>');
+    list.innerHTML=h.join(' › ');
+    if(TM.map){if(!TM.me)TM.me=L.circleMarker(pos,{radius:9,color:'#fff',weight:3,fillColor:'#1a73e8',fillOpacity:1}).addTo(TM.map);else TM.me.setLatLng(pos);
+      if(!TM.manual&&bd<3)TM.map.panTo(pos,{animate:true});}
+  }
+  function buzz(k){if(TM.buzz[k])return;TM.buzz[k]=1;try{navigator.vibrate&&navigator.vibrate([250,120,250]);}catch(e){}}
   window.planTrip=plan;
   render();setInterval(render,30000);setInterval(plan,60000);
 })();

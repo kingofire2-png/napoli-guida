@@ -60,8 +60,17 @@
     function (s) { var m = /^(\d+) not on the map$/.exec(s); return m && ['{0} not on the map', [m[1]]]; },
     function (s) { var m = /^Top 10 · (.*) \(numbers = ranking\)( · .*)?$/.exec(s); return m && ['Top 10 · {0} (numbers = ranking)', [tcore(m[1]), m[2] ? ' · ' + tcore(m[2].slice(3)) : ''], m[2] ? true : false]; },
     function (s) { var m = /^Explore (.+)$/.exec(s); return m && ['Explore {0}', [tcore(m[1])]]; },
-    function (s) { var m = /^(.+) \(original\)$/.exec(s); return m && ['{0} (original)', [m[1]]]; }
+    function (s) { var m = /^(.+) \(original\)$/.exec(s); return m && ['{0} (original)', [m[1]]]; },
+    // "follow my trip" sentences: one rule per template, built from the dictionary key
+    function (s) {
+      for (var i = 0; i < FOLLOW_KEYS.length; i++) {
+        var k = FOLLOW_KEYS[i], re = new RegExp('^' + k.replace(/[.*+?^$()|[\]\\]/g, '\\$&').replace(/\{\d\}/g, '(.+?)') + '$'), m = re.exec(s);
+        if (m) return [k, m.slice(1)];
+      }
+      return null;
+    }
   ];
+  var FOLLOW_KEYS = ["Board line {0} towards {1}", "You are at {0}. Departure {1}.", "Get off now: {0}", "Change here: {0}", "Take line {0} towards {1} at {2}.", "Get off at {0} at the next stop", "Get off at {0} in {1} stops", "Now at {0}.", "Next stop: {0}.", "Go to the station {0}", "You are {0} km from the route. Nearest station on it: {1}."];
 
   // translate a trimmed English string; returns the same string when nothing is known
   function tcore(s) {
