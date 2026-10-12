@@ -1336,5 +1336,6 @@ window.I18N=window.I18N||{};window.I18N.it={
 "Browse stations by line": "Sfoglia le stazioni per linea",
 "Departures from a station": "Partenze da una stazione",
 "⇅ Swap": "⇅ Inverti",
-"Departures from": "Partenze da"
+"Departures from": "Partenze da",
+"Take": "Prendi il treno"
 };

@@ -201,6 +201,8 @@ a{text-decoration:none}
 .pit:first-child{border-top:0}
 .pit b{font-size:15px}.pit .pm{color:var(--mute);font-size:12.5px;margin-top:2px}
 .pit .pl{font-size:13px;margin-top:5px}
+.ptake{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:6px;background:rgba(14,143,208,.14);border-radius:10px;padding:6px 9px;font-size:13.5px;font-weight:700}
+.lnb{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:7px;background:var(--azz);color:#fff;font-size:14px}
 .pit .pc2{color:#e0a800;font-size:12.5px;font-weight:700;margin-top:3px}
 .plive{display:inline-block;margin-top:8px;color:var(--azz);font-weight:700;font-size:13.5px}
 .plloc{margin:-2px 0 8px 0}
@@ -353,11 +355,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610122034";</script>
-<script src="i18n.js?v=202610122034"></script>
-<script src="trains.js?v=202610122034"></script>
-<script src="collections.js?v=202610122034"></script>
-<script src="tickets.js?v=202610122034"></script>
+<script>window.APP_V="202610122040";</script>
+<script src="i18n.js?v=202610122040"></script>
+<script src="trains.js?v=202610122040"></script>
+<script src="collections.js?v=202610122040"></script>
+<script src="tickets.js?v=202610122040"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -463,7 +465,7 @@ a{text-decoration:none}
       var m=Math.round((it.arr-it.dep)/60),w=Math.round((it.dep-secs)/60);
       var h='<div class="pit"><b>'+hmm(it.dep)+' \u2192 '+hmm(it.arr)+'</b> <span class="pm">'+m+' min \u00b7 '+(it.chg?'1 change':'Direct')+'</span>';
       it.legs.forEach(function(lg){var inf=T.ti[lg.tr];
-        h+='<div class="pl">'+hmm(lg.dep)+' '+esc2(byId[lg.from])+' \u2192 '+hmm(lg.arr)+' '+esc2(byId[lg.to])+'<div class="pm"><span>Line '+inf[1]+'</span> &middot; <span>Towards '+esc2(inf[2])+'</span></div></div>';});
+        h+='<div class="pl">'+hmm(lg.dep)+' '+esc2(byId[lg.from])+' \u2192 '+hmm(lg.arr)+' '+esc2(byId[lg.to])+'<div class="ptake"><span>Take</span> <b class="lnb">'+inf[1]+'</b> <span>Towards '+esc2(inf[2])+'</span></div></div>';});
       if(it.chg)h+='<div class="pc2">Change at '+esc2(byId[it.at])+'</div><div class="pm">Wait '+Math.round(it.wait/60)+' min</div>';
       h+='<div class="pm">'+(w<60?'in '+w+' min':'in '+Math.floor(w/60)+' h '+(w%60)+' min')+'</div></div>';
       return h;}).join('');

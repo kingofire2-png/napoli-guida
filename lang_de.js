@@ -1336,5 +1336,6 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Browse stations by line": "Bahnhöfe nach Linie durchsuchen",
 "Departures from a station": "Abfahrten ab einem Bahnhof",
 "⇅ Swap": "⇅ Tauschen",
-"Departures from": "Abfahrten ab"
+"Departures from": "Abfahrten ab",
+"Take": "Nehmen Sie den Zug"
 };
