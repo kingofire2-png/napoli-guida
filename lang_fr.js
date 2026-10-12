@@ -1317,5 +1317,10 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "Wait {0} min": "Attente {0} min",
 "{0} min": "{0} min",
 "Live board (official EAV site)": "Tableau en temps réel (site officiel EAV)",
-"Then choose the station “{0}” in the list.": "Choisissez ensuite la gare “{0}” dans la liste."
+"Then choose the station “{0}” in the list.": "Choisissez ensuite la gare “{0}” dans la liste.",
+"Use my location": "Utiliser ma position",
+"Nearest stations": "Gares les plus proches",
+"You seem to be far from the train network: choose a station from the list.": "Vous semblez loin du réseau ferroviaire : choisissez une gare dans la liste.",
+"We could not get your position: choose a station from the list.": "Impossible d'obtenir votre position : choisissez une gare dans la liste.",
+"Finding your position…": "Recherche de votre position…"
 };

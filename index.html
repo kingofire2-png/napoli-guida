@@ -203,6 +203,12 @@ a{text-decoration:none}
 .pit .pl{font-size:13px;margin-top:5px}
 .pit .pc2{color:#e0a800;font-size:12.5px;font-weight:700;margin-top:3px}
 .plive{display:inline-block;margin-top:8px;color:var(--azz);font-weight:700;font-size:13.5px}
+.plloc{margin:-2px 0 8px 0}
+.plchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.plchip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:6px 10px;font:inherit;font-size:12.5px;cursor:pointer;text-align:left}
+.plchip.on{border-color:var(--azz);background:rgba(14,143,208,.15)}
+.plchip b{display:block;font-size:13px}
+.plchip span{color:var(--mute);font-size:12px}
 .plnone{padding:8px 0;color:var(--mute);font-size:13.5px}
 #beta{background:#f7c53b;color:#3b2d00;font-size:11.5px;font-weight:700;padding:5px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
 #beta button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer;color:#3b2d00;font-size:11px;line-height:1}
@@ -277,6 +283,7 @@ a{text-decoration:none}
   <div class="plan" id="planner">
     <div class="plh">Plan a trip</div>
     <div class="plrow"><label for="pfrom">From</label><select id="pfrom"></select></div>
+    <div class="plloc"><button type="button" id="ploc" class="plswap">Use my location</button><div id="plnear"></div></div>
     <div class="plrow"><label for="pto">To</label><select id="pto"></select></div>
     <button type="button" id="pswap" class="plswap">Swap</button>
     <div id="pres"></div>
@@ -323,11 +330,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610122010";</script>
-<script src="i18n.js?v=202610122010"></script>
-<script src="trains.js?v=202610122010"></script>
-<script src="collections.js?v=202610122010"></script>
-<script src="tickets.js?v=202610122010"></script>
+<script>window.APP_V="202610122016";</script>
+<script src="i18n.js?v=202610122016"></script>
+<script src="trains.js?v=202610122016"></script>
+<script src="collections.js?v=202610122016"></script>
+<script src="tickets.js?v=202610122016"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -434,7 +441,29 @@ a{text-decoration:none}
     if(!DEPIDX){DEPIDX={};Object.keys(T.deps).forEach(function(st){T.deps[st].forEach(function(d){DEPIDX[d[4]+'|'+st]=d[0];});});}
     var v=DEPIDX[a+'|'+id];return v===undefined?null:v;
   }
-  pfrom.onchange=plan;pto.onchange=plan;
+  function km2(a,b,c,d){var r=Math.PI/180,x=(d-b)*r*Math.cos((a+c)/2*r),y=(c-a)*r;return 6371*Math.sqrt(x*x+y*y);}
+  function nearestStations(lat,lon){
+    return T.stops.filter(function(x){return x.la!=null;}).map(function(x){var k=km2(lat,lon,x.la,x.lo);return {id:x.id,name:x.name,km:k,min:Math.max(1,Math.round(k*12))};})
+      .sort(function(p,q){return p.km-q.km;}).slice(0,3);
+  }
+  function showNear(list){
+    var box=document.getElementById('plnear');
+    if(!list.length||list[0].min>90){box.innerHTML='<div class="plnone">You seem to be far from the train network: choose a station from the list.</div>';return;}
+    box.innerHTML='<div class="pm">Nearest stations</div><div class="plchips">'+list.map(function(x,i){
+      return '<button type="button" class="plchip'+(i===0?' on':'')+'" data-id="'+x.id+'"><b>'+esc2(x.name)+'</b><span>'+x.min+' min walk</span></button>';}).join('')+'</div>';
+    pfrom.value=list[0].id;
+    box.querySelectorAll('.plchip').forEach(function(b){b.onclick=function(){box.querySelectorAll('.plchip').forEach(function(o){o.classList.remove('on');});b.classList.add('on');pfrom.value=b.dataset.id;plan();};});
+    plan();
+  }
+  window.nearStations=function(lat,lon){showNear(nearestStations(lat,lon));};
+  document.getElementById('ploc').onclick=function(){
+    var box=document.getElementById('plnear');
+    if(!navigator.geolocation){box.innerHTML='<div class="plnone">We could not get your position: choose a station from the list.</div>';return;}
+    box.innerHTML='<div class="plnone">Finding your position\u2026</div>';
+    navigator.geolocation.getCurrentPosition(function(g){showNear(nearestStations(g.coords.latitude,g.coords.longitude));},
+      function(){box.innerHTML='<div class="plnone">We could not get your position: choose a station from the list.</div>';},{timeout:10000,maximumAge:60000,enableHighAccuracy:false});
+  };
+  pfrom.onchange=function(){var box=document.getElementById('plnear');box.querySelectorAll('.plchip').forEach(function(o){o.classList.toggle('on',o.dataset.id===pfrom.value);});plan();};pto.onchange=plan;
   document.getElementById('pswap').onclick=function(){var f=pfrom.value,t=pto.value;if(t){pfrom.value=t;pto.value=f;}plan();};
   window.planTrip=plan;
   render();setInterval(render,30000);setInterval(plan,60000);
