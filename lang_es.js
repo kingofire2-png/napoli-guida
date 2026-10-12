@@ -1325,5 +1325,15 @@ window.I18N=window.I18N||{};window.I18N.es={
 "Finding your position…": "Buscando tu ubicación…",
 "Location access is blocked for this site. Allow it in your phone or browser settings and try again, or choose a station from the list.": "El acceso a la ubicación está bloqueado para este sitio. Permítelo en los ajustes del teléfono o del navegador e inténtalo de nuevo, o elige una estación de la lista.",
 "Your phone could not find its position. Turn on Location Services and try again, or choose a station from the list.": "Tu teléfono no logra encontrar su posición. Activa los servicios de ubicación e inténtalo de nuevo, o elige una estación de la lista.",
-"Finding your position took too long. Try again, or choose a station from the list.": "Encontrar tu posición tardó demasiado. Inténtalo de nuevo, o elige una estación de la lista."
+"Finding your position took too long. Try again, or choose a station from the list.": "Encontrar tu posición tardó demasiado. Inténtalo de nuevo, o elige una estación de la lista.",
+"Where are you? Hotel, place or station": "¿Dónde estás? Hotel, lugar o estación",
+"Where do you want to go?": "¿Adónde quieres ir?",
+"Nearest station": "Estación más cercana",
+"on the map": "en el mapa",
+"Searching…": "Buscando…",
+"Address not found. Try a nearby landmark or a station.": "Dirección no encontrada. Prueba con un lugar cercano o una estación.",
+"Choose where you are and where you want to go.": "Elige dónde estás y adónde quieres ir.",
+"Browse stations by line": "Ver estaciones por línea",
+"Departures from a station": "Salidas de una estación",
+"⇅ Swap": "⇅ Invertir"
 };

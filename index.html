@@ -209,6 +209,19 @@ a{text-decoration:none}
 .plchip.on{border-color:var(--azz);background:rgba(14,143,208,.15)}
 .plchip b{display:block;font-size:13px}
 .plchip span{color:var(--mute);font-size:12px}
+.plfield{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.pldot{flex:none;width:26px;height:26px;border-radius:50%;background:var(--azz);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.pldot.b{background:var(--red)}
+.plfield input{flex:1;min-width:0;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14.5px}
+.plgps{flex:none;border:0;background:var(--line);border-radius:12px;width:40px;height:40px;font-size:18px;cursor:pointer}
+.plsug{margin:0 0 6px 34px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+.plsug button{display:block;width:100%;text-align:left;border:0;border-top:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;font-size:14px;padding:9px 12px;cursor:pointer}
+.plsug button:first-child{border-top:0}
+.plsug small{color:var(--mute);font-size:12px;margin-left:6px}
+.plnote{margin:0 0 8px 34px;font-size:12.5px;color:var(--mute)}
+.plnote b{color:var(--ink)}
+.plh2{margin:18px 18px 8px;font-size:16px}
+#planner [hidden]{display:none!important}
 .plnone{padding:8px 0;color:var(--mute);font-size:13.5px}
 #beta{background:#f7c53b;color:#3b2d00;font-size:11.5px;font-weight:700;padding:5px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
 #beta button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer;color:#3b2d00;font-size:11px;line-height:1}
@@ -282,14 +295,23 @@ a{text-decoration:none}
   <div class="top"><small>EAV · Circumvesuviana</small><h1>Next trains</h1></div>
   <div class="plan" id="planner">
     <div class="plh">Plan a trip</div>
-    <div class="plrow"><label for="pfrom">From</label><select id="pfrom"></select></div>
-    <div class="plloc"><button type="button" id="ploc" class="plswap">Use my location</button><div id="plnear"></div></div>
-    <div class="plrow"><label for="pto">To</label><select id="pto"></select></div>
-    <button type="button" id="pswap" class="plswap">Swap</button>
+    <div class="plfield"><span class="pldot">A</span><input id="qfrom" type="search" placeholder="Where are you? Hotel, place or station" autocomplete="off" aria-label="From"><button type="button" id="ploc" class="plgps" aria-label="Use my location" title="Use my location">&#128205;</button></div>
+    <div class="plsug" id="sugfrom" hidden></div>
+    <div class="plnote" id="notefrom" hidden></div>
+    <div id="plnear"></div>
+    <button type="button" id="pswap" class="plswap" aria-label="Swap">&#8693; Swap</button>
+    <div class="plfield"><span class="pldot b">B</span><input id="qto" type="search" placeholder="Where do you want to go?" autocomplete="off" aria-label="To"></div>
+    <div class="plsug" id="sugto" hidden></div>
+    <div class="plnote" id="noteto" hidden></div>
+    <div class="plchips" id="plquick"></div>
+    <button type="button" id="pbrowse" class="plswap">Browse stations by line</button>
+    <div id="plines" hidden></div>
+    <input type="hidden" id="pfrom"><input type="hidden" id="pto">
     <div id="pres"></div>
     <a class="plive" id="plive" href="https://orariotreni.eavsrl.it/" target="_blank" rel="noopener" hidden>Live board (official EAV site)</a>
     <div class="pm" id="plhint" hidden></div>
   </div>
+  <h2 class="plh2">Departures from a station</h2>
   <select id="station" aria-label="Station"></select>
   <div id="tdest"></div>
   <div class="demo">Scheduled times from the official EAV timetable (open data). Delays and strikes are not included: check EAV for live updates.</div>
@@ -330,11 +352,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610122019";</script>
-<script src="i18n.js?v=202610122019"></script>
-<script src="trains.js?v=202610122019"></script>
-<script src="collections.js?v=202610122019"></script>
-<script src="tickets.js?v=202610122019"></script>
+<script>window.APP_V="202610122028";</script>
+<script src="i18n.js?v=202610122028"></script>
+<script src="trains.js?v=202610122028"></script>
+<script src="collections.js?v=202610122028"></script>
+<script src="tickets.js?v=202610122028"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -360,21 +382,15 @@ a{text-decoration:none}
       :'<div class="li"><div class="t"><b>No more departures today</b><span>Check tomorrow morning</span></div></div>';
   }
   sel.onchange=function(){DEST=null;render();};
-  window.openTrains=function(from,to){var f=idByName[from];if(f)sel.value=f;DEST=to?idByName[to]:null;if(f)pfrom.value=f;pto.value=(to&&idByName[to])||'';plan();render();document.querySelector('nav button[data-t=trains]').click();};
+  window.openTrains=function(from,to){var f=idByName[from];if(f)sel.value=f;DEST=to?idByName[to]:null;if(from)setEndByStation('from',from);if(to)setEndByStation('to',to);else{qto.value='';pto.value='';ENDS.to=null;document.getElementById('plquick').hidden=false;document.getElementById('noteto').hidden=true;}plan();render();document.querySelector('nav button[data-t=trains]').click();};
   // ---------- trip planner (scheduled times, up to one change) ----------
   var pfrom=document.getElementById('pfrom'),pto=document.getElementById('pto'),pres=document.getElementById('pres'),plive=document.getElementById('plive');
+  var qfrom=document.getElementById('qfrom'),qto=document.getElementById('qto');
   var PMIN_CHANGE=2*60,PMAX_WAIT=50*60;
-  (function(){
-    var pop=opts(T.featured),rest2=opts(rest);
-    var all='<optgroup label="Popular">'+pop+'</optgroup><optgroup label="All stations">'+rest2+'</optgroup>';
-    pfrom.innerHTML=all;pto.innerHTML='<option value="">Choose destination</option>'+all;
-    pfrom.value=idByName['Napoli Porta Nolana']||T.featured[0];
-  })();
   function hmm(sec){sec=Math.round(sec);var d=sec>=86400?1:0;sec%=86400;return ('0'+Math.floor(sec/3600)).slice(-2)+':'+('0'+Math.floor(sec%3600/60)).slice(-2);}
-  function plan(){
-    var from=pfrom.value,to=pto.value;
-    if(!to||from===to){pres.innerHTML=to?'<div class="plnone">Choose two different stations.</div>':'';plive.hidden=!to;document.getElementById('plhint').hidden=true;return;}
-    var now=new Date(),secs=now.getHours()*3600+now.getMinutes()*60,tomorrow=new Date(now.getTime()+864e5);
+  function nowSecs(){var n=new Date();return n.getHours()*3600+n.getMinutes()*60;}
+  function searchTrips(from,to,minSecs){
+    var now=new Date(),secs=Math.max(nowSecs(),minSecs||0),tomorrow=new Date(now.getTime()+864e5);
     var dayOff=[[ymd(now),0],[ymd(tomorrow),86400]],res=[];
     function pos(tr,id,from0){var k=T.trips[tr].indexOf(id,from0||0);return k;}
     // direct and one-change itineraries
@@ -418,6 +434,24 @@ a{text-decoration:none}
     var out=[],lastArr=1e9;
     for(var i=res.length-1;i>=0;i--){if(res[i].arr<lastArr){out.unshift(res[i]);lastArr=res[i].arr;}}
     out=out.slice(0,5);
+    return out;
+  }
+  function candsOf(which,idv){var e=ENDS[which];return (e&&e.cands&&e.cands.length)?e.cands:[{id:idv,min:0}];}
+  function plan(){
+    var from=pfrom.value,to=pto.value;
+    if(!from||!to||from===to){pres.innerHTML=(from&&to)?'<div class="plnone">Choose two different stations.</div>':(to||from?'<div class="plnone">Choose where you are and where you want to go.</div>':'');plive.hidden=!(from&&to);document.getElementById('plhint').hidden=true;return;}
+    var secs=nowSecs(),best=null;
+    candsOf('from',from).forEach(function(f){candsOf('to',to).forEach(function(t){
+      if(f.id===t.id)return;
+      var o=searchTrips(f.id,t.id,secs+f.min*60);
+      if(o.length){var sc=o[0].arr+t.min*60+f.min*60*0.3;if(!best||sc<best.sc)best={sc:sc,out:o,f:f,t:t};}
+    });});
+    if(!best){var f0=candsOf('from',from)[0],t0=candsOf('to',to)[0];best={out:[],f:f0,t:t0};}
+    var out=best.out;from=best.f.id;to=best.t.id;
+    pfrom.value=from;pto.value=to;
+    document.querySelectorAll('#plnear .plchip').forEach(function(o){o.classList.toggle('on',o.dataset.id===from);});
+    ['from','to'].forEach(function(w){var e=ENDS[w],c=w==='from'?best.f:best.t,note=document.getElementById(w==='from'?'notefrom':'noteto');
+      if(e&&!e.st&&c&&c.min>0){note.hidden=false;note.innerHTML='<span>Nearest station</span> <b>'+esc2(byId[c.id])+'</b> &middot; <span>'+c.min+' min walk</span>';}});
     plive.hidden=false;var hint=document.getElementById('plhint');hint.hidden=false;hint.textContent='Then choose the station “'+byId[from].toUpperCase()+'” in the list.';
     if(!out.length){pres.innerHTML='<div class="plnone">No trains found for this trip today. Check tomorrow morning.</div>';return;}
     pres.innerHTML=out.map(function(it){
@@ -446,25 +480,139 @@ a{text-decoration:none}
     return T.stops.filter(function(x){return x.la!=null;}).map(function(x){var k=km2(lat,lon,x.la,x.lo);return {id:x.id,name:x.name,km:k,min:Math.max(1,Math.round(k*12))};})
       .sort(function(p,q){return p.km-q.km;}).slice(0,3);
   }
-  function showNear(list){
+  // ---- places the traveller can type: stations, towns and sights of the guide
+  var ALIAS=[['Pompei – Scavi (Pompeii ruins)','Pompei Scavi Villa dei Misteri','pompei pompeii scavi ruins rovine'],['Ercolano – Scavi (Herculaneum)','Ercolano Scavi','ercolano herculaneum scavi ruins'],
+    ['Vesuvio (Mount Vesuvius)','Ercolano Scavi','vesuvio vesuvius vulcano volcano cratere'],['Sorrento','Sorrento','sorrento'],['Pozzuoli','Pozzuoli','pozzuoli campi flegrei'],['Trecase','Trecase','trecase'],
+    ['Torre Annunziata – Oplontis','Torre Annunziata - Oplonti','torre annunziata oplonti oplontis'],['Castellammare di Stabia','Castellammare di Stabia','castellammare stabia'],
+    ['Napoli – Porta Nolana (centre, port)','Napoli Porta Nolana','napoli naples centro centre porta nolana'],['Napoli – Piazza Garibaldi (central station)','Napoli P. Garibaldi','napoli naples garibaldi centrale central station stazione']];
+  var PIDX=null;
+  function nm(x){return String(x||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();}
+  function placeIndex(){
+    if(PIDX)return PIDX;
+    var a=[];
+    ALIAS.forEach(function(x){var id=idByName[x[1]];if(id)a.push({n:x[0],st:id,k:'📍',kw:nm(x[0]+' '+x[2])});});
+    T.stops.forEach(function(x){a.push({n:x.name,st:x.id,la:x.la,lo:x.lo,k:'🚆',kw:nm(x.name)});});
+    (window.APP_PLACES||[]).forEach(function(p){if(p.la&&!p.coll&&!p.nopin&&!p.far)a.push({n:p.n,la:p.la,lo:p.lo,k:'📍',kw:nm(p.n+' '+(p.kw||''))});});
+    var CO2=window.COLLECTIONS;
+    if(CO2&&CO2.cats)Object.keys(CO2.cats).forEach(function(k){if(!/_sights$/.test(k))return;CO2.cats[k].items.forEach(function(i){if(i.lat!=null)a.push({n:i.name,la:i.lat,lo:i.lon,k:'📍',kw:nm(i.name)});});});
+    var seen={};PIDX=a.filter(function(e){var k=nm(e.n);if(seen[k])return false;seen[k]=1;return true;});return PIDX;
+  }
+  function suggest(text){
+    var toks=nm(text).split(' ').filter(Boolean);if(!toks.length)return [];
+    var out=[];
+    placeIndex().forEach(function(e){var sc=0,ok=true;toks.forEach(function(t){var k=e.kw,i=k.indexOf(t);if(i<0){ok=false;return;}sc+=(i===0||k.charAt(i-1)===' ')?3:1;});if(ok)out.push({e:e,sc:sc-e.n.length/100});});
+    out.sort(function(p,q){return q.sc-p.sc;});
+    var res=out.slice(0,6).map(function(x){return x.e;});
+    if(res.length<3){   // typos and missing/extra spaces ("treacse", "tre case"): suggest the closest names
+      var q=nm(text).replace(/ /g,''),th=q.length<=4?1:(q.length<=8?2:3),fz=[];
+      placeIndex().forEach(function(e){
+        if(res.indexOf(e)>=0)return;
+        var best=99;
+        (e.kw+' '+e.kw.replace(/ /g,'')).split(' ').forEach(function(w){if(w.length<2)return;var d=lev(q,w.slice(0,Math.max(q.length+1,3)));if(d<best)best=d;if(w.length>q.length){var d2=lev(q,w);if(d2<best)best=d2;}});
+        if(best<=th)fz.push({e:e,d:best});});
+      fz.sort(function(a,b){return a.d-b.d||a.e.n.length-b.e.n.length;});
+      fz.slice(0,6-res.length).forEach(function(x){res.push(x.e);});
+    }
+    return res;
+  }
+  function lev(a,b){var m=[],i,j;for(i=0;i<=a.length;i++){m[i]=[i];}for(j=1;j<=b.length;j++){m[0][j]=j;}
+    for(i=1;i<=a.length;i++)for(j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return m[a.length][b.length];}
+  // ---- stations by line: for every line, the stations in order, so the traveller can pick from the right branch
+  var LINES=null;
+  function shortName(n){return n.replace(/^Napoli P\. Garibaldi$/,'Napoli Garibaldi').replace(/^Napoli Porta Nolana$/,'Napoli');}
+  function lineList(){
+    if(LINES)return LINES;
+    var g={};
+    T.trips.forEach(function(tr,i){var r=T.ti[i][1],key=r+'|'+[tr[0],tr[tr.length-1]].sort().join('|');var o=g[key]||(g[key]={r:r,n:0,best:tr});o.n++;if(tr.length>o.best.length)o.best=tr;});
+    var arr=Object.keys(g).map(function(k){return g[k];}).filter(function(o){return o.n>=4;});
+    arr=arr.filter(function(o){return !arr.some(function(p){return p!==o&&p.r===o.r&&p.best.length>o.best.length&&o.best.every(function(s){return p.best.indexOf(s)>=0;});});});
+    arr.sort(function(a,b){return (+a.r||99)-(+b.r||99)||b.best.length-a.best.length;});
+    LINES=arr.map(function(o){var st=o.best,a=byId[st[0]],b=byId[st[st.length-1]];return {label:'Line '+o.r,route:shortName(a)+' – '+shortName(b),stops:st};});
+    return LINES;
+  }
+  function openLines(){
+    var box=document.getElementById('plines');
+    if(!box.hidden){box.hidden=true;return;}
+    var ls=lineList();
+    box.hidden=false;
+    box.innerHTML='<div class="plchips">'+ls.map(function(l,i){return '<button type="button" class="plchip" data-i="'+i+'"><b>'+esc2(l.label)+'</b><span>'+esc2(l.route)+'</span></button>';}).join('')+'</div><div id="plstops"></div>';
+    box.querySelectorAll('.plchip').forEach(function(b){b.onclick=function(){
+      box.querySelectorAll('.plchip').forEach(function(o){o.classList.remove('on');});b.classList.add('on');
+      var l=ls[+b.dataset.i];
+      document.getElementById('plstops').innerHTML='<div class="plsug" style="margin-left:0">'+l.stops.map(function(id){return '<button type="button" data-id="'+id+'">🚆 '+esc2(byId[id])+'</button>';}).join('')+'</div>';
+      document.querySelectorAll('#plstops button').forEach(function(sb){sb.onclick=function(){box.hidden=true;setEndByStation('to',byId[sb.dataset.id]);};});
+    };});
+  }
+  var ENDS={from:null,to:null};
+  function setEnd(which,e){
+    var inp=which==='from'?qfrom:qto,hid=which==='from'?pfrom:pto,note=document.getElementById(which==='from'?'notefrom':'noteto'),sug=document.getElementById(which==='from'?'sugfrom':'sugto');
+    inp.value=e.n;sug.hidden=true;
+    var st=e.st,walk=0,sname='',cands=null;
+    if(!st){var ns=nearestStations(e.la,e.lo).filter(function(x){return x.min<=60;});if(ns[0]){st=ns[0].id;walk=ns[0].min;sname=ns[0].name;cands=ns.map(function(x){return {id:x.id,min:x.min};});}}
+    else cands=[{id:st,min:0}];
+    ENDS[which]=Object.assign({},e,{cands:cands});
+    hid.value=st||'';
+    if(e.st||!st){note.hidden=true;note.innerHTML='';}
+    else{note.hidden=false;note.innerHTML='<span>Nearest station</span> <b>'+esc2(sname)+'</b> &middot; <span>'+walk+' min walk</span>';}
+    if(which==='to')document.getElementById('plquick').hidden=true;
+    plan();
+  }
+  function setEndByStation(which,name){var id=idByName[name];if(!id)return;setEnd(which,{n:name,st:id});}
+  function showSug(which){
+    var inp=which==='from'?qfrom:qto,sug=document.getElementById(which==='from'?'sugfrom':'sugto'),v=inp.value.trim();
+    ENDS[which]=null;(which==='from'?pfrom:pto).value='';
+    if(v.length<2){sug.hidden=true;return;}
+    var list=suggest(v);
+    sug.innerHTML=list.map(function(e,i){return '<button type="button" data-i="'+i+'">'+e.k+' '+esc2(e.n)+'</button>';}).join('')+
+      '<button type="button" data-addr="1">🔎 <span>Search</span> “'+esc2(v)+'” <span>on the map</span></button>';
+    sug.hidden=false;
+    sug.querySelectorAll('button').forEach(function(b){b.onclick=function(){
+      if(b.dataset.addr){searchAddress(which,v);}else setEnd(which,list[+b.dataset.i]);};});
+  }
+  function searchAddress(which,text){
+    var sug=document.getElementById(which==='from'?'sugfrom':'sugto');
+    sug.innerHTML='<button type="button" disabled>Searching…</button>';
+    var q=text+(/napoli|naples|pompei|sorrento|ercolano|pozzuoli/i.test(text)?'':', Napoli');
+    fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=it&viewbox=13.6,41.2,15.2,40.4&q='+encodeURIComponent(q),{headers:{'Accept-Language':'en'}})
+      .then(function(r){return r.json();}).then(function(j){
+        if(j&&j[0]&&+j[0].lat>40.3&&+j[0].lat<41.3&&+j[0].lon>13.6&&+j[0].lon<15.3)setEnd(which,{n:text,la:+j[0].lat,lo:+j[0].lon});
+        else sug.innerHTML='<button type="button" disabled>Address not found. Try a nearby landmark or a station.</button>';})
+      .catch(function(){sug.innerHTML='<button type="button" disabled>Address not found. Try a nearby landmark or a station.</button>';});
+  }
+  document.getElementById('pbrowse').onclick=openLines;
+  qfrom.oninput=function(){showSug('from');plan();};qto.oninput=function(){showSug('to');plan();};
+  qfrom.onkeydown=function(e){if(e.key==='Enter'){var b=document.querySelector('#sugfrom button');if(b)b.click();}};
+  qto.onkeydown=function(e){if(e.key==='Enter'){var b=document.querySelector('#sugto button');if(b)b.click();}};
+  // popular destinations as quick chips
+  (function(){
+    var q=document.getElementById('plquick');
+    q.innerHTML=['Pompei – Scavi (Pompeii ruins)','Ercolano – Scavi (Herculaneum)','Sorrento','Pozzuoli','Trecase'].map(function(n){return '<button type="button" class="plchip" data-n="'+esc2(n)+'"><b>'+esc2(n)+'</b></button>';}).join('');
+    q.querySelectorAll('button').forEach(function(b){b.onclick=function(){var a=ALIAS.filter(function(x){return x[0]===b.dataset.n;})[0];if(a)setEndByStation('to',a[1]);};});
+  })();
+  // my location
+  function showNear(list,label){
     var box=document.getElementById('plnear');
     if(!list.length||list[0].min>90){box.innerHTML='<div class="plnone">You seem to be far from the train network: choose a station from the list.</div>';return;}
     box.innerHTML='<div class="pm">Nearest stations</div><div class="plchips">'+list.map(function(x,i){
       return '<button type="button" class="plchip'+(i===0?' on':'')+'" data-id="'+x.id+'"><b>'+esc2(x.name)+'</b><span>'+x.min+' min walk</span></button>';}).join('')+'</div>';
-    pfrom.value=list[0].id;
-    box.querySelectorAll('.plchip').forEach(function(b){b.onclick=function(){box.querySelectorAll('.plchip').forEach(function(o){o.classList.remove('on');});b.classList.add('on');pfrom.value=b.dataset.id;plan();};});
+    qfrom.value=label||'My location';ENDS.from={n:qfrom.value,la:list[0].la,lo:list[0].lo,cands:list.map(function(x){return {id:x.id,min:x.min};})};pfrom.value=list[0].id;document.getElementById('notefrom').hidden=true;document.getElementById('sugfrom').hidden=true;
+    box.querySelectorAll('.plchip').forEach(function(b){b.onclick=function(){box.querySelectorAll('.plchip').forEach(function(o){o.classList.remove('on');});b.classList.add('on');pfrom.value=b.dataset.id;var cc=list.filter(function(x){return x.id===b.dataset.id;});ENDS.from.cands=cc.map(function(x){return {id:x.id,min:x.min};});plan();};});
     plan();
   }
-  window.nearStations=function(lat,lon){showNear(nearestStations(lat,lon));};
+  window.nearStations=function(lat,lon){var l=nearestStations(lat,lon);l.forEach(function(x){x.la=lat;x.lo=lon;});showNear(l);};
   document.getElementById('ploc').onclick=function(){
     var box=document.getElementById('plnear');
     if(!navigator.geolocation){box.innerHTML='<div class="plnone">We could not get your position: choose a station from the list.</div>';return;}
-    box.innerHTML='<div class="plnone">Finding your position\u2026</div>';
-    navigator.geolocation.getCurrentPosition(function(g){showNear(nearestStations(g.coords.latitude,g.coords.longitude));},
+    box.innerHTML='<div class="plnone">Finding your position…</div>';
+    navigator.geolocation.getCurrentPosition(function(g){window.nearStations(g.coords.latitude,g.coords.longitude);},
       function(er){var c=er&&er.code;box.innerHTML='<div class="plnone">'+(c===1?'Location access is blocked for this site. Allow it in your phone or browser settings and try again, or choose a station from the list.':c===2?'Your phone could not find its position. Turn on Location Services and try again, or choose a station from the list.':c===3?'Finding your position took too long. Try again, or choose a station from the list.':'We could not get your position: choose a station from the list.')+'</div>';},{timeout:20000,maximumAge:60000,enableHighAccuracy:false});
   };
-  pfrom.onchange=function(){var box=document.getElementById('plnear');box.querySelectorAll('.plchip').forEach(function(o){o.classList.toggle('on',o.dataset.id===pfrom.value);});plan();};pto.onchange=plan;
-  document.getElementById('pswap').onclick=function(){var f=pfrom.value,t=pto.value;if(t){pfrom.value=t;pto.value=f;}plan();};
+  document.getElementById('pswap').onclick=function(){
+    var a=ENDS.from,b=ENDS.to;if(!a||!b)return;
+    var ta=pfrom.value,tb=pto.value;
+    document.getElementById('plnear').innerHTML='';
+    setEnd('from',b);setEnd('to',a);
+  };
   window.planTrip=plan;
   render();setInterval(render,30000);setInterval(plan,60000);
 })();
@@ -531,6 +679,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     else a=a.slice().sort(function(x,y){return (AR.indexOf(x.a)-AR.indexOf(y.a))||(LVO[x.lv]-LVO[y.lv])||(P.indexOf(x)-P.indexOf(y));});
     return a;
   }
+  window.APP_PLACES=P;
   function dest(p){return encodeURIComponent(p.q||(p.la+','+p.lo));}
   function isApple(){var u=navigator.userAgent||'',pl=navigator.platform||'';return /iPhone|iPad|iPod/.test(u)||(/Mac/.test(pl)&&navigator.maxTouchPoints>1)||/Macintosh/.test(u);}
   function gmaps(p){return 'https://www.google.com/maps/dir/?api=1&destination='+dest(p)+'&travelmode=walking';}
