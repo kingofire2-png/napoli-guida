@@ -1335,5 +1335,6 @@ window.I18N=window.I18N||{};window.I18N.it={
 "Choose where you are and where you want to go.": "Scegli dove sei e dove vuoi andare.",
 "Browse stations by line": "Sfoglia le stazioni per linea",
 "Departures from a station": "Partenze da una stazione",
-"⇅ Swap": "⇅ Inverti"
+"⇅ Swap": "⇅ Inverti",
+"Departures from": "Partenze da"
 };

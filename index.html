@@ -308,6 +308,7 @@ a{text-decoration:none}
     <div id="plines" hidden></div>
     <input type="hidden" id="pfrom"><input type="hidden" id="pto">
     <div id="pres"></div>
+    <button type="button" id="pdep" class="plswap" hidden></button>
     <a class="plive" id="plive" href="https://orariotreni.eavsrl.it/" target="_blank" rel="noopener" hidden>Live board (official EAV site)</a>
     <div class="pm" id="plhint" hidden></div>
   </div>
@@ -352,11 +353,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610122028";</script>
-<script src="i18n.js?v=202610122028"></script>
-<script src="trains.js?v=202610122028"></script>
-<script src="collections.js?v=202610122028"></script>
-<script src="tickets.js?v=202610122028"></script>
+<script>window.APP_V="202610122034";</script>
+<script src="i18n.js?v=202610122034"></script>
+<script src="trains.js?v=202610122034"></script>
+<script src="collections.js?v=202610122034"></script>
+<script src="tickets.js?v=202610122034"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -452,6 +453,10 @@ a{text-decoration:none}
     document.querySelectorAll('#plnear .plchip').forEach(function(o){o.classList.toggle('on',o.dataset.id===from);});
     ['from','to'].forEach(function(w){var e=ENDS[w],c=w==='from'?best.f:best.t,note=document.getElementById(w==='from'?'notefrom':'noteto');
       if(e&&!e.st&&c&&c.min>0){note.hidden=false;note.innerHTML='<span>Nearest station</span> <b>'+esc2(byId[c.id])+'</b> &middot; <span>'+c.min+' min walk</span>';}});
+    // the list "Departures from a station" below follows the chosen station and destination
+    if(sel.value!==from||DEST!==to){sel.value=from;DEST=to;render();}
+    var pdep=document.getElementById('pdep');pdep.hidden=false;pdep.innerHTML='<span>Departures from</span> <b>'+esc2(byId[from])+'</b>';
+    pdep.onclick=function(){var d=document.getElementById('deps');if(d)d.scrollIntoView({behavior:'smooth',block:'start'});};
     plive.hidden=false;var hint=document.getElementById('plhint');hint.hidden=false;hint.textContent='Then choose the station “'+byId[from].toUpperCase()+'” in the list.';
     if(!out.length){pres.innerHTML='<div class="plnone">No trains found for this trip today. Check tomorrow morning.</div>';return;}
     pres.innerHTML=out.map(function(it){
