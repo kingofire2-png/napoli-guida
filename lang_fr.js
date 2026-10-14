@@ -1357,5 +1357,8 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "Next stop: {0}.": "Prochain arrêt : {0}.",
 "Go to the station {0}": "Allez à la gare {0}",
 "You are {0} km from the route. Nearest station on it: {1}.": "Vous êtes à {0} km du trajet. Gare la plus proche : {1}.",
-"You have arrived.": "Vous êtes arrivé."
+"You have arrived.": "Vous êtes arrivé.",
+"Navigate with Maps": "Naviguer avec Plans",
+"Navigate with Apple Maps": "Naviguer avec Plans (Apple)",
+"Navigate with Google Maps": "Naviguer avec Google Maps"
 };

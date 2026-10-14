@@ -369,7 +369,7 @@ a{text-decoration:none}
 </nav>
 <div id="trip" hidden>
   <div class="trh"><b>Follow my trip</b><button type="button" id="trx" aria-label="Close">\u2715</button></div>
-  <div class="trs"><div id="trmain"></div><div id="trsub"></div><div id="trlist"></div></div>
+  <div class="trs"><div id="trmain"></div><div id="trsub"></div><div id="trlist"></div><a id="trmaps" class="plswap pfollow" target="_blank" rel="noopener">Navigate with Maps</a></div>
   <div id="trmap"></div>
   <div class="trf"><label for="trwhere">Where am I now?</label><select id="trwhere"></select></div>
 </div>
@@ -377,11 +377,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610122144";</script>
-<script src="i18n.js?v=202610122144"></script>
-<script src="trains.js?v=202610122144"></script>
-<script src="collections.js?v=202610122144"></script>
-<script src="tickets.js?v=202610122144"></script>
+<script>window.APP_V="202610142154";</script>
+<script src="i18n.js?v=202610142154"></script>
+<script src="trains.js?v=202610142154"></script>
+<script src="collections.js?v=202610142154"></script>
+<script src="tickets.js?v=202610142154"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -674,6 +674,9 @@ a{text-decoration:none}
         var m=L.circleMarker(LL[id],{radius:end?8:4,color:cols[k%2],weight:2,fillColor:end?'#fff':cols[k%2],fillOpacity:1}).addTo(TM.grp);
         if(end)m.bindTooltip(byId[id],{permanent:true,direction:'top',offset:[0,-6]});});
     });
+    (function(){var lg0=it.legs[0],lg1=it.legs[it.legs.length-1],a=LL[lg0.from],b=LL[lg1.to],ap=/iPhone|iPad|Macintosh/.test(navigator.userAgent)&&'ontouchend' in document;
+      var u=ap?'https://maps.apple.com/?saddr='+a[0]+','+a[1]+'&daddr='+b[0]+','+b[1]+'&dirflg=r':'https://www.google.com/maps/dir/?api=1&origin='+a[0]+','+a[1]+'&destination='+b[0]+','+b[1]+'&travelmode=transit';
+      var m=document.getElementById('trmaps');m.href=u;m.textContent=ap?'Navigate with Apple Maps':'Navigate with Google Maps';})();
     setTimeout(function(){TM.map.invalidateSize();TM.map.fitBounds(TM.grp.getBounds(),{padding:[24,24]});},60);
     if(navigator.geolocation&&TM.watch===null)TM.watch=navigator.geolocation.watchPosition(function(g){TM.pos=[g.coords.latitude,g.coords.longitude];TM.gpsErr='';update();},
       function(){TM.gpsErr='1';update();},{enableHighAccuracy:true,maximumAge:5000,timeout:20000});
@@ -1132,6 +1135,43 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   res.onmousedown=function(e){e.preventDefault();};
   q.onblur=function(){setTimeout(function(){if(!q.value)showSearch(false);},150);};
   render();
+})();
+</script>
+<script>
+// APP_BACK: make the phone's back arrow / swipe go back one screen instead of leaving the site
+(function(){
+  var TABS=['home','explore','trains','plans','saved'];
+  function tripOpen(){var t=document.getElementById('trip');return !!t&&!t.hidden;}
+  function cur(){var sc=document.querySelector('.screen.on');return (sc?sc.id:'home')+(tripOpen()?'+trip':'');}
+  var stack=[cur()],busy=false;
+  try{history.replaceState({sx:0},'');}catch(e){return;}
+  function apply(v){
+    busy=true;
+    var parts=v.split('+'),id=parts[0],wantTrip=parts[1]==='trip';
+    if(tripOpen()&&!wantTrip){var x=document.getElementById('trx');if(x)x.click();}
+    var sc=document.getElementById(id);
+    if(sc&&(!document.querySelector('.screen.on')||document.querySelector('.screen.on').id!==id)){
+      document.querySelectorAll('nav button,.screen').forEach(function(e){e.classList.remove('on');});
+      sc.classList.add('on');
+      var tab=TABS.indexOf(id)>=0?id:'explore',b=document.querySelector('nav button[data-t='+tab+']');
+      if(b)b.classList.add('on');
+    }
+    setTimeout(function(){busy=false;},80);
+  }
+  function check(){
+    if(busy)return;
+    var c=cur();if(c===stack[stack.length-1])return;
+    stack.push(c);
+    try{history.pushState({sx:stack.length-1},'');}catch(e){}
+  }
+  var ph=document.querySelector('.phone');
+  if(ph)new MutationObserver(check).observe(ph,{subtree:true,attributes:true,attributeFilter:['class','hidden']});
+  window.addEventListener('popstate',function(e){
+    var n=(e.state&&typeof e.state.sx==='number')?e.state.sx:0;
+    if(n>=stack.length)n=stack.length-1;
+    stack.length=n+1;
+    apply(stack[n]);
+  });
 })();
 </script>
 <script>
