@@ -1360,5 +1360,9 @@ window.I18N=window.I18N||{};window.I18N.it={
 "You have arrived.": "Sei arrivato.",
 "Navigate with Maps": "Naviga con Mappe",
 "Navigate with Apple Maps": "Naviga con Apple Mappe",
-"Navigate with Google Maps": "Naviga con Google Maps"
+"Navigate with Google Maps": "Naviga con Google Maps",
+"How do you want to follow your trip?": "Come vuoi seguire il tuo viaggio?",
+"In this app (map and get-off alerts)": "In questa app (mappa e avvisi di discesa)",
+"Apple Maps": "Apple Mappe",
+"Google Maps": "Google Maps"
 };

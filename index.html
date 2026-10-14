@@ -188,6 +188,11 @@ a{text-decoration:none}
 #tkmodal[hidden]{display:none}
 .tkbox{background:var(--card);color:var(--ink);border-radius:18px;padding:20px;max-width:320px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.5)}
 .tkbox b{font-size:18px}.tkbox p{margin:10px 0 16px;font-size:14.5px;line-height:1.4}
+#fwmodal{position:absolute;inset:0;z-index:2000;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:24px}
+#fwmodal[hidden]{display:none}
+.fwbtns{display:flex;flex-direction:column;gap:8px}
+.fwbtns button,.fwbtns a{display:block;text-align:center;text-decoration:none;border:0;border-radius:12px;padding:12px 14px;font:inherit;font-weight:700;font-size:14.5px;cursor:pointer;background:var(--line);color:var(--ink)}
+.fwbtns #fwapp{background:var(--azz);color:#fff}
 .tkbtns{display:flex;gap:10px;justify-content:flex-end}
 .tkbtns button{border:0;border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;background:var(--line);color:var(--ink)}
 .tkbtns #tkgo{background:var(--red);color:#fff}
@@ -373,15 +378,17 @@ a{text-decoration:none}
   <div id="trmap"></div>
   <div class="trf"><label for="trwhere">Where am I now?</label><select id="trwhere"></select></div>
 </div>
+<div id="fwmodal" hidden><div class="tkbox"><b>Follow my trip</b><p>How do you want to follow your trip?</p>
+  <div class="fwbtns"><button type="button" id="fwapp">In this app (map and get-off alerts)</button><a id="fwapple" target="_blank" rel="noopener">Apple Maps</a><a id="fwgoogle" target="_blank" rel="noopener">Google Maps</a><button type="button" id="fwno">Cancel</button></div></div></div>
 <div id="tkmodal" hidden><div class="tkbox"><b>Book ticket</b><p>You will be redirected to the official website to book your ticket.</p><div class="tkbtns"><button id="tkno" type="button">Cancel</button><button id="tkgo" type="button">Continue</button></div></div></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610142154";</script>
-<script src="i18n.js?v=202610142154"></script>
-<script src="trains.js?v=202610142154"></script>
-<script src="collections.js?v=202610142154"></script>
-<script src="tickets.js?v=202610142154"></script>
+<script>window.APP_V="202610142234";</script>
+<script src="i18n.js?v=202610142234"></script>
+<script src="trains.js?v=202610142234"></script>
+<script src="collections.js?v=202610142234"></script>
+<script src="tickets.js?v=202610142234"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -498,7 +505,7 @@ a{text-decoration:none}
       h+='<div class="pm">'+(w<60?'in '+w+' min':'in '+Math.floor(w/60)+' h '+(w%60)+' min')+'</div>';
       h+='<button type="button" class="plswap pfollow" data-i="'+LASTOUT.indexOf(it)+'">Follow my trip</button></div>';
       return h;}).join('');
-    pres.querySelectorAll('.pfollow').forEach(function(b){b.onclick=function(){openTrip(LASTOUT[+b.dataset.i]);};});
+    pres.querySelectorAll('.pfollow').forEach(function(b){b.onclick=function(){openChoice(LASTOUT[+b.dataset.i]);};});
   }
   function esc2(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   // departure time of trip a at stop id (the last stop of a trip has no departure)
@@ -654,6 +661,22 @@ a{text-decoration:none}
   var LL={};T.stops.forEach(function(x){if(x.la!=null)LL[x.id]=[x.la,x.lo];});
   var TM={map:null,grp:null,me:null,watch:null,it:null,leg:0,pos:null,manual:'',buzz:{}};
   function legStops(lg){var tr=T.trips[lg.tr],a=tr.indexOf(lg.from),b=tr.indexOf(lg.to,a+1);return tr.slice(a,b+1);}
+  function mapsUrls(it){
+    var a=LL[it.legs[0].from],b=LL[it.legs[it.legs.length-1].to];
+    return {apple:'https://maps.apple.com/?saddr='+a[0]+','+a[1]+'&daddr='+b[0]+','+b[1]+'&dirflg=r',
+      google:'https://www.google.com/maps/dir/?api=1&origin='+a[0]+','+a[1]+'&destination='+b[0]+','+b[1]+'&travelmode=transit'};
+  }
+  function openChoice(it){
+    if(!it)return;
+    var u=mapsUrls(it),m=document.getElementById('fwmodal');
+    document.getElementById('fwapple').href=u.apple;document.getElementById('fwgoogle').href=u.google;
+    document.getElementById('fwapp').onclick=function(){m.hidden=true;openTrip(it);};
+    document.getElementById('fwapple').onclick=function(){m.hidden=true;};
+    document.getElementById('fwgoogle').onclick=function(){m.hidden=true;};
+    document.getElementById('fwno').onclick=function(){m.hidden=true;};
+    m.onclick=function(e){if(e.target===m)m.hidden=true;};
+    m.hidden=false;
+  }
   function openTrip(it){
     if(!it)return;
     TM.it=it;TM.leg=0;TM.pos=null;TM.manual='';TM.buzz={};
@@ -674,9 +697,8 @@ a{text-decoration:none}
         var m=L.circleMarker(LL[id],{radius:end?8:4,color:cols[k%2],weight:2,fillColor:end?'#fff':cols[k%2],fillOpacity:1}).addTo(TM.grp);
         if(end)m.bindTooltip(byId[id],{permanent:true,direction:'top',offset:[0,-6]});});
     });
-    (function(){var lg0=it.legs[0],lg1=it.legs[it.legs.length-1],a=LL[lg0.from],b=LL[lg1.to],ap=/iPhone|iPad|Macintosh/.test(navigator.userAgent)&&'ontouchend' in document;
-      var u=ap?'https://maps.apple.com/?saddr='+a[0]+','+a[1]+'&daddr='+b[0]+','+b[1]+'&dirflg=r':'https://www.google.com/maps/dir/?api=1&origin='+a[0]+','+a[1]+'&destination='+b[0]+','+b[1]+'&travelmode=transit';
-      var m=document.getElementById('trmaps');m.href=u;m.textContent=ap?'Navigate with Apple Maps':'Navigate with Google Maps';})();
+    (function(){var u=mapsUrls(it),ap=/iPhone|iPad|Macintosh/.test(navigator.userAgent)&&'ontouchend' in document,m=document.getElementById('trmaps');
+      m.href=ap?u.apple:u.google;m.textContent=ap?'Navigate with Apple Maps':'Navigate with Google Maps';})();
     setTimeout(function(){TM.map.invalidateSize();TM.map.fitBounds(TM.grp.getBounds(),{padding:[24,24]});},60);
     if(navigator.geolocation&&TM.watch===null)TM.watch=navigator.geolocation.watchPosition(function(g){TM.pos=[g.coords.latitude,g.coords.longitude];TM.gpsErr='';update();},
       function(){TM.gpsErr='1';update();},{enableHighAccuracy:true,maximumAge:5000,timeout:20000});
@@ -1143,12 +1165,12 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   var TABS=['home','explore','trains','plans','saved'];
   function tripOpen(){var t=document.getElementById('trip');return !!t&&!t.hidden;}
   function cur(){var sc=document.querySelector('.screen.on');return (sc?sc.id:'home')+(tripOpen()?'+trip':'');}
-  var stack=[cur()],busy=false;
+  var stack=[cur()],pos=0,busy=false;
   try{history.replaceState({sx:0},'');}catch(e){return;}
   function apply(v){
     busy=true;
-    var parts=v.split('+'),id=parts[0],wantTrip=parts[1]==='trip';
-    if(tripOpen()&&!wantTrip){var x=document.getElementById('trx');if(x)x.click();}
+    var parts=v.split('+'),id=parts[0];
+    if(tripOpen()){var x=document.getElementById('trx');if(x)x.click();}   // the trip screen cannot be rebuilt: show the screen under it
     var sc=document.getElementById(id);
     if(sc&&(!document.querySelector('.screen.on')||document.querySelector('.screen.on').id!==id)){
       document.querySelectorAll('nav button,.screen').forEach(function(e){e.classList.remove('on');});
@@ -1160,17 +1182,16 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   }
   function check(){
     if(busy)return;
-    var c=cur();if(c===stack[stack.length-1])return;
-    stack.push(c);
-    try{history.pushState({sx:stack.length-1},'');}catch(e){}
+    var c=cur();if(c===stack[pos])return;
+    stack.length=pos+1;stack.push(c);pos=stack.length-1;
+    try{history.pushState({sx:pos},'');}catch(e){}
   }
   var ph=document.querySelector('.phone');
   if(ph)new MutationObserver(check).observe(ph,{subtree:true,attributes:true,attributeFilter:['class','hidden']});
   window.addEventListener('popstate',function(e){
     var n=(e.state&&typeof e.state.sx==='number')?e.state.sx:0;
     if(n>=stack.length)n=stack.length-1;
-    stack.length=n+1;
-    apply(stack[n]);
+    pos=n;apply(stack[n].replace('+trip',''));
   });
 })();
 </script>
