@@ -447,11 +447,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610152125";</script>
-<script src="i18n.js?v=202610152125"></script>
-<script src="trains.js?v=202610152125"></script>
-<script src="collections.js?v=202610152125"></script>
-<script src="tickets.js?v=202610152125"></script>
+<script>window.APP_V="202610152156";</script>
+<script src="i18n.js?v=202610152156"></script>
+<script src="trains.js?v=202610152156"></script>
+<script src="collections.js?v=202610152156"></script>
+<script src="tickets.js?v=202610152156"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -1438,7 +1438,18 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     {h:'16:00',p:'Villa Comunale'},{h:'17:00',p:'Mergellina & the lungomare'},{h:'18:00',p:"Castel dell'Ovo"},{h:'19:15',l:'sunset',x:'Aperitivo: the best sunset spots'},{h:'20:30',l:'trattorie',x:'Dinner: the top trattorie'}]},
    {id:'rain',e:'☔',t:'A rainy day in Naples',d:'1 day',s:'Museums, arcades and churches, all under a roof.',steps:[
     {h:'09:30',p:'Archaeological Museum (MANN)'},{h:'12:00',p:'Galleria Umberto I'},{h:'13:00',l:'pizza',x:'Lunch: the top pizza places'},
-    {h:'14:30',p:'Palazzo Reale'},{h:'16:30',p:'Cappella Sansevero'},{h:'17:30',p:'Duomo di Napoli'}]}
+    {h:'14:30',p:'Palazzo Reale'},{h:'16:30',p:'Cappella Sansevero'},{h:'17:30',p:'Duomo di Napoli'}]},
+   {id:'flegrei',e:'🌋',t:'Campi Flegrei by train',d:'1 day',s:'Roman ruins and volcanic land west of Naples, by the Cumana line.',city:'pozzuoli',steps:[
+    {h:'09:00',tr:['Montesanto','Pozzuoli']},{h:'10:00',l:'pozzuoli_sights',x:'Sights in Pozzuoli and Baia'},{h:'13:00',l:'pozzuoli_restaurants',x:'Lunch in Pozzuoli'},
+    {h:'15:30',l:'pozzuoli_coffee_pastry',x:'Coffee and pastry in Pozzuoli'},{h:'17:30',tr:['Pozzuoli','Montesanto']}]},
+   {id:'trecase',e:'⛰️',t:'Trecase and the Vesuvius trails',d:'1 day',s:'Local food and the paths up the volcano.',city:'trecase',steps:[
+    {h:'09:00',tr:['Napoli Porta Nolana','Trecase']},{h:'10:00',l:'trecase_sights',x:'Sights and trails around Trecase'},{h:'13:00',l:'trecase_pizza',x:'Lunch in Trecase: pizza'},
+    {h:'15:00',l:'vesuvio_sights',x:'Vesuvius trails and viewpoints'},{h:'17:30',tr:['Trecase','Napoli Porta Nolana']}]},
+   {id:'food',e:'🍕',t:'Naples food day',d:'1 day',s:'Pastry, street food, a trattoria and pizza, in that order.',steps:[
+    {h:'09:00',l:'coffee_pastry',x:'Breakfast: the best coffee and pastry'},{h:'11:30',l:'street_food',x:'Street food stop'},{h:'13:30',l:'trattorie',x:'Lunch: the top trattorie'},
+    {h:'15:30',p:'Spaccanapoli'},{h:'20:00',l:'pizza',x:'Dinner: the top pizza places'}]},
+   {id:'quick',e:'⏱️',t:'Naples in three hours',d:'3 hours',s:'The essentials if you are short on time.',steps:[
+    {h:'10:00',p:'Spaccanapoli'},{h:'10:45',p:'San Gregorio Armeno'},{h:'11:15',p:'Duomo di Napoli'},{h:'11:45',p:'Via Toledo'},{h:'12:30',p:'Piazza del Plebiscito'}]}
   ];
   var list=document.getElementById('planlist'),det=document.getElementById('plandetail');
   function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
