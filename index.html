@@ -203,24 +203,27 @@ a{text-decoration:none}
 .plrow label{width:44px;font-size:13px;font-weight:700}
 .plrow select{flex:1;min-width:0;padding:9px 10px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14px}
 .plswap{border:0;background:var(--line);color:var(--ink);border-radius:99px;padding:5px 12px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;margin-bottom:6px}
-.pit{border-top:1px solid var(--line);padding:10px 0}
-.pit:first-child{border-top:0}
+#pres{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.pit{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:14px 14px 12px;box-shadow:0 3px 14px rgba(0,0,0,.07)}
+.pit>b:first-child{font-size:22px;letter-spacing:-.3px}
+.pit.pcanc{opacity:.85;border-color:rgba(217,48,37,.4)}
 .pit b{font-size:15px}.pit .pm{color:var(--mute);font-size:12.5px;margin-top:2px}
-.pit .pl{font-size:13px;margin-top:5px}
-.ptake{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:6px;background:rgba(14,143,208,.14);border-radius:10px;padding:6px 9px;font-size:13.5px;font-weight:700}
+.pit .pl{font-size:13.5px;margin-top:8px}
+.ptake{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px;background:rgba(14,143,208,.12);border-radius:14px;padding:9px 12px;font-size:13.5px;font-weight:700}
 .lnb{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;border-radius:7px;background:var(--azz);color:#fff;font-size:14px}
 .news{padding:8px 0;border-top:1px solid var(--line)}
 .news:first-child{border-top:0}
 .news a{color:var(--ink);font-weight:700;font-size:14px;text-decoration:none}
 .news .pm{margin-top:2px}
 #plsrc{margin-top:8px}
-.plv{display:block;margin-top:5px;font-size:13px;font-weight:700;color:#2e9b55}
-.plv.late{color:#c99700}
-.plv.canc{color:#d93025}
+.plv{display:inline-flex;align-items:center;gap:7px;margin-top:9px;padding:6px 12px;border-radius:99px;font-size:13px;font-weight:700;color:#23864a;background:rgba(46,155,85,.14)}
+.plv::before{content:'';width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+.plv.late{color:#a77b00;background:rgba(224,168,0,.18)}
+.plv.canc{color:#d93025;background:rgba(217,48,37,.14)}
 .pit.pcanc .pwait{display:none}
 .pit.plate .pm:last-of-type{color:#e0a800;font-weight:700}
 .pit .pc2{color:#e0a800;font-size:12.5px;font-weight:700;margin-top:3px}
-.plive{display:inline-block;margin-top:8px;color:var(--azz);font-weight:700;font-size:13.5px}
+.plive{display:inline-block;margin-top:8px;color:var(--azz);font-weight:700;font-size:13px}
 .plloc{margin:-2px 0 8px 0}
 .plchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .plchip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:6px 10px;font:inherit;font-size:12.5px;cursor:pointer;text-align:left}
@@ -254,7 +257,7 @@ a{text-decoration:none}
 .trf{display:flex;align-items:center;gap:8px;padding:8px 16px;border-top:1px solid var(--line);background:var(--card)}
 .trf label{font-size:12.5px;font-weight:700;white-space:nowrap}
 .trf select{flex:1;min-width:0;padding:7px 8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:13.5px}
-.pfollow{margin-top:8px;background:var(--azz);color:#fff}
+.pfollow{display:block;width:100%;margin-top:10px;padding:11px 14px;border-radius:14px;background:var(--azz);color:#fff;font-size:14px;font-weight:700}
 .plnone{padding:8px 0;color:var(--mute);font-size:13.5px}
 #beta{background:#f7c53b;color:#3b2d00;font-size:11.5px;font-weight:700;padding:5px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
 #beta button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer;color:#3b2d00;font-size:11px;line-height:1}
@@ -398,11 +401,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610151023";</script>
-<script src="i18n.js?v=202610151023"></script>
-<script src="trains.js?v=202610151023"></script>
-<script src="collections.js?v=202610151023"></script>
-<script src="tickets.js?v=202610151023"></script>
+<script>window.APP_V="202610151506";</script>
+<script src="i18n.js?v=202610151506"></script>
+<script src="trains.js?v=202610151506"></script>
+<script src="collections.js?v=202610151506"></script>
+<script src="tickets.js?v=202610151506"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -426,7 +429,7 @@ a{text-decoration:none}
     if(DEST)document.getElementById('tdx').onclick=function(){DEST=null;render();};
     out.sort(function(a,b){return a[0]-b[0];});out=out.slice(0,8);
     box.innerHTML=out.length?out.map(function(o){var d=o[1],m=Math.round((o[0]-secs)/60);
-      return '<div class="li" data-dep="'+o[0]+'" data-hs="'+esc2(d[1])+'"><div class="dot" style="background:var(--azzd)">'+hm(o[0])+'</div><div class="t"><b>'+d[1]+'</b><span>Line '+d[2]+'</span></div><span class="ok">'+(m<0?'<span style="color:#e0a800">Scheduled '+(-m)+' min ago: may be delayed</span>':m<60?'in '+m+' min':'in '+Math.floor(m/60)+' h '+(m%60)+' min')+'</span></div>';}).join('')
+      return '<div class="li" data-dep="'+o[0]+'" data-hs="'+esc2(d[1])+'" data-tid="'+esc2(T.ti[d[4]][3]||'')+'"><div class="dot" style="background:var(--azzd)">'+hm(o[0])+'</div><div class="t"><b>'+d[1]+'</b><span>'+(T.ti[d[4]][3]?'Train '+T.ti[d[4]][3]:'Line '+d[2])+'</span></div><span class="ok">'+(m<0?'<span style="color:#e0a800">Scheduled '+(-m)+' min ago: may be delayed</span>':m<60?'in '+m+' min':'in '+Math.floor(m/60)+' h '+(m%60)+' min')+'</span></div>';}).join('')
       :'<div class="li"><div class="t"><b>No more departures today</b><span>Check tomorrow morning</span></div></div>';
     liveDeps();
   }
@@ -516,7 +519,7 @@ a{text-decoration:none}
       var m=Math.round((it.arr-it.dep)/60),w=Math.round((it.dep-secs)/60);
       var h='<div class="pit'+(w<0?' plate':'')+'"><b>'+hmm(it.dep)+' \u2192 '+hmm(it.arr)+'</b> <span class="pm">'+m+' min \u00b7 '+(it.chg?'1 change':'Direct')+'</span>';
       it.legs.forEach(function(lg){var inf=T.ti[lg.tr];
-        h+='<div class="pl">'+hmm(lg.dep)+' '+esc2(byId[lg.from])+' \u2192 '+hmm(lg.arr)+' '+esc2(byId[lg.to])+'<div class="ptake"><span>Take</span> <b class="lnb">Line '+inf[1]+'</b> <span>Towards '+esc2(inf[2])+'</span></div></div>';});
+        h+='<div class="pl">'+hmm(lg.dep)+' '+esc2(byId[lg.from])+' \u2192 '+hmm(lg.arr)+' '+esc2(byId[lg.to])+'<div class="ptake"><span>Take</span> <b class="lnb">'+(inf[3]?'Train '+inf[3]:'Line '+inf[1])+'</b> <span>Towards '+esc2(inf[2])+'</span></div></div>';});
       if(it.chg)h+='<div class="pc2">Change at '+esc2(byId[it.at])+'</div><div class="pm">Wait '+Math.round(it.wait/60)+' min</div>';
       h+='<div class="pm pwait">'+(w<0?'Scheduled '+(-w)+' min ago: may be delayed, check the live board':w<60?'in '+w+' min':'in '+Math.floor(w/60)+' h '+(w%60)+' min')+'</div>';
       var e0=T.eav&&T.eav[it.legs[0].from];
@@ -685,8 +688,9 @@ a{text-decoration:none}
     LIVE[eid]={t:Date.now(),p:p};return p;
   }
   function nrm(x){return String(x).toLowerCase().replace(/[^a-z]/g,'').slice(0,5);}
-  function liveFor(b,depSecs,headsign){
+  function liveFor(b,depSecs,headsign,tid){
     if(!b||depSecs>=86400)return null;
+    if(tid)for(var k=0;k<b.trains.length;k++){if(String(b.trains[k].train).replace(/\s/g,'')===String(tid))return b.trains[k];}
     var hh=hmm(depSecs),h=nrm(headsign);
     for(var i=0;i<b.trains.length;i++){var t=b.trains[i];if(t.time===hh&&nrm(t.dest)===h)return t;}
     return null;
@@ -707,7 +711,7 @@ a{text-decoration:none}
       out.forEach(function(it,i){
         var card=cards[i];if(!card||!card.isConnected)return;
         var lg=it.legs[0];if(lg.from!==st)return;
-        var t=liveFor(b,lg.dep,T.ti[lg.tr][2]);
+        var t=liveFor(b,lg.dep,T.ti[lg.tr][2],T.ti[lg.tr][3]);
         if(!t){if(lg.dep<nowSecs())card.remove();return;}   // already left according to the live board
         var d=document.createElement('div');d.className='plv'+(t.cancelled?' canc':t.delay>0?' late':'');d.textContent=liveHtml(t,lg.dep);
         var old=card.querySelector('.plv');if(old)old.remove();
@@ -725,7 +729,7 @@ a{text-decoration:none}
     liveBoard(eid).then(function(b){
       if(!b)return;
       box.querySelectorAll('.li[data-dep]').forEach(function(row){
-        var dep=+row.dataset.dep,t=liveFor(b,dep,row.dataset.hs);
+        var dep=+row.dataset.dep,t=liveFor(b,dep,row.dataset.hs,row.dataset.tid);
         if(!t){if(dep<nowSecs())row.remove();return;}
         var ok=row.querySelector('.ok'),w3=Math.round((dep+t.delay*60-nowSecs())/60);
         if(ok&&t.cancelled)ok.textContent='';

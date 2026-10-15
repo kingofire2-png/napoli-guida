@@ -1379,5 +1379,6 @@ window.I18N=window.I18N||{};window.I18N.it={
 "EAV notices": "Avvisi EAV",
 "All notices on the EAV site": "Tutti gli avvisi sul sito EAV",
 "No service disruption notices right now.": "Nessun avviso di disservizio al momento.",
-"Source: EAV (timetable: open data; live board and notices). Always check EAV for official information.": "Fonte: EAV (orari: open data; tabellone e avvisi). Controlla sempre EAV per le informazioni ufficiali."
+"Source: EAV (timetable: open data; live board and notices). Always check EAV for official information.": "Fonte: EAV (orari: open data; tabellone e avvisi). Controlla sempre EAV per le informazioni ufficiali.",
+"Train {0}": "Treno {0}"
 };
