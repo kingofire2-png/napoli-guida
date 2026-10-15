@@ -401,11 +401,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610151645";</script>
-<script src="i18n.js?v=202610151645"></script>
-<script src="trains.js?v=202610151645"></script>
-<script src="collections.js?v=202610151645"></script>
-<script src="tickets.js?v=202610151645"></script>
+<script>window.APP_V="202610151649";</script>
+<script src="i18n.js?v=202610151649"></script>
+<script src="trains.js?v=202610151649"></script>
+<script src="collections.js?v=202610151649"></script>
+<script src="tickets.js?v=202610151649"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -624,6 +624,8 @@ a{text-decoration:none}
     plan();
   }
   function setEndByStation(which,name){var id=idByName[name];if(!id)return;setEnd(which,{n:name,st:id});}
+  window.getPlanState=function(){function g(e){return e?{n:e.n,st:e.st||null,la:e.la||null,lo:e.lo||null}:null;}return {f:g(ENDS.from),t:g(ENDS.to)};};
+  window.setPlanState=function(x){if(!x)return;if(x.f)setEnd('from',x.f);if(x.t)setEnd('to',x.t);};
   function showSug(which){
     var inp=which==='from'?qfrom:qto,sug=document.getElementById(which==='from'?'sugfrom':'sugto'),v=inp.value.trim();
     ENDS[which]=null;(which==='from'?pfrom:pto).value='';
@@ -1046,6 +1048,8 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     box.querySelectorAll('.pc').forEach(function(e){e.onclick=function(){openColl(P[+e.dataset.n].coll);};});
   }
   window.openColl=function(k,r,b){return openColl(k,r,b);};
+  window.getCollState=function(){return curKey?{k:curKey,b:curBack}:null;};
+  window.openCity=function(sl){return openCity(sl);};
   function showColl(){
     document.querySelectorAll('nav button,.screen').forEach(function(e){e.classList.remove('on');});
     document.getElementById('coll').classList.add('on');document.querySelector('nav button[data-t=explore]').classList.add('on');
@@ -1114,6 +1118,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     document.getElementById(id).scrollTop=0;
   }
   function openCity(slug){
+    window.APP_CITY=slug;
     var c=CO&&CO.cities&&CO.cities[slug];if(!c){alert(window.tr?window.tr('This town is coming soon.'):'This town is coming soon.');return;}
     document.getElementById('cityname').textContent=c.name;
     var hp=townPhoto(slug),ht=document.querySelector('#city .top');
@@ -1284,6 +1289,45 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     var n=(e.state&&typeof e.state.sx==='number')?e.state.sx:0;
     if(n>=stack.length)n=stack.length-1;
     pos=n;apply(stack[n].replace('+trip',''));
+  });
+})();
+</script>
+<script>
+// APP_STATE: a reload keeps the screen, the opened list/town, the trip search and the scroll position
+(function(){
+  var KEY='appstate',ready=false,tm=null;
+  function get(){try{return JSON.parse(sessionStorage.getItem(KEY)||'null');}catch(e){return null;}}
+  function put(o){try{sessionStorage.setItem(KEY,JSON.stringify(o));}catch(e){}}
+  function snap(){
+    if(!ready)return;
+    var on=document.querySelector('.screen.on');if(!on)return;
+    var o=get()||{};o.s=on.id;
+    o.c=(on.id==='coll'&&window.getCollState)?window.getCollState():null;
+    o.y=on.id==='city'?(window.APP_CITY||null):null;
+    if(window.getPlanState)o.p=window.getPlanState();
+    o.sc=o.sc||{};o.sc[on.id]=on.scrollTop;
+    put(o);
+  }
+  function later(){clearTimeout(tm);tm=setTimeout(snap,250);}
+  var ph=document.querySelector('.phone');
+  if(ph){new MutationObserver(later).observe(ph,{subtree:true,attributes:true,attributeFilter:['class','hidden']});
+    ph.addEventListener('scroll',later,true);ph.addEventListener('input',later,true);ph.addEventListener('click',later,true);}
+  window.addEventListener('pagehide',function(){clearTimeout(tm);snap();});
+  document.addEventListener('visibilitychange',function(){if(document.hidden){clearTimeout(tm);snap();}});
+  window.addEventListener('load',function(){
+    var o=get();
+    try{
+      if(o){
+        if(o.p&&window.setPlanState)window.setPlanState(o.p);
+        var id=o.s||'home';
+        if(id==='coll'&&o.c&&window.openColl)window.openColl(o.c.k,null,o.c.b);
+        else if(id==='city'&&o.y&&window.openCity)window.openCity(o.y);
+        else{var b=document.querySelector('nav button[data-t='+(['home','explore','trains','plans','saved'].indexOf(id)>=0?id:'explore')+']');if(b)b.click();}
+        var y=o.sc&&o.sc[document.querySelector('.screen.on').id];
+        if(y){setTimeout(function(){var on=document.querySelector('.screen.on');if(on)on.scrollTop=y;},350);}
+      }
+    }catch(e){}
+    setTimeout(function(){ready=true;snap();},600);
   });
 })();
 </script>
