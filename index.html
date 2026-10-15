@@ -291,6 +291,10 @@ a{text-decoration:none}
 .trf label{font-size:12.5px;font-weight:700;white-space:nowrap}
 .trf select{flex:1;min-width:0;padding:7px 8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:13.5px}
 .pfollow{display:block;width:100%;margin-top:10px;padding:11px 14px;border-radius:14px;background:var(--azz);color:#fff;font-size:14px;font-weight:700}
+.plfav{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}
+.favchip{display:inline-flex;align-items:center;background:rgba(224,168,0,.18);border-radius:99px}
+.favgo{border:0;background:none;color:var(--ink);font:inherit;font-size:13px;font-weight:700;padding:7px 4px 7px 12px;cursor:pointer;text-align:left}
+.favx{border:0;background:none;color:var(--mute);padding:7px 11px 7px 4px;cursor:pointer;font-size:12px}
 .plnone{padding:8px 0;color:var(--mute);font-size:13.5px}
 #beta{background:#f7c53b;color:#3b2d00;font-size:11.5px;font-weight:700;padding:5px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex:none}
 #beta button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer;color:#3b2d00;font-size:11px;line-height:1}
@@ -366,6 +370,7 @@ a{text-decoration:none}
     <a class="plive" target="_blank" rel="noopener" href="https://www.eavsrl.it/infomobilita-ferrovia/">All notices on the EAV site</a></div>
   <div class="plan" id="planner">
     <div class="plh">Plan a trip</div>
+    <div class="plfav" id="plfav" hidden></div>
     <div class="plfield"><span class="pldot">A</span><input id="qfrom" type="search" placeholder="Where are you? Hotel, place or station" autocomplete="off" aria-label="From"><button type="button" id="ploc" class="plgps" aria-label="Use my location" title="Use my location">&#128205;</button></div>
     <div class="plsug" id="sugfrom" hidden></div>
     <div class="plnote" id="notefrom" hidden></div>
@@ -376,6 +381,7 @@ a{text-decoration:none}
     <div class="plnote" id="noteto" hidden></div>
     <div class="plchips" id="plquick"></div>
     <button type="button" id="pbrowse" class="plswap">Browse stations by line</button>
+    <button type="button" id="plsave" class="plswap" hidden>☆ Save this trip</button>
     <div id="plines" hidden></div>
     <input type="hidden" id="pfrom"><input type="hidden" id="pto">
     <div id="pres"></div>
@@ -427,11 +433,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610151838";</script>
-<script src="i18n.js?v=202610151838"></script>
-<script src="trains.js?v=202610151838"></script>
-<script src="collections.js?v=202610151838"></script>
-<script src="tickets.js?v=202610151838"></script>
+<script>window.APP_V="202610152001";</script>
+<script src="i18n.js?v=202610152001"></script>
+<script src="trains.js?v=202610152001"></script>
+<script src="collections.js?v=202610152001"></script>
+<script src="tickets.js?v=202610152001"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -518,6 +524,7 @@ a{text-decoration:none}
   }
   function candsOf(which,idv){var e=ENDS[which];return (e&&e.cands&&e.cands.length)?e.cands:[{id:idv,min:0}];}
   function plan(){
+    renderFav();
     var from=pfrom.value,to=pto.value;
     if(!from||!to||from===to){pres.innerHTML=(from&&to)?'<div class="plnone">Choose two different stations.</div>':(to||from?'<div class="plnone">Choose where you are and where you want to go.</div>':'');plive.hidden=!(from&&to);document.getElementById('plhint').hidden=true;return;}
     var secs=nowSecs(),best=null;
@@ -654,6 +661,28 @@ a{text-decoration:none}
     plan();
   }
   function setEndByStation(which,name){var id=idByName[name];if(!id)return;setEnd(which,{n:name,st:id});}
+  // ---------- favourite trips (kept on the phone) ---------- APP_FAV
+  function favGet(){try{return JSON.parse(localStorage.getItem('favtrips')||'[]');}catch(e){return [];}}
+  function favPut(a){try{localStorage.setItem('favtrips',JSON.stringify(a));}catch(e){}}
+  function favSlim(e){return {n:e.n,st:e.st||null,la:e.la||null,lo:e.lo||null};}
+  function favKey(f,t){return (f.n+'>'+t.n).toLowerCase();}
+  function renderFav(){
+    var a=favGet(),box=document.getElementById('plfav'),sv=document.getElementById('plsave');
+    if(!box||!sv)return;
+    box.hidden=!a.length;
+    box.innerHTML=a.map(function(x,i){return '<span class="favchip"><button type="button" class="favgo" data-i="'+i+'">&#11088; '+esc2(x.f.n)+' &rarr; '+esc2(x.t.n)+'</button><button type="button" class="favx" data-i="'+i+'" aria-label="Remove">&#10005;</button></span>';}).join('');
+    box.querySelectorAll('.favgo').forEach(function(b){b.onclick=function(){var x=a[+b.dataset.i];if(x)window.setPlanState({f:x.f,t:x.t});};});
+    box.querySelectorAll('.favx').forEach(function(b){b.onclick=function(){a.splice(+b.dataset.i,1);favPut(a);renderFav();};});
+    var f=ENDS.from,t=ENDS.to;
+    if(f&&t){var k=favKey(f,t),saved=a.some(function(x){return favKey(x.f,x.t)===k;});sv.hidden=false;sv.textContent=saved?'★ Saved trip':'☆ Save this trip';sv.dataset.saved=saved?'1':'';}
+    else sv.hidden=true;
+  }
+  document.getElementById('plsave').onclick=function(){
+    var f=ENDS.from,t=ENDS.to;if(!f||!t)return;
+    var a=favGet(),k=favKey(f,t),i=a.findIndex(function(x){return favKey(x.f,x.t)===k;});
+    if(i>=0)a.splice(i,1);else{a.unshift({f:favSlim(f),t:favSlim(t)});a=a.slice(0,8);}
+    favPut(a);renderFav();
+  };
   window.getPlanState=function(){function g(e){return e?{n:e.n,st:e.st||null,la:e.la||null,lo:e.lo||null}:null;}return {f:g(ENDS.from),t:g(ENDS.to)};};
   window.setPlanState=function(x){if(!x)return;if(x.f)setEnd('from',x.f);if(x.t)setEnd('to',x.t);};
   function showSug(which){

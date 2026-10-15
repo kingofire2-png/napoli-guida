@@ -1413,5 +1413,7 @@ window.I18N=window.I18N||{};window.I18N.es={
 "Suggested times: adapt them to your day. Opening hours, prices and train times change: check the official sites and the live board before you go.": "Horarios sugeridos: adáptalos a tu día. Los horarios de apertura, los precios y los trenes cambian: consulta los sitios oficiales y el panel antes de salir.",
 "Soon": "Próximamente",
 "Breakfast: the best coffee and pastry": "Desayuno: los mejores cafés y dulces",
-"Aperitivo: the best sunset spots": "Aperitivo: los mejores sitios para el atardecer"
+"Aperitivo: the best sunset spots": "Aperitivo: los mejores sitios para el atardecer",
+"Save this trip": "Guardar este viaje",
+"Saved trip": "Viaje guardado"
 };
