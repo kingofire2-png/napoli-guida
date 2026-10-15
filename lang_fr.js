@@ -1415,5 +1415,17 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "Breakfast: the best coffee and pastry": "Petit-déjeuner : les meilleurs cafés et pâtisseries",
 "Aperitivo: the best sunset spots": "Apéritif : les meilleurs spots pour le coucher du soleil",
 "Save this trip": "Enregistrer ce trajet",
-"Saved trip": "Trajet enregistré"
+"Saved trip": "Trajet enregistré",
+"Report a problem": "Signaler un problème",
+"Something wrong? Report a problem": "Un problème ? Signalez-le",
+"Tell us what is wrong: a wrong train, a closed place, something that does not work.": "Dites-nous ce qui ne va pas : un train erroné, un lieu fermé, quelque chose qui ne marche pas.",
+"What went wrong?": "Qu'est-ce qui n'a pas marché ?",
+"Email or phone (optional)": "E-mail ou téléphone (facultatif)",
+"The screen you are on and your search are sent with the message. Do not write personal data you do not want to share.": "L'écran où vous êtes et votre recherche sont envoyés avec le message. N'écrivez pas de données personnelles que vous ne voulez pas partager.",
+"Send": "Envoyer",
+"Please write a few words.": "Écrivez quelques mots.",
+"Sending...": "Envoi...",
+"Thank you! We received your message.": "Merci ! Nous avons reçu votre message.",
+"Please wait a minute before sending another message.": "Attendez une minute avant d'envoyer un autre message.",
+"Could not send. Please try again.": "Échec de l'envoi. Réessayez."
 };

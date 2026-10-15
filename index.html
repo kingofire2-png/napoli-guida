@@ -217,6 +217,12 @@ a{text-decoration:none}
 .fwbtns button,.fwbtns a{display:block;text-align:center;text-decoration:none;border:0;border-radius:12px;padding:12px 14px;font:inherit;font-weight:700;font-size:14.5px;cursor:pointer;background:var(--line);color:var(--ink)}
 .fwbtns #fwapple,.fwbtns #fwgoogle{background:var(--azz);color:#fff}
 /* APP_ROUND3 */
+#rpmodal{position:absolute;inset:0;z-index:2100;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:24px}
+#rpmodal[hidden]{display:none}
+#rpmodal textarea,#rpmodal input{display:block;width:100%;margin:8px 0 0;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;resize:vertical}
+.tkbtns #rpgo{background:var(--azz);color:#fff}
+.rpf{margin:22px 18px 8px;text-align:center}
+.rpf button{border:0;background:none;color:var(--mute);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer}
 .tkbtns{display:flex;gap:10px;justify-content:flex-end}
 .tkbtns button{border:0;border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;background:var(--line);color:var(--ink)}
 .tkbtns #tkgo{background:var(--red);color:#fff}
@@ -427,17 +433,24 @@ a{text-decoration:none}
   <div id="trmap"></div>
   <div class="trf"><label for="trwhere">Where am I now?</label><select id="trwhere"></select></div>
 </div>
+<div id="rpmodal" hidden><div class="tkbox"><b>Report a problem</b>
+  <p>Tell us what is wrong: a wrong train, a closed place, something that does not work.</p>
+  <textarea id="rptext" rows="4" maxlength="1200" placeholder="What went wrong?" aria-label="Message"></textarea>
+  <input id="rpcontact" type="text" maxlength="120" placeholder="Email or phone (optional)" aria-label="Contact">
+  <div class="pm" style="margin:6px 0 10px;font-size:12px">The screen you are on and your search are sent with the message. Do not write personal data you do not want to share.</div>
+  <div id="rpstatus" class="pm" style="margin-bottom:8px;font-weight:700"></div>
+  <div class="tkbtns"><button type="button" id="rpno">Cancel</button><button type="button" id="rpgo">Send</button></div></div></div>
 <div id="fwmodal" hidden><div class="tkbox"><b>Follow my trip</b><p>Where do you want to follow your trip?</p>
   <div class="fwbtns"><a id="fwapple" target="_blank" rel="noopener">Apple Maps</a><a id="fwgoogle" target="_blank" rel="noopener">Google Maps</a><button type="button" id="fwno">Cancel</button></div></div></div>
 <div id="tkmodal" hidden><div class="tkbox"><b>Book ticket</b><p>You will be redirected to the official website to book your ticket.</p><div class="tkbtns"><button id="tkno" type="button">Cancel</button><button id="tkgo" type="button">Continue</button></div></div></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610152001";</script>
-<script src="i18n.js?v=202610152001"></script>
-<script src="trains.js?v=202610152001"></script>
-<script src="collections.js?v=202610152001"></script>
-<script src="tickets.js?v=202610152001"></script>
+<script>window.APP_V="202610152107";</script>
+<script src="i18n.js?v=202610152107"></script>
+<script src="trains.js?v=202610152107"></script>
+<script src="collections.js?v=202610152107"></script>
+<script src="tickets.js?v=202610152107"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -1452,6 +1465,37 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
   }
   renderList();
   window.openPlan=open;
+})();
+</script>
+<script>
+// APP_REPORT: "Report a problem" for the test group (messages go to the Worker, stored in KV)
+(function(){
+  var URL='https://napoli-guida-board.kingofire2.workers.dev/feedback';
+  var m=document.getElementById('rpmodal'),t=document.getElementById('rptext'),c=document.getElementById('rpcontact'),st=document.getElementById('rpstatus'),go=document.getElementById('rpgo');
+  function T(x){return window.tr?window.tr(x):x;}
+  function open(){t.value='';st.textContent='';st.style.color='';go.disabled=false;m.hidden=false;setTimeout(function(){t.focus();},50);}
+  function close(){m.hidden=true;}
+  ['home','trains','plans'].forEach(function(id){
+    var el=document.getElementById(id);if(!el)return;
+    var d=document.createElement('div');d.className='rpf';d.innerHTML='<button type="button">Something wrong? Report a problem</button>';
+    d.firstChild.onclick=open;el.appendChild(d);
+  });
+  document.getElementById('rpno').onclick=close;
+  m.onclick=function(e){if(e.target===m)close();};
+  go.onclick=function(){
+    var text=t.value.trim();
+    if(text.length<3){st.textContent=T('Please write a few words.');st.style.color='#d93025';return;}
+    var scr=document.querySelector('.screen.on'),ctx='';
+    try{var ps=window.getPlanState&&window.getPlanState();if(ps&&ps.f&&ps.t)ctx=ps.f.n+' > '+ps.t.n;}catch(e){}
+    var lang='';try{lang=localStorage.getItem('lang')||'';}catch(e){}
+    go.disabled=true;st.style.color='';st.textContent=T('Sending...');
+    fetch(URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text,contact:c.value,screen:scr?scr.id:'',ctx:ctx,lang:lang,v:window.APP_V||''})})
+      .then(function(r){
+        if(r.ok){st.style.color='#23864a';st.textContent=T('Thank you! We received your message.');setTimeout(close,1600);}
+        else if(r.status===429){go.disabled=false;st.style.color='#d93025';st.textContent=T('Please wait a minute before sending another message.');}
+        else{go.disabled=false;st.style.color='#d93025';st.textContent=T('Could not send. Please try again.');}
+      }).catch(function(){go.disabled=false;st.style.color='#d93025';st.textContent=T('Could not send. Please try again.');});
+  };
 })();
 </script>
 <script>
