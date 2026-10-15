@@ -219,6 +219,12 @@ a{text-decoration:none}
 .news a{color:var(--ink);font-weight:700;font-size:14px;text-decoration:none}
 .news .pm{margin-top:2px}
 #plsrc{margin-top:8px}
+.pst{margin-top:8px;font-size:13px}
+.pst summary{cursor:pointer;color:var(--azz);font-weight:700}
+.pst div{margin-top:6px;color:var(--mute);line-height:1.7}
+.pst b{color:var(--ink)}
+.plv.off{color:var(--mute);background:var(--line)}
+.pcat{display:block;margin-top:6px;font-size:12.5px;color:var(--mute)}
 .plv{display:inline-flex;align-items:center;gap:7px;margin-top:9px;padding:6px 12px;border-radius:99px;font-size:13px;font-weight:700;color:#23864a;background:rgba(46,155,85,.14)}
 .plv::before{content:'';width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
 .plv.late{color:#a77b00;background:rgba(224,168,0,.18)}
@@ -404,11 +410,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610151652";</script>
-<script src="i18n.js?v=202610151652"></script>
-<script src="trains.js?v=202610151652"></script>
-<script src="collections.js?v=202610151652"></script>
-<script src="tickets.js?v=202610151652"></script>
+<script>window.APP_V="202610151746";</script>
+<script src="i18n.js?v=202610151746"></script>
+<script src="trains.js?v=202610151746"></script>
+<script src="collections.js?v=202610151746"></script>
+<script src="tickets.js?v=202610151746"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -522,7 +528,7 @@ a{text-decoration:none}
       var m=Math.round((it.arr-it.dep)/60),w=Math.round((it.dep-secs)/60);
       var h='<div class="pit'+(w<0?' plate':'')+'"><b>'+hmm(it.dep)+' \u2192 '+hmm(it.arr)+'</b> <span class="pm">'+m+' min \u00b7 '+(it.chg?'1 change':'Direct')+'</span>';
       it.legs.forEach(function(lg){var inf=T.ti[lg.tr];
-        h+='<div class="pl">'+hmm(lg.dep)+' '+esc2(byId[lg.from])+' \u2192 '+hmm(lg.arr)+' '+esc2(byId[lg.to])+'<div class="ptake"><span>Take</span> <b class="lnb">'+(inf[3]?'Train '+inf[3]:'Line '+inf[1])+'</b> <span>Towards '+esc2(inf[2])+'</span></div></div>';});
+        h+='<div class="pl">'+hmm(lg.dep)+' '+esc2(byId[lg.from])+' \u2192 '+hmm(lg.arr)+' '+esc2(byId[lg.to])+'<div class="ptake"><span>Take</span> <b class="lnb">'+(inf[3]?'Train '+inf[3]:'Line '+inf[1])+'</b> <span>Towards '+esc2(inf[2])+'</span></div>'+stopsHtml(lg)+'</div>';});
       if(it.chg)h+='<div class="pc2">Change at '+esc2(byId[it.at])+'</div><div class="pm">Wait '+Math.round(it.wait/60)+' min</div>';
       h+='<div class="pm pwait">'+(w<0?'Scheduled '+(-w)+' min ago: may be delayed, check the live board':w<60?'in '+w+' min':'in '+Math.floor(w/60)+' h '+(w%60)+' min')+'</div>';
       var e0=T.eav&&T.eav[it.legs[0].from];
@@ -531,6 +537,10 @@ a{text-decoration:none}
       return h;}).join('');
     pres.querySelectorAll('.pfollow').forEach(function(b){b.onclick=function(){openChoice(LASTOUT[+b.dataset.i]);};});
     liveCards(out);
+  }
+  function stopsHtml(lg){ // APP_STOPS
+    var ids=legStops(lg).slice(1);if(ids.length<2)return '';
+    return '<details class="pst"><summary>Stops ('+ids.length+')</summary><div>'+ids.map(function(id){return id===lg.to?'<b>'+esc2(byId[id])+'</b>':esc2(byId[id]);}).join(' \u203a ')+'</div></details>';
   }
   function esc2(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   // departure time of trip a at stop id (the last stop of a trip has no departure)
@@ -708,24 +718,31 @@ a{text-decoration:none}
     return parts.join(' · ');
   }
   function liveCards(out){
-    var cards=pres.querySelectorAll('.pit');
-    var st=out.length&&out[0].legs[0].from,eid=st&&T.eav&&T.eav[st];
-    if(!eid)return;
-    liveBoard(eid).then(function(b){
-      if(!b)return;
+    var cards=pres.querySelectorAll('.pit'),need={};
+    out.forEach(function(it){it.legs.forEach(function(lg){var e=T.eav&&T.eav[lg.from];if(e)need[lg.from]=e;});});
+    var ids=Object.keys(need);if(!ids.length)return;
+    Promise.all(ids.map(function(id){return liveBoard(need[id]).then(function(b){return [id,b];});})).then(function(rs){
+      var B={};rs.forEach(function(r){B[r[0]]=r[1];});
       out.forEach(function(it,i){
         var card=cards[i];if(!card||!card.isConnected)return;
-        var lg=it.legs[0];if(lg.from!==st)return;
-        var t=liveFor(b,lg.dep,T.ti[lg.tr][2],T.ti[lg.tr][3]);
-        if(!t){if(lg.dep<nowSecs())card.remove();return;}   // already left according to the live board
-        var d=document.createElement('div');d.className='plv'+(t.cancelled?' canc':t.delay>0?' late':'');d.textContent=liveHtml(t,lg.dep);
-        var old=card.querySelector('.plv');if(old)old.remove();
-        var anchor=card.querySelector('.plive');card.insertBefore(d,anchor);
-        var pw=card.querySelector('.pwait');
-        if(t.cancelled){if(pw)pw.remove();card.classList.remove('plate');card.classList.add('pcanc');}
-        else if(pw){var w2=Math.round((lg.dep+t.delay*60-nowSecs())/60);
-          if(w2<0)pw.remove();else{pw.textContent=w2<60?'in '+w2+' min':'in '+Math.floor(w2/60)+' h '+(w2%60)+' min';}
-          card.classList.remove('plate');}
+        it.legs.forEach(function(lg,li){
+          var pl=card.querySelectorAll('.pl')[li];if(!pl||!T.eav||!T.eav[lg.from])return;
+          var old=pl.querySelector('.plv');if(old)old.remove();
+          var oc=pl.querySelector('.pcat');if(oc)oc.remove();
+          var b=B[lg.from],d=document.createElement('div');
+          if(!b){ // the board did not answer
+            d.className='plv off';d.textContent='Real-time data not available';pl.appendChild(d);return;}
+          var t=liveFor(b,lg.dep,T.ti[lg.tr][2],T.ti[lg.tr][3]);
+          if(!t){if(li===0&&lg.dep<nowSecs())card.remove();return;}   // already left according to the live board
+          d.className='plv'+(t.cancelled?' canc':t.delay>0?' late':'');d.textContent=liveHtml(t,lg.dep);pl.appendChild(d);
+          if(t.cat==='DD'){var c=document.createElement('div');c.className='pcat';c.textContent='Fast train: skips some stations';pl.appendChild(c);}
+          if(li!==0)return;
+          var pw=card.querySelector('.pwait');
+          if(t.cancelled){if(pw)pw.remove();card.classList.remove('plate');card.classList.add('pcanc');}
+          else if(pw){var w2=Math.round((lg.dep+t.delay*60-nowSecs())/60);
+            if(w2<0)pw.remove();else{pw.textContent=w2<60?'in '+w2+' min':'in '+Math.floor(w2/60)+' h '+(w2%60)+' min';}
+            card.classList.remove('plate');}
+        });
       });
     });
   }

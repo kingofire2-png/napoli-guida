@@ -1380,5 +1380,8 @@ window.I18N=window.I18N||{};window.I18N.es={
 "All notices on the EAV site": "Todos los avisos en el sitio de EAV",
 "No service disruption notices right now.": "No hay avisos de incidencias por ahora.",
 "Source: EAV (timetable: open data; live board and notices). Always check EAV for official information.": "Fuente: EAV (horarios: datos abiertos; panel y avisos). Consulta siempre a EAV para la información oficial.",
-"Train {0}": "Tren {0}"
+"Train {0}": "Tren {0}",
+"Stops ({0})": "Paradas ({0})",
+"Real-time data not available": "Datos en tiempo real no disponibles",
+"Fast train: skips some stations": "Tren directo: no para en algunas estaciones"
 };
