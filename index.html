@@ -48,6 +48,26 @@ nav{margin-bottom:calc(14px + env(safe-area-inset-bottom))}}
 .ic{width:56px;height:56px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;font-size:24px;background:var(--bg)}
 .pill{margin:10px 18px 0;display:inline-flex;gap:8px;align-items:center;background:var(--sun);color:#3b2d00;border-radius:99px;padding:5px 6px 5px 12px;font-size:13px;font-weight:700}
 .pill button{border:0;background:rgba(0,0,0,.15);border-radius:99px;width:20px;height:20px;cursor:pointer}
+.plc{margin:10px 18px;display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 3px 12px rgba(0,0,0,.06);cursor:pointer}
+.plc .em{font-size:32px;line-height:1.1}
+.plc b{font-size:16px}
+.plc .pm{color:var(--mute);font-size:12.5px;margin-top:3px}
+.plc p{margin:6px 0 0;font-size:13.5px;line-height:1.4}
+.pdh{margin:0 18px 6px}
+.pdh h2{margin:4px 0 6px}
+.pdh .back{background:var(--line);color:var(--ink);border:0;border-radius:99px;padding:6px 14px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;margin-top:12px}
+.pdh .ride{margin:10px 0 0;font-size:13px;line-height:1.45;background:rgba(14,143,208,.1);border-radius:14px;padding:10px 12px}
+.pstp{display:flex;gap:12px;margin:0 18px;position:relative;padding-bottom:16px}
+.pstp:before{content:'';position:absolute;left:25px;top:22px;bottom:-2px;width:2px;background:var(--line)}
+.pstp:last-of-type:before{display:none}
+.pstp .hh{flex:none;width:52px;font-weight:800;font-size:14px;color:var(--azz);padding-top:1px}
+.pstp .bx{flex:1;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 12px}
+.pstp .bx b{font-size:15px}
+.pstp .bx .pm{color:var(--mute);font-size:12.5px;margin-top:2px}
+.pstp .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.pstp .acts a,.pstp .acts button{border:0;border-radius:12px;background:var(--line);color:var(--ink);font:inherit;font-size:13px;font-weight:700;padding:7px 12px;cursor:pointer;text-decoration:none}
+.pstp .acts .main{background:var(--azz);color:#fff}
+.pstp.tr .bx{background:rgba(14,143,208,.1);border-color:transparent}
 .chips{display:flex;gap:8px;padding:14px 18px 4px;overflow-x:auto}
 .chip{flex:none;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:7px 14px;font-size:13px;font-weight:600}
 .chip.on{background:var(--sun);border-color:var(--sun);color:#3b2d00}
@@ -376,17 +396,10 @@ a{text-decoration:none}
 
 <!-- PLANS -->
 <div class="screen" id="plans">
-  <div class="top"><small>Ready to go</small><h1>Your itinerary</h1></div>
-  <div class="chips"><span class="chip">1 day</span><span class="chip on">2 days</span><span class="chip">3 days</span></div>
-  <h2>Day 1 · Historic centre</h2>
-  <div class="tl">
-    <div><b>09:00</b> Coffee + sfogliatella</div>
-    <div><b>10:00</b> Spaccanapoli and Cristo Velato</div>
-    <div><b>13:30</b> Pizza lunch</div>
-    <div><b>16:00</b> Archaeological Museum</div>
-    <div><b>18:00</b> Sunset at the seafront</div>
-  </div>
-  <div class="pay"><div><b>Offline PDF + map</b><br><span style="color:var(--mute);font-size:12.5px">Naples in 48 hours</span></div><button class="btn">€4</button></div>
+  <div class="top"><small>Ready to go</small><h1>Itineraries</h1></div>
+  <div id="planlist"></div>
+  <div id="plandetail" hidden></div>
+  <div class="pay"><div><b>Offline PDF + map</b><br><span style="color:var(--mute);font-size:12.5px">Naples in 48 hours</span></div><span class="tg">Soon</span></div>
 </div>
 
 <!-- SAVED -->
@@ -414,11 +427,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610151751";</script>
-<script src="i18n.js?v=202610151751"></script>
-<script src="trains.js?v=202610151751"></script>
-<script src="collections.js?v=202610151751"></script>
-<script src="tickets.js?v=202610151751"></script>
+<script>window.APP_V="202610151838";</script>
+<script src="i18n.js?v=202610151838"></script>
+<script src="trains.js?v=202610151838"></script>
+<script src="collections.js?v=202610151838"></script>
+<script src="tickets.js?v=202610151838"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -1353,6 +1366,63 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
     }catch(e){}
     setTimeout(function(){ready=true;snap();},600);
   });
+})();
+</script>
+<script>
+// APP_PLANS: ready-made itineraries built from the places and lists of the guide
+(function(){
+  var PLANS=[
+   {id:'centro',e:'🏙️',t:'Historic Naples on foot',d:'1 day',s:'The old town, the cathedral and the seafront at sunset.',steps:[
+    {h:'09:00',l:'coffee_pastry',x:'Breakfast: the best coffee and pastry'},{h:'10:00',p:'Spaccanapoli'},{h:'11:00',p:'San Gregorio Armeno'},{h:'11:45',p:'Cappella Sansevero'},
+    {h:'12:30',p:'Duomo di Napoli'},{h:'13:30',l:'pizza',x:'Lunch: the top pizza places'},{h:'15:30',p:'Via Toledo'},{h:'16:30',p:'Piazza del Plebiscito'},
+    {h:'18:00',p:"Castel dell'Ovo"},{h:'19:30',l:'sunset',x:'Aperitivo: the best sunset spots'}]},
+   {id:'pompei',e:'🏺',t:'Pompeii by train',d:'1 day',s:'The excavations in the morning, lunch in town and back by train.',city:'pompei',steps:[
+    {h:'08:30',tr:['Napoli P. Garibaldi','Pompei Scavi Villa dei Misteri']},{h:'09:30',p:'Pompeii'},{h:'13:00',l:'pompei_restaurants',x:'Lunch in Pompei'},
+    {h:'15:00',l:'pompei_sights',x:'More to see in Pompei'},{h:'17:30',tr:['Pompei Scavi Villa dei Misteri','Napoli P. Garibaldi']}]},
+   {id:'vesuvio',e:'🌋',t:'Vesuvius and Herculaneum',d:'1 day',s:'The crater in the morning, the Roman town after lunch.',city:'vesuvio',steps:[
+    {h:'08:30',tr:['Napoli P. Garibaldi','Ercolano Scavi']},{h:'09:15',x:'From the station to Quota 1000: bus or taxi'},{h:'10:00',p:'Mount Vesuvius'},
+    {h:'13:30',l:'ercolano_pizza',x:'Lunch in Ercolano: pizza'},{h:'15:00',p:'Herculaneum'},{h:'17:30',tr:['Ercolano Scavi','Napoli P. Garibaldi']}]},
+   {id:'sorrento',e:'🍋',t:'Sorrento day trip',d:'1 day',s:'Lemons, sea views and an easy train from Naples.',city:'sorrento',steps:[
+    {h:'09:00',tr:['Napoli P. Garibaldi','Sorrento']},{h:'10:30',l:'sorrento_sights',x:'Sights in Sorrento'},{h:'13:00',l:'sorrento_restaurants',x:'Lunch in Sorrento'},
+    {h:'15:30',l:'sorrento_coffee_pastry',x:'Coffee and pastry in Sorrento'},{h:'17:30',tr:['Sorrento','Napoli P. Garibaldi']}]},
+   {id:'sunset',e:'🌅',t:'Seafront and sunset',d:'Afternoon',s:'From the gardens of Chiaia to the castle on the water.',steps:[
+    {h:'16:00',p:'Villa Comunale'},{h:'17:00',p:'Mergellina & the lungomare'},{h:'18:00',p:"Castel dell'Ovo"},{h:'19:15',l:'sunset',x:'Aperitivo: the best sunset spots'},{h:'20:30',l:'trattorie',x:'Dinner: the top trattorie'}]},
+   {id:'rain',e:'☔',t:'A rainy day in Naples',d:'1 day',s:'Museums, arcades and churches, all under a roof.',steps:[
+    {h:'09:30',p:'Archaeological Museum (MANN)'},{h:'12:00',p:'Galleria Umberto I'},{h:'13:00',l:'pizza',x:'Lunch: the top pizza places'},
+    {h:'14:30',p:'Palazzo Reale'},{h:'16:30',p:'Cappella Sansevero'},{h:'17:30',p:'Duomo di Napoli'}]}
+  ];
+  var list=document.getElementById('planlist'),det=document.getElementById('plandetail');
+  function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function find(n){var P=window.APP_PLACES||[];for(var i=0;i<P.length;i++)if(P[i].n===n)return P[i];return null;}
+  function apple(){return /iPhone|iPad|Macintosh/.test(navigator.userAgent)&&'ontouchend' in document;}
+  function mapsUrl(q){return apple()?'https://maps.apple.com/?daddr='+encodeURIComponent(q)+'&dirflg=w':'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(q)+'&travelmode=walking';}
+  function renderList(){
+    list.innerHTML=PLANS.map(function(pl){return '<div class="plc" data-id="'+pl.id+'"><div class="em">'+pl.e+'</div><div><b>'+esc(pl.t)+'</b><div class="pm"><span>'+esc(pl.d)+'</span> &middot; <span>'+pl.steps.length+' steps</span></div><p>'+esc(pl.s)+'</p></div></div>';}).join('');
+    list.querySelectorAll('.plc').forEach(function(c){c.onclick=function(){open(c.dataset.id);};});
+  }
+  function stepHtml(st,i){
+    if(st.tr)return '<div class="pstp tr"><div class="hh">'+st.h+'</div><div class="bx"><b>&#128646; <span>Train</span>: '+esc(st.tr[0])+' &rarr; '+esc(st.tr[1])+'</b><div class="acts"><button type="button" class="main" data-tr="'+i+'">Check trains</button></div></div></div>';
+    if(st.l)return '<div class="pstp"><div class="hh">'+st.h+'</div><div class="bx"><b>'+esc(st.x)+'</b><div class="acts"><button type="button" class="main" data-l="'+i+'">See the list</button></div></div></div>';
+    if(st.p){var pl=find(st.p);
+      var h='<div class="pstp"><div class="hh">'+st.h+'</div><div class="bx"><b>'+esc(st.p)+'</b>'+(pl&&pl.pr?' <span class="tg">'+esc(pl.pr)+'</span>':'');
+      if(pl&&pl.v)h+='<div class="pm">'+esc(pl.v)+'</div>';
+      if(pl&&['Breakfast','Aperitivo','Pizza'].indexOf(pl.k)<0)h+='<div class="acts"><a target="_blank" rel="noopener" href="'+mapsUrl(pl.q||(pl.n+', Napoli'))+'">Directions</a></div>';
+      return h+'</div></div>';}
+    return '<div class="pstp"><div class="hh">'+st.h+'</div><div class="bx"><b>'+esc(st.x)+'</b></div></div>';
+  }
+  function open(id){
+    var pl=PLANS.filter(function(x){return x.id===id;})[0];if(!pl)return;
+    var CO=window.COLLECTIONS,city=pl.city&&CO&&CO.cities&&CO.cities[pl.city],ride=city&&city.ride;
+    det.innerHTML='<div class="pdh"><h2>'+pl.e+' '+esc(pl.t)+'</h2><div class="pm" style="color:var(--mute)"><span>'+esc(pl.d)+'</span></div><p style="margin:6px 0 0">'+esc(pl.s)+'</p>'
+      +(ride?'<div class="ride">'+esc(ride)+'</div>':'')+'<button type="button" class="back" id="plback">‹ Itineraries</button></div><div style="height:14px"></div>'
+      +pl.steps.map(stepHtml).join('')+'<p class="note">Suggested times: adapt them to your day. Opening hours, prices and train times change: check the official sites and the live board before you go.</p>';
+    det.querySelectorAll('[data-tr]').forEach(function(b){var st=pl.steps[+b.dataset.tr];b.onclick=function(){if(window.openTrains)window.openTrains(st.tr[0],st.tr[1]);};});
+    det.querySelectorAll('[data-l]').forEach(function(b){var st=pl.steps[+b.dataset.l];b.onclick=function(){if(window.openColl)window.openColl(st.l,null,'explore');};});
+    document.getElementById('plback').onclick=function(){det.hidden=true;list.hidden=false;document.getElementById('plans').scrollTop=0;};
+    list.hidden=true;det.hidden=false;document.getElementById('plans').scrollTop=0;
+  }
+  renderList();
+  window.openPlan=open;
 })();
 </script>
 <script>
