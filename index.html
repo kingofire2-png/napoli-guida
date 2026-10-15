@@ -13,7 +13,7 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:#0b1118;font:15px/1.45 system-ui,Segoe UI,Roboto,sans-serif;color:var(--ink);display:flex;justify-content:center;align-items:center;min-height:100vh}
 .phone{width:390px;height:820px;max-height:100vh;background:var(--bg);border-radius:34px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-@media(max-width:500px){body{display:block}.phone{width:100%;height:100vh;height:100dvh;border-radius:0;box-shadow:none}}
+@media(max-width:500px){html,body{background:var(--bg)}body{display:block}.phone{width:100%;height:100vh;height:100dvh;border-radius:0;box-shadow:none}}
 .screen{flex:1;overflow-y:auto;display:none;padding-bottom:12px}
 .screen.on{display:block}
 .top{background:linear-gradient(160deg,var(--azz),var(--azzd));color:#fff;padding:22px 18px 26px;border-radius:0 0 26px 26px}
@@ -74,10 +74,10 @@ select{margin:14px 18px 0;width:calc(100% - 36px);padding:12px;border-radius:12p
 .tl div{margin-bottom:12px}.tl b{color:var(--azz)}
 .pay{margin:16px 18px;background:var(--card);border:2px solid var(--sun);border-radius:16px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 .empty{margin:60px 30px;text-align:center;color:var(--mute)}
-nav{display:flex;border-top:1px solid var(--line);background:var(--card);padding:6px 4px calc(8px + env(safe-area-inset-bottom))}
-nav button{flex:1;background:none;border:0;color:var(--mute);font:inherit;font-size:11px;padding:6px 0;cursor:pointer}
+nav{display:flex;gap:2px;margin:4px 12px calc(10px + env(safe-area-inset-bottom));border:1px solid var(--line);background:var(--card);padding:5px;border-radius:28px;box-shadow:0 8px 26px rgba(0,0,0,.14)}
+nav button{flex:1;background:none;border:0;border-radius:22px;color:var(--mute);font:inherit;font-size:11px;padding:6px 0;cursor:pointer}
 nav button i{display:block;font-style:normal;font-size:20px}
-nav button.on{color:var(--azz);font-weight:700}
+nav button.on{color:var(--azz);font-weight:700;background:rgba(14,143,208,.13)}
 
 .seg{display:flex;margin:14px 18px 0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px}
 .seg button{flex:1;border:0;background:none;color:var(--mute);font:inherit;font-weight:700;padding:8px;border-radius:9px;cursor:pointer}
@@ -401,11 +401,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610151506";</script>
-<script src="i18n.js?v=202610151506"></script>
-<script src="trains.js?v=202610151506"></script>
-<script src="collections.js?v=202610151506"></script>
-<script src="tickets.js?v=202610151506"></script>
+<script>window.APP_V="202610151645";</script>
+<script src="i18n.js?v=202610151645"></script>
+<script src="trains.js?v=202610151645"></script>
+<script src="collections.js?v=202610151645"></script>
+<script src="tickets.js?v=202610151645"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
