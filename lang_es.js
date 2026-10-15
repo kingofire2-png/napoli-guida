@@ -1364,5 +1364,8 @@ window.I18N=window.I18N||{};window.I18N.es={
 "How do you want to follow your trip?": "¿Cómo quieres seguir tu viaje?",
 "In this app (map and get-off alerts)": "En esta app (mapa y avisos de bajada)",
 "Apple Maps": "Apple Maps",
-"Google Maps": "Google Maps"
+"Google Maps": "Google Maps",
+"Where do you want to follow your trip?": "¿Dónde quieres seguir tu viaje?",
+"Delays and platform": "Retrasos y andén",
+"live board": "panel en directo"
 };

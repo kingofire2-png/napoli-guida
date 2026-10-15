@@ -192,7 +192,8 @@ a{text-decoration:none}
 #fwmodal[hidden]{display:none}
 .fwbtns{display:flex;flex-direction:column;gap:8px}
 .fwbtns button,.fwbtns a{display:block;text-align:center;text-decoration:none;border:0;border-radius:12px;padding:12px 14px;font:inherit;font-weight:700;font-size:14.5px;cursor:pointer;background:var(--line);color:var(--ink)}
-.fwbtns #fwapp{background:var(--azz);color:#fff}
+.fwbtns #fwapple,.fwbtns #fwgoogle{background:var(--azz);color:#fff}
+/* APP_ROUND3 */
 .tkbtns{display:flex;gap:10px;justify-content:flex-end}
 .tkbtns button{border:0;border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;background:var(--line);color:var(--ink)}
 .tkbtns #tkgo{background:var(--red);color:#fff}
@@ -207,7 +208,7 @@ a{text-decoration:none}
 .pit b{font-size:15px}.pit .pm{color:var(--mute);font-size:12.5px;margin-top:2px}
 .pit .pl{font-size:13px;margin-top:5px}
 .ptake{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:6px;background:rgba(14,143,208,.14);border-radius:10px;padding:6px 9px;font-size:13.5px;font-weight:700}
-.lnb{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:7px;background:var(--azz);color:#fff;font-size:14px}
+.lnb{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;border-radius:7px;background:var(--azz);color:#fff;font-size:14px}
 .pit .pc2{color:#e0a800;font-size:12.5px;font-weight:700;margin-top:3px}
 .plive{display:inline-block;margin-top:8px;color:var(--azz);font-weight:700;font-size:13.5px}
 .plloc{margin:-2px 0 8px 0}
@@ -378,17 +379,17 @@ a{text-decoration:none}
   <div id="trmap"></div>
   <div class="trf"><label for="trwhere">Where am I now?</label><select id="trwhere"></select></div>
 </div>
-<div id="fwmodal" hidden><div class="tkbox"><b>Follow my trip</b><p>How do you want to follow your trip?</p>
-  <div class="fwbtns"><button type="button" id="fwapp">In this app (map and get-off alerts)</button><a id="fwapple" target="_blank" rel="noopener">Apple Maps</a><a id="fwgoogle" target="_blank" rel="noopener">Google Maps</a><button type="button" id="fwno">Cancel</button></div></div></div>
+<div id="fwmodal" hidden><div class="tkbox"><b>Follow my trip</b><p>Where do you want to follow your trip?</p>
+  <div class="fwbtns"><a id="fwapple" target="_blank" rel="noopener">Apple Maps</a><a id="fwgoogle" target="_blank" rel="noopener">Google Maps</a><button type="button" id="fwno">Cancel</button></div></div></div>
 <div id="tkmodal" hidden><div class="tkbox"><b>Book ticket</b><p>You will be redirected to the official website to book your ticket.</p><div class="tkbtns"><button id="tkno" type="button">Cancel</button><button id="tkgo" type="button">Continue</button></div></div></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610142242";</script>
-<script src="i18n.js?v=202610142242"></script>
-<script src="trains.js?v=202610142242"></script>
-<script src="collections.js?v=202610142242"></script>
-<script src="tickets.js?v=202610142242"></script>
+<script>window.APP_V="202610150737";</script>
+<script src="i18n.js?v=202610150737"></script>
+<script src="trains.js?v=202610150737"></script>
+<script src="collections.js?v=202610150737"></script>
+<script src="tickets.js?v=202610150737"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -500,9 +501,11 @@ a{text-decoration:none}
       var m=Math.round((it.arr-it.dep)/60),w=Math.round((it.dep-secs)/60);
       var h='<div class="pit"><b>'+hmm(it.dep)+' \u2192 '+hmm(it.arr)+'</b> <span class="pm">'+m+' min \u00b7 '+(it.chg?'1 change':'Direct')+'</span>';
       it.legs.forEach(function(lg){var inf=T.ti[lg.tr];
-        h+='<div class="pl">'+hmm(lg.dep)+' '+esc2(byId[lg.from])+' \u2192 '+hmm(lg.arr)+' '+esc2(byId[lg.to])+'<div class="ptake"><span>Take</span> <b class="lnb">'+inf[1]+'</b> <span>Towards '+esc2(inf[2])+'</span></div></div>';});
+        h+='<div class="pl">'+hmm(lg.dep)+' '+esc2(byId[lg.from])+' \u2192 '+hmm(lg.arr)+' '+esc2(byId[lg.to])+'<div class="ptake"><span>Take</span> <b class="lnb">Line '+inf[1]+'</b> <span>Towards '+esc2(inf[2])+'</span></div></div>';});
       if(it.chg)h+='<div class="pc2">Change at '+esc2(byId[it.at])+'</div><div class="pm">Wait '+Math.round(it.wait/60)+' min</div>';
       h+='<div class="pm">'+(w<60?'in '+w+' min':'in '+Math.floor(w/60)+' h '+(w%60)+' min')+'</div>';
+      var e0=T.eav&&T.eav[it.legs[0].from];
+      if(e0)h+='<a class="plive" target="_blank" rel="noopener" href="https://orariotreni.eavsrl.it/teleindicatori/?stazione='+e0+'&tipo=P"><span>Delays and platform</span>: <span>live board</span> '+esc2(byId[it.legs[0].from])+'</a><br>';
       h+='<button type="button" class="plswap pfollow" data-i="'+LASTOUT.indexOf(it)+'">Follow my trip</button></div>';
       return h;}).join('');
     pres.querySelectorAll('.pfollow').forEach(function(b){b.onclick=function(){openChoice(LASTOUT[+b.dataset.i]);};});
@@ -670,7 +673,6 @@ a{text-decoration:none}
     if(!it)return;
     var u=mapsUrls(it),m=document.getElementById('fwmodal');
     document.getElementById('fwapple').href=u.apple;document.getElementById('fwgoogle').href=u.google;
-    document.getElementById('fwapp').onclick=function(){m.hidden=true;openTrip(it);};
     document.getElementById('fwapple').onclick=function(){m.hidden=true;};
     document.getElementById('fwgoogle').onclick=function(){m.hidden=true;};
     document.getElementById('fwno').onclick=function(){m.hidden=true;};
