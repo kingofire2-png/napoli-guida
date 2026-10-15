@@ -401,7 +401,7 @@ a{text-decoration:none}
   <select id="station" aria-label="Station"></select>
   <a class="plive" id="slive" target="_blank" rel="noopener" style="margin:6px 18px 0" hidden></a>
   <div id="tdest"></div>
-  <div class="demo">Scheduled times from the official EAV timetable (open data). Delays and strikes are not included: check EAV for live updates.</div>
+  <div class="demo">Scheduled times from the official EAV timetable (open data). Live delays and platforms come from the EAV departures board when available. Strikes are not included: check EAV for live updates.</div>
   <div class="list" id="deps"></div>
   <h2>Buy tickets</h2>
   <div class="pay"><div><b>Pompeii skip-the-line</b><br><span style="color:var(--mute);font-size:12.5px">Partner link</span></div><button class="btn">View</button></div>
@@ -447,11 +447,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610152200";</script>
-<script src="i18n.js?v=202610152200"></script>
-<script src="trains.js?v=202610152200"></script>
-<script src="collections.js?v=202610152200"></script>
-<script src="tickets.js?v=202610152200"></script>
+<script>window.APP_V="202610152338";</script>
+<script src="i18n.js?v=202610152338"></script>
+<script src="trains.js?v=202610152338"></script>
+<script src="collections.js?v=202610152338"></script>
+<script src="tickets.js?v=202610152338"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -756,6 +756,14 @@ a{text-decoration:none}
   };
   // ---------- live delays and platforms from the EAV board (test proxy) ----------
   var LIVE_API='https://napoli-guida-board.kingofire2.workers.dev/board?station='; // APP_LIVE
+  var OVERDUE_MIN=2, OVERDUE_MAX=12;
+  // minuti di ritardo minimo certo: il treno è ancora nel tabellone oltre (orario + ritardo scritto da EAV)
+  function overdue(t,depSecs){
+    if(!t||t.cancelled||depSecs>=86400)return 0;
+    var late=Math.floor((nowSecs()-depSecs)/60);   // minuti trascorsi dall'orario programmato
+    var over=late-(t.delay||0);
+    return (over>=OVERDUE_MIN&&over<=OVERDUE_MAX)?late:0;
+  }
   var LIVE={};
   function liveBoard(eid){
     var c=LIVE[eid];if(c&&Date.now()-c.t<30000)return c.p;
@@ -772,9 +780,11 @@ a{text-decoration:none}
   }
   function liveHtml(t,depSecs){
     if(t.cancelled)return 'Train cancelled';
-    var parts=['Live'];
-    if(t.delay>0){parts.push('Delayed '+t.delay+' min');parts.push('Expected '+hmm(depSecs+t.delay*60));}else parts.push('On time');
-    if(t.platform)parts.push('Platform '+t.platform);
+    var parts=['Live'],od=overdue(t,depSecs);
+    if(od>0){parts.push('Not departed yet');parts.push('Delayed at least '+od+' min');}
+    else if(t.delay>0){parts.push('Delayed '+t.delay+' min');parts.push('Expected '+hmm(depSecs+t.delay*60));}else parts.push('On time');
+    var pf=String(t.platform||'').trim();
+    if(/^[0-9A-Za-z]{1,3}$/.test(pf))parts.push('Platform '+pf);
     return parts.join(' · ');
   }
   function liveCards(out){
@@ -794,13 +804,13 @@ a{text-decoration:none}
             d.className='plv off';d.textContent='Real-time data not available';pl.appendChild(d);return;}
           var t=liveFor(b,lg.dep,T.ti[lg.tr][2],T.ti[lg.tr][3]);
           if(!t){if(li===0&&lg.dep<nowSecs())card.remove();return;}   // already left according to the live board
-          d.className='plv'+(t.cancelled?' canc':t.delay>0?' late':'');d.textContent=liveHtml(t,lg.dep);pl.appendChild(d);
+          d.className='plv'+(t.cancelled?' canc':(t.delay>0||overdue(t,lg.dep)>0)?' late':'');d.textContent=liveHtml(t,lg.dep);pl.appendChild(d);
           if(t.cat==='DD'){var c=document.createElement('div');c.className='pcat';c.textContent='Fast train: skips some stations';pl.appendChild(c);}
           if(li!==0)return;
           var pw=card.querySelector('.pwait');
           if(t.cancelled){if(pw)pw.remove();card.classList.remove('plate');card.classList.add('pcanc');}
           else if(pw){var w2=Math.round((lg.dep+t.delay*60-nowSecs())/60);
-            if(w2<0)pw.remove();else{pw.textContent=w2<60?'in '+w2+' min':'in '+Math.floor(w2/60)+' h '+(w2%60)+' min';}
+            if(overdue(t,lg.dep)>0)pw.textContent='Not departed yet';else if(w2<0)pw.remove();else{pw.textContent=w2<60?'in '+w2+' min':'in '+Math.floor(w2/60)+' h '+(w2%60)+' min';}
             card.classList.remove('plate');}
         });
       });
@@ -815,9 +825,9 @@ a{text-decoration:none}
         if(!t){if(dep<nowSecs())row.remove();return;}
         var ok=row.querySelector('.ok'),w3=Math.round((dep+t.delay*60-nowSecs())/60);
         if(ok&&t.cancelled)ok.textContent='';
-        else if(ok){if(w3<0){ok.textContent='';}else ok.textContent=w3<60?'in '+w3+' min':'in '+Math.floor(w3/60)+' h '+(w3%60)+' min';ok.style.color='';}
+        else if(ok){if(overdue(t,dep)>0){ok.textContent='Not departed yet';}else if(w3<0){ok.textContent='';}else ok.textContent=w3<60?'in '+w3+' min':'in '+Math.floor(w3/60)+' h '+(w3%60)+' min';ok.style.color='';}
         var tt=row.querySelector('.t'),old=tt.querySelector('.plv');if(old)old.remove();
-        var d=document.createElement('span');d.className='plv'+(t.cancelled?' canc':t.delay>0?' late':'');d.textContent=liveHtml(t,dep);tt.appendChild(d);
+        var d=document.createElement('span');d.className='plv'+(t.cancelled?' canc':(t.delay>0||overdue(t,dep)>0)?' late':'');d.textContent=liveHtml(t,dep);tt.appendChild(d);
       });
     });
   }

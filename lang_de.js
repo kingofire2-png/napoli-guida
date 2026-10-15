@@ -65,7 +65,7 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Show all on the map": "Alle auf der Karte zeigen",
 "EAV · Circumvesuviana": "EAV · Circumvesuviana",
 "Next trains": "Nächste Züge",
-"Scheduled times from the official EAV timetable (open data). Delays and strikes are not included: check EAV for live updates.": "Planmäßige Zeiten aus dem offiziellen EAV-Fahrplan (Open Data). Verspätungen und Streiks sind nicht enthalten: Aktuelle Infos findest du bei der EAV.",
+"Scheduled times from the official EAV timetable (open data). Live delays and platforms come from the EAV departures board when available. Strikes are not included: check EAV for live updates.": "Planmäßige Zeiten aus dem offiziellen EAV-Fahrplan (Open Data). Verspätungen und Gleise in Echtzeit von der EAV-Abfahrtstafel, sofern verfügbar. Streiks sind nicht enthalten: Aktuelle Infos bei EAV prüfen.",
 "Buy tickets": "Tickets kaufen",
 "Pompeii skip-the-line": "Pompeji ohne Anstehen",
 "Partner link": "Partnerlink",
@@ -1446,5 +1446,7 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Dinner: the top pizza places": "Abendessen: die besten Pizzerien",
 "Naples in three hours": "Neapel in drei Stunden",
 "3 hours": "3 Stunden",
-"The essentials if you are short on time.": "Das Wichtigste, wenn die Zeit knapp ist."
+"The essentials if you are short on time.": "Das Wichtigste, wenn die Zeit knapp ist.",
+"Not departed yet": "Noch nicht abgefahren",
+"Delayed at least {0} min": "Mindestens {0} Min. Verspätung"
 };
