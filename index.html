@@ -13,7 +13,10 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:#0b1118;font:15px/1.45 system-ui,Segoe UI,Roboto,sans-serif;color:var(--ink);display:flex;justify-content:center;align-items:center;min-height:100vh}
 .phone{width:390px;height:820px;max-height:100vh;background:var(--bg);border-radius:34px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-@media(max-width:500px){html,body{background:var(--bg)}body{display:block}.phone{width:100%;height:100vh;height:100dvh;border-radius:0;box-shadow:none}}
+@media(max-width:500px){html,body{background:var(--bg);-webkit-text-size-adjust:100%;touch-action:manipulation}body{display:block}.phone{width:100%;height:100vh;height:100svh;border-radius:0;box-shadow:none}
+/* 16px fields: iOS Safari zooms the whole page on focus when text is smaller, and the bottom bar ends up under the browser toolbar */
+input,select,textarea{font-size:16px!important}
+nav{margin-bottom:calc(14px + env(safe-area-inset-bottom))}}
 .screen{flex:1;overflow-y:auto;display:none;padding-bottom:12px}
 .screen.on{display:block}
 .top{background:linear-gradient(160deg,var(--azz),var(--azzd));color:#fff;padding:22px 18px 26px;border-radius:0 0 26px 26px}
@@ -401,11 +404,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610151649";</script>
-<script src="i18n.js?v=202610151649"></script>
-<script src="trains.js?v=202610151649"></script>
-<script src="collections.js?v=202610151649"></script>
-<script src="tickets.js?v=202610151649"></script>
+<script>window.APP_V="202610151652";</script>
+<script src="i18n.js?v=202610151652"></script>
+<script src="trains.js?v=202610151652"></script>
+<script src="collections.js?v=202610151652"></script>
+<script src="tickets.js?v=202610151652"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
