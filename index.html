@@ -210,7 +210,9 @@ a{text-decoration:none}
 .ptake{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:6px;background:rgba(14,143,208,.14);border-radius:10px;padding:6px 9px;font-size:13.5px;font-weight:700}
 .lnb{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;border-radius:7px;background:var(--azz);color:#fff;font-size:14px}
 .plv{display:block;margin-top:5px;font-size:13px;font-weight:700;color:#2e9b55}
-.plv.late{color:#e0701a}
+.plv.late{color:#c99700}
+.plv.canc{color:#d93025}
+.pit.pcanc .pwait{display:none}
 .pit.plate .pm:last-of-type{color:#e0a800;font-weight:700}
 .pit .pc2{color:#e0a800;font-size:12.5px;font-weight:700;margin-top:3px}
 .plive{display:inline-block;margin-top:8px;color:var(--azz);font-weight:700;font-size:13.5px}
@@ -388,11 +390,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610151003";</script>
-<script src="i18n.js?v=202610151003"></script>
-<script src="trains.js?v=202610151003"></script>
-<script src="collections.js?v=202610151003"></script>
-<script src="tickets.js?v=202610151003"></script>
+<script>window.APP_V="202610151007";</script>
+<script src="i18n.js?v=202610151007"></script>
+<script src="trains.js?v=202610151007"></script>
+<script src="collections.js?v=202610151007"></script>
+<script src="tickets.js?v=202610151007"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -682,6 +684,7 @@ a{text-decoration:none}
     return null;
   }
   function liveHtml(t,depSecs){
+    if(t.cancelled)return 'Train cancelled';
     var parts=['Live'];
     if(t.delay>0){parts.push('Delayed '+t.delay+' min');parts.push('Expected '+hmm(depSecs+t.delay*60));}else parts.push('On time');
     if(t.platform)parts.push('Platform '+t.platform);
@@ -698,11 +701,12 @@ a{text-decoration:none}
         var lg=it.legs[0];if(lg.from!==st)return;
         var t=liveFor(b,lg.dep,T.ti[lg.tr][2]);
         if(!t){if(lg.dep<nowSecs())card.remove();return;}   // already left according to the live board
-        var d=document.createElement('div');d.className='plv'+(t.delay>0?' late':'');d.textContent=liveHtml(t,lg.dep);
+        var d=document.createElement('div');d.className='plv'+(t.cancelled?' canc':t.delay>0?' late':'');d.textContent=liveHtml(t,lg.dep);
         var old=card.querySelector('.plv');if(old)old.remove();
         var anchor=card.querySelector('.plive');card.insertBefore(d,anchor);
         var pw=card.querySelector('.pwait');
-        if(pw){var w2=Math.round((lg.dep+t.delay*60-nowSecs())/60);
+        if(t.cancelled){if(pw)pw.remove();card.classList.remove('plate');card.classList.add('pcanc');}
+        else if(pw){var w2=Math.round((lg.dep+t.delay*60-nowSecs())/60);
           if(w2<0)pw.remove();else{pw.textContent=w2<60?'in '+w2+' min':'in '+Math.floor(w2/60)+' h '+(w2%60)+' min';}
           card.classList.remove('plate');}
       });
@@ -716,9 +720,10 @@ a{text-decoration:none}
         var dep=+row.dataset.dep,t=liveFor(b,dep,row.dataset.hs);
         if(!t){if(dep<nowSecs())row.remove();return;}
         var ok=row.querySelector('.ok'),w3=Math.round((dep+t.delay*60-nowSecs())/60);
-        if(ok){if(w3<0){ok.textContent='';}else ok.textContent=w3<60?'in '+w3+' min':'in '+Math.floor(w3/60)+' h '+(w3%60)+' min';ok.style.color='';}
+        if(ok&&t.cancelled)ok.textContent='';
+        else if(ok){if(w3<0){ok.textContent='';}else ok.textContent=w3<60?'in '+w3+' min':'in '+Math.floor(w3/60)+' h '+(w3%60)+' min';ok.style.color='';}
         var tt=row.querySelector('.t'),old=tt.querySelector('.plv');if(old)old.remove();
-        var d=document.createElement('span');d.className='plv'+(t.delay>0?' late':'');d.textContent=liveHtml(t,dep);tt.appendChild(d);
+        var d=document.createElement('span');d.className='plv'+(t.cancelled?' canc':t.delay>0?' late':'');d.textContent=liveHtml(t,dep);tt.appendChild(d);
       });
     });
   }

@@ -1374,5 +1374,6 @@ window.I18N=window.I18N||{};window.I18N.es={
 "Expected {0}": "Prevista a las {0}",
 "Platform {0}": "Andén {0}",
 "Live": "En directo",
-"On time": "Puntual"
+"On time": "Puntual",
+"Train cancelled": "Tren suprimido"
 };
