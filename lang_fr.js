@@ -1375,5 +1375,9 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "Platform {0}": "Quai {0}",
 "Live": "En direct",
 "On time": "À l'heure",
-"Train cancelled": "Train supprimé"
+"Train cancelled": "Train supprimé",
+"EAV notices": "Avis EAV",
+"All notices on the EAV site": "Tous les avis sur le site EAV",
+"No service disruption notices right now.": "Aucun avis de perturbation pour le moment.",
+"Source: EAV (timetable: open data; live board and notices). Always check EAV for official information.": "Source : EAV (horaires : données ouvertes ; tableau et avis). Vérifiez toujours auprès d'EAV."
 };

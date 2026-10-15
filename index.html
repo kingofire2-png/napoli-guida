@@ -209,6 +209,11 @@ a{text-decoration:none}
 .pit .pl{font-size:13px;margin-top:5px}
 .ptake{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:6px;background:rgba(14,143,208,.14);border-radius:10px;padding:6px 9px;font-size:13.5px;font-weight:700}
 .lnb{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;border-radius:7px;background:var(--azz);color:#fff;font-size:14px}
+.news{padding:8px 0;border-top:1px solid var(--line)}
+.news:first-child{border-top:0}
+.news a{color:var(--ink);font-weight:700;font-size:14px;text-decoration:none}
+.news .pm{margin-top:2px}
+#plsrc{margin-top:8px}
 .plv{display:block;margin-top:5px;font-size:13px;font-weight:700;color:#2e9b55}
 .plv.late{color:#c99700}
 .plv.canc{color:#d93025}
@@ -321,6 +326,8 @@ a{text-decoration:none}
 <!-- TRAINS -->
 <div class="screen" id="trains">
   <div class="top"><small>EAV · Circumvesuviana</small><h1>Next trains</h1></div>
+  <div class="plan" id="eavnews" hidden><div class="plh">EAV notices</div><div id="newsbox"></div>
+    <a class="plive" target="_blank" rel="noopener" href="https://www.eavsrl.it/infomobilita-ferrovia/">All notices on the EAV site</a></div>
   <div class="plan" id="planner">
     <div class="plh">Plan a trip</div>
     <div class="plfield"><span class="pldot">A</span><input id="qfrom" type="search" placeholder="Where are you? Hotel, place or station" autocomplete="off" aria-label="From"><button type="button" id="ploc" class="plgps" aria-label="Use my location" title="Use my location">&#128205;</button></div>
@@ -339,6 +346,7 @@ a{text-decoration:none}
     <button type="button" id="pdep" class="plswap" hidden></button>
     <a class="plive" id="plive" href="https://orariotreni.eavsrl.it/" target="_blank" rel="noopener" hidden>Live board (official EAV site)</a>
     <div class="pm" id="plhint" hidden></div>
+    <div class="pm" id="plsrc">Source: EAV (timetable: open data; live board and notices). Always check EAV for official information.</div>
   </div>
   <h2 class="plh2">Departures from a station</h2>
   <select id="station" aria-label="Station"></select>
@@ -390,11 +398,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610151007";</script>
-<script src="i18n.js?v=202610151007"></script>
-<script src="trains.js?v=202610151007"></script>
-<script src="collections.js?v=202610151007"></script>
-<script src="tickets.js?v=202610151007"></script>
+<script>window.APP_V="202610151023";</script>
+<script src="i18n.js?v=202610151023"></script>
+<script src="trains.js?v=202610151023"></script>
+<script src="collections.js?v=202610151023"></script>
+<script src="tickets.js?v=202610151023"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -727,6 +735,17 @@ a{text-decoration:none}
       });
     });
   }
+  // ---------- EAV notices (RSS through the test Worker) ----------
+  (function(){
+    var box=document.getElementById('newsbox'),wrap=document.getElementById('eavnews');
+    function fmt(d){var x=new Date(d);return isNaN(x)?'':x.getDate()+'/'+(x.getMonth()+1);}
+    fetch(LIVE_API.replace('/board?station=','/notices')).then(function(r){return r.ok?r.json():null;}).then(function(j){
+      if(!j||!j.items)return;
+      var imp=j.items.filter(function(i){return i.important;}).slice(0,4);
+      wrap.hidden=false;
+      box.innerHTML=imp.length?imp.map(function(i){return '<div class="news"><a href="'+esc2(i.link)+'" target="_blank" rel="noopener">'+esc2(i.title)+'</a><div class="pm">'+fmt(i.date)+'</div></div>';}).join(''):'<div class="plnone">No service disruption notices right now.</div>';
+    }).catch(function(){});
+  })();
   // ---------- follow my trip: "get off in N stops" + live map ----------
   var LL={};T.stops.forEach(function(x){if(x.la!=null)LL[x.id]=[x.la,x.lo];});
   var TM={map:null,grp:null,me:null,watch:null,it:null,leg:0,pos:null,manual:'',buzz:{}};

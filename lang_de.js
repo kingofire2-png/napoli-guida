@@ -1375,5 +1375,9 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Platform {0}": "Gleis {0}",
 "Live": "Live",
 "On time": "Pünktlich",
-"Train cancelled": "Zug fällt aus"
+"Train cancelled": "Zug fällt aus",
+"EAV notices": "EAV-Hinweise",
+"All notices on the EAV site": "Alle Hinweise auf der EAV-Seite",
+"No service disruption notices right now.": "Derzeit keine Störungsmeldungen.",
+"Source: EAV (timetable: open data; live board and notices). Always check EAV for official information.": "Quelle: EAV (Fahrplan: Open Data; Tafel und Hinweise). Offizielle Infos immer bei EAV prüfen."
 };
