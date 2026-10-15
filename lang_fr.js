@@ -1369,5 +1369,10 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "Delays and platform": "Retards et quai",
 "live board": "tableau en direct",
 "Scheduled {0} min ago: may be delayed, check the live board": "Prévu il y a {0} min : peut être en retard, consultez le tableau",
-"Scheduled {0} min ago: may be delayed": "Prévu il y a {0} min : peut être en retard"
+"Scheduled {0} min ago: may be delayed": "Prévu il y a {0} min : peut être en retard",
+"Delayed {0} min": "Retard de {0} min",
+"Expected {0}": "Prévu à {0}",
+"Platform {0}": "Quai {0}",
+"Live": "En direct",
+"On time": "À l'heure"
 };

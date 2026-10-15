@@ -70,7 +70,7 @@
       return null;
     }
   ];
-  var FOLLOW_KEYS = ["Board line {0} towards {1}", "You are at {0}. Departure {1}.", "Get off now: {0}", "Change here: {0}", "Take line {0} towards {1} at {2}.", "Get off at {0} at the next stop", "Get off at {0} in {1} stops", "Now at {0}.", "Next stop: {0}.", "Go to the station {0}", "You are {0} km from the route. Nearest station on it: {1}.", "Scheduled {0} min ago: may be delayed, check the live board", "Scheduled {0} min ago: may be delayed"];
+  var FOLLOW_KEYS = ["Board line {0} towards {1}", "You are at {0}. Departure {1}.", "Get off now: {0}", "Change here: {0}", "Take line {0} towards {1} at {2}.", "Get off at {0} at the next stop", "Get off at {0} in {1} stops", "Now at {0}.", "Next stop: {0}.", "Go to the station {0}", "You are {0} km from the route. Nearest station on it: {1}.", "Scheduled {0} min ago: may be delayed, check the live board", "Scheduled {0} min ago: may be delayed", "Delayed {0} min", "Expected {0}", "Platform {0}"];
 
   // translate a trimmed English string; returns the same string when nothing is known
   function tcore(s) {

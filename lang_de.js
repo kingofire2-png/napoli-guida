@@ -1369,5 +1369,10 @@ window.I18N=window.I18N||{};window.I18N.de={
 "Delays and platform": "Verspätungen und Gleis",
 "live board": "Live-Tafel",
 "Scheduled {0} min ago: may be delayed, check the live board": "Vor {0} Min. geplant: evtl. verspätet, prüfen Sie die Live-Tafel",
-"Scheduled {0} min ago: may be delayed": "Vor {0} Min. geplant: evtl. verspätet"
+"Scheduled {0} min ago: may be delayed": "Vor {0} Min. geplant: evtl. verspätet",
+"Delayed {0} min": "{0} Min. Verspätung",
+"Expected {0}": "Erwartet um {0}",
+"Platform {0}": "Gleis {0}",
+"Live": "Live",
+"On time": "Pünktlich"
 };

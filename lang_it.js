@@ -1369,5 +1369,10 @@ window.I18N=window.I18N||{};window.I18N.it={
 "Delays and platform": "Ritardi e binario",
 "live board": "tabellone in tempo reale",
 "Scheduled {0} min ago: may be delayed, check the live board": "Previsto {0} min fa: potrebbe essere in ritardo, controlla il tabellone",
-"Scheduled {0} min ago: may be delayed": "Previsto {0} min fa: potrebbe essere in ritardo"
+"Scheduled {0} min ago: may be delayed": "Previsto {0} min fa: potrebbe essere in ritardo",
+"Delayed {0} min": "In ritardo di {0} min",
+"Expected {0}": "Previsto alle {0}",
+"Platform {0}": "Binario {0}",
+"Live": "In tempo reale",
+"On time": "In orario"
 };
