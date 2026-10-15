@@ -1427,5 +1427,6 @@ window.I18N=window.I18N||{};window.I18N.fr={
 "Sending...": "Envoi...",
 "Thank you! We received your message.": "Merci ! Nous avons reçu votre message.",
 "Please wait a minute before sending another message.": "Attendez une minute avant d'envoyer un autre message.",
-"Could not send. Please try again.": "Échec de l'envoi. Réessayez."
+"Could not send. Please try again.": "Échec de l'envoi. Réessayez.",
+"Rain now: see our rainy-day plan": "Il pleut : voyez notre plan pour les jours de pluie"
 };
