@@ -209,6 +209,7 @@ a{text-decoration:none}
 .pit .pl{font-size:13px;margin-top:5px}
 .ptake{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:6px;background:rgba(14,143,208,.14);border-radius:10px;padding:6px 9px;font-size:13.5px;font-weight:700}
 .lnb{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 8px;border-radius:7px;background:var(--azz);color:#fff;font-size:14px}
+.pit.plate .pm:last-of-type{color:#e0a800;font-weight:700}
 .pit .pc2{color:#e0a800;font-size:12.5px;font-weight:700;margin-top:3px}
 .plive{display:inline-block;margin-top:8px;color:var(--azz);font-weight:700;font-size:13.5px}
 .plloc{margin:-2px 0 8px 0}
@@ -385,11 +386,11 @@ a{text-decoration:none}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
-<script>window.APP_V="202610150737";</script>
-<script src="i18n.js?v=202610150737"></script>
-<script src="trains.js?v=202610150737"></script>
-<script src="collections.js?v=202610150737"></script>
-<script src="tickets.js?v=202610150737"></script>
+<script>window.APP_V="202610150742";</script>
+<script src="i18n.js?v=202610150742"></script>
+<script src="trains.js?v=202610150742"></script>
+<script src="collections.js?v=202610150742"></script>
+<script src="tickets.js?v=202610150742"></script>
 <script>
 (function(){
   var T=window.TRAINS,sel=document.getElementById('station'),box=document.getElementById('deps');
@@ -404,7 +405,7 @@ a{text-decoration:none}
     var now=new Date(),secs=now.getHours()*3600+now.getMinutes()*60,id=sel.value,out=[];
     var today=T.days[ymd(now)]||[],tmr=T.days[ymd(new Date(now.getTime()+864e5))]||[];
     function ok(d){if(!DEST)return true;var tr=T.trips[d[4]],k=tr.indexOf(id);return k>=0&&tr.indexOf(DEST,k+1)>=0;}
-    (T.deps[id]||[]).forEach(function(d){if(ok(d)&&today.indexOf(d[3])>=0&&d[0]>=secs)out.push([d[0],d]);});
+    (T.deps[id]||[]).forEach(function(d){if(ok(d)&&today.indexOf(d[3])>=0&&d[0]>=secs-GRACE)out.push([d[0],d]);});
     (T.deps[id]||[]).forEach(function(d){if(ok(d)&&tmr.indexOf(d[3])>=0&&d[0]<4*3600)out.push([d[0]+86400,d]);});
     var sl=document.getElementById('slive'),se=T.eav&&T.eav[id];
     if(se){sl.hidden=false;sl.href='https://orariotreni.eavsrl.it/teleindicatori/?stazione='+se+'&tipo=P';sl.innerHTML='<span>Live departures board</span>: <b>'+byId[id]+'</b>';}else sl.hidden=true;
@@ -413,7 +414,7 @@ a{text-decoration:none}
     if(DEST)document.getElementById('tdx').onclick=function(){DEST=null;render();};
     out.sort(function(a,b){return a[0]-b[0];});out=out.slice(0,8);
     box.innerHTML=out.length?out.map(function(o){var d=o[1],m=Math.round((o[0]-secs)/60);
-      return '<div class="li"><div class="dot" style="background:var(--azzd)">'+hm(o[0])+'</div><div class="t"><b>'+d[1]+'</b><span>Line '+d[2]+'</span></div><span class="ok">'+(m<60?'in '+m+' min':'in '+Math.floor(m/60)+' h '+(m%60)+' min')+'</span></div>';}).join('')
+      return '<div class="li"><div class="dot" style="background:var(--azzd)">'+hm(o[0])+'</div><div class="t"><b>'+d[1]+'</b><span>Line '+d[2]+'</span></div><span class="ok">'+(m<0?'<span style="color:#e0a800">Scheduled '+(-m)+' min ago: may be delayed</span>':m<60?'in '+m+' min':'in '+Math.floor(m/60)+' h '+(m%60)+' min')+'</span></div>';}).join('')
       :'<div class="li"><div class="t"><b>No more departures today</b><span>Check tomorrow morning</span></div></div>';
   }
   sel.onchange=function(){DEST=null;render();};
@@ -424,6 +425,7 @@ a{text-decoration:none}
   var PMIN_CHANGE=2*60,PMAX_WAIT=50*60;
   function hmm(sec){sec=Math.round(sec);var d=sec>=86400?1:0;sec%=86400;return ('0'+Math.floor(sec/3600)).slice(-2)+':'+('0'+Math.floor(sec%3600/60)).slice(-2);}
   var LASTOUT=[];
+  var GRACE=15*60; // APP_GRACE
   function nowSecs(){var n=new Date();return n.getHours()*3600+n.getMinutes()*60;}
   function searchTrips(from,to,minSecs){
     var now=new Date(),secs=Math.max(nowSecs(),minSecs||0),tomorrow=new Date(now.getTime()+864e5);
@@ -438,7 +440,7 @@ a{text-decoration:none}
         var dep=T.tm[a][pa]+off;
         // departure time = arrival time at the first stop: use departure stored in deps when available
         var depA=depAt(a,from);if(depA!==null)dep=depA+off;
-        if(dep<secs)continue;
+        if(dep<secs-((minSecs&&minSecs>nowSecs())?0:GRACE))continue;
         var pd=pos(a,to,pa+1);
         if(pd>=0){res.push({dep:dep,arr:T.tm[a][pd]+off,legs:[{tr:a,from:from,to:to,dep:dep,arr:T.tm[a][pd]+off}],chg:0});continue;}
         var best=null;
@@ -499,11 +501,11 @@ a{text-decoration:none}
     if(!out.length){pres.innerHTML='<div class="plnone">No trains found for this trip today. Check tomorrow morning.</div>';return;}
     pres.innerHTML=out.map(function(it){
       var m=Math.round((it.arr-it.dep)/60),w=Math.round((it.dep-secs)/60);
-      var h='<div class="pit"><b>'+hmm(it.dep)+' \u2192 '+hmm(it.arr)+'</b> <span class="pm">'+m+' min \u00b7 '+(it.chg?'1 change':'Direct')+'</span>';
+      var h='<div class="pit'+(w<0?' plate':'')+'"><b>'+hmm(it.dep)+' \u2192 '+hmm(it.arr)+'</b> <span class="pm">'+m+' min \u00b7 '+(it.chg?'1 change':'Direct')+'</span>';
       it.legs.forEach(function(lg){var inf=T.ti[lg.tr];
         h+='<div class="pl">'+hmm(lg.dep)+' '+esc2(byId[lg.from])+' \u2192 '+hmm(lg.arr)+' '+esc2(byId[lg.to])+'<div class="ptake"><span>Take</span> <b class="lnb">Line '+inf[1]+'</b> <span>Towards '+esc2(inf[2])+'</span></div></div>';});
       if(it.chg)h+='<div class="pc2">Change at '+esc2(byId[it.at])+'</div><div class="pm">Wait '+Math.round(it.wait/60)+' min</div>';
-      h+='<div class="pm">'+(w<60?'in '+w+' min':'in '+Math.floor(w/60)+' h '+(w%60)+' min')+'</div>';
+      h+='<div class="pm">'+(w<0?'Scheduled '+(-w)+' min ago: may be delayed, check the live board':w<60?'in '+w+' min':'in '+Math.floor(w/60)+' h '+(w%60)+' min')+'</div>';
       var e0=T.eav&&T.eav[it.legs[0].from];
       if(e0)h+='<a class="plive" target="_blank" rel="noopener" href="https://orariotreni.eavsrl.it/teleindicatori/?stazione='+e0+'&tipo=P"><span>Delays and platform</span>: <span>live board</span> '+esc2(byId[it.legs[0].from])+'</a><br>';
       h+='<button type="button" class="plswap pfollow" data-i="'+LASTOUT.indexOf(it)+'">Follow my trip</button></div>';

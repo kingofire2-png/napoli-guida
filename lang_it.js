@@ -1367,5 +1367,7 @@ window.I18N=window.I18N||{};window.I18N.it={
 "Google Maps": "Google Maps",
 "Where do you want to follow your trip?": "Dove vuoi seguire il tuo viaggio?",
 "Delays and platform": "Ritardi e binario",
-"live board": "tabellone in tempo reale"
+"live board": "tabellone in tempo reale",
+"Scheduled {0} min ago: may be delayed, check the live board": "Previsto {0} min fa: potrebbe essere in ritardo, controlla il tabellone",
+"Scheduled {0} min ago: may be delayed": "Previsto {0} min fa: potrebbe essere in ritardo"
 };

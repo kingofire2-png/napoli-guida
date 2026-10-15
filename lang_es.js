@@ -1367,5 +1367,7 @@ window.I18N=window.I18N||{};window.I18N.es={
 "Google Maps": "Google Maps",
 "Where do you want to follow your trip?": "¿Dónde quieres seguir tu viaje?",
 "Delays and platform": "Retrasos y andén",
-"live board": "panel en directo"
+"live board": "panel en directo",
+"Scheduled {0} min ago: may be delayed, check the live board": "Previsto hace {0} min: puede ir con retraso, consulta el panel",
+"Scheduled {0} min ago: may be delayed": "Previsto hace {0} min: puede ir con retraso"
 };
