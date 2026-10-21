@@ -1,0 +1,10 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "napoli-guida-board",
+  "main": "src.js",
+  "compatibility_date": "2026-01-01",
+  "kv_namespaces": [
+    { "binding": "FEEDBACK", "id": "b65ee295106548daba283fe6f829f1a9" }
+  ],
+  "triggers": { "crons": ["0 6,12,18 * * *"] }
+}
